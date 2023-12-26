@@ -40,6 +40,7 @@ PLAYER_IMAGE = 'player.png'
 
 # Настройки игрока
 FPS = 60
+PLAYER_SPEED = 160
 
 # Музыка
 MENU_THEME = 'music/menu.mp3'

@@ -1,4 +1,8 @@
 # Настройки экрана
+import os.path
+from os import listdir
+from os.path import isfile, join
+
 SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (1200, 600)
 HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT = SCREEN_WIDTH >> 1, SCREEN_HEIGHT >> 1
 WINDOW_NAME = 'GAME'
@@ -29,11 +33,16 @@ BTN_EXIT_BACK_POS = (50, 500)
 BTN_EXIT_BACK_SIZE = (150, 50)
 
 # Настройки текстур
+TILE = 125
 TEXTURES_PATH = 'TextureSprite'
+PLAYER_PATH = 'TextureSprite/player'
+PLAYER_IMAGE = 'player.png'
 
 # Настройки игрока
 FPS = 60
 
 # Музыка
 MENU_THEME = 'music/menu.mp3'
+MUSIC_FOLDER = 'Levels_music'
+MUSIC_FILES = [os.path.join(MUSIC_FOLDER, file) for file in listdir(MUSIC_FOLDER) if isfile(join(MUSIC_FOLDER, file))]
 

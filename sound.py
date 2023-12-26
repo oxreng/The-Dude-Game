@@ -10,7 +10,7 @@ from config import *
 
 
 class Music:
-    def __init__(self, path):
+    def __init__(self, path=MUSIC_FILES):
         pygame.mixer.pre_init(44100, -16, 1, 512)
         pygame.mixer.init()
         self.path = path

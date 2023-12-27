@@ -4,7 +4,7 @@ from config import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, player_group, solid_sprites: pygame.sprite.Group):
+    def __init__(self, x, y, player_group, solid_sprites: pygame.sprite.Group, all_sprites):
         super().__init__(player_group)
         self._now_name_of_image = PLAYER_IMAGE
         self.image = pygame.transform.scale(load_image(PLAYER_PATH + '/default', PLAYER_IMAGE), (TILE, TILE))
@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self._on_ground = True
         self.solid_sprites = solid_sprites
+        self.all_sprites = all_sprites
         self.last_y = y
         self._dx = self._dy = 0
 
@@ -29,7 +30,10 @@ class Player(pygame.sprite.Sprite):
         if pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT]:
             self._dx += PLAYER_SPEED / FPS
         if self._can_move():
-            self.rect.x += self._dx
+            # self.rect.x += self._dx
+            for grp in self.all_sprites:
+                for sp in grp:
+                    sp.rect.x -= self._dx
         self._dx = 0
         if self._on_ground:
             if pressed_keys[pygame.K_w] or pressed_keys[pygame.K_UP]:
@@ -37,7 +41,10 @@ class Player(pygame.sprite.Sprite):
             if pressed_keys[pygame.K_s] or pressed_keys[pygame.K_DOWN]:
                 self._dy += PLAYER_SPEED / FPS
             if self._can_move():
-                self.rect.y += self._dy
+                # self.rect.y += self._dy
+                for grp in self.all_sprites:
+                    for sp in grp:
+                        sp.rect.y -= self._dy
             self._dy = 0
         else:
             if self.rect.y > self.last_y:
@@ -58,4 +65,3 @@ class Player(pygame.sprite.Sprite):
         self.rect.x -= self._dx
         self.rect.y -= self._dy
         return True
-

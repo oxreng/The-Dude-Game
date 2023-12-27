@@ -11,9 +11,9 @@ class Game:
         self._screen = pygame.display.set_mode(SCREEN_SIZE, pygame.DOUBLEBUF)
         self._clock = pygame.time.Clock()
         self._caption = WINDOW_NAME
-        self.sprites = pygame.sprite.Group()
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
+        self.all_sprires = [self.solid_sprites, self.passable_sprites]
         self.player_group = pygame.sprite.GroupSingle()
 
     def _pre_init(self):
@@ -31,8 +31,8 @@ class Game:
 
     def _init(self):
         # self.sprites = create_sprites(self._menu.chosen_level)
-        self._player = Player(HALF_SCREEN_WIDTH - TILE // 2, SCREEN_HEIGHT - TILE, self.player_group,
-                              self.solid_sprites)
+        self._player = Player(HALF_SCREEN_WIDTH - TILE // 2, HALF_SCREEN_HEIGHT - TILE // 2, self.player_group,
+                              self.solid_sprites, self.all_sprires)
         for i in range(3):
             PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=125 * i, y=0)
         SolidSprite(self.solid_sprites, file_name='solid_tile.png', x=125, y=125)
@@ -51,6 +51,7 @@ class Game:
     def _update(self):
         while self._running:
             self._screen.fill(SKYBLUE)
+            self._player.update()
             self._render()
             self._clock.tick(FPS)
 
@@ -60,7 +61,6 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.run()
-            self._player.update()
 
             pygame.display.set_caption('FPS: ' + str(int(self._clock.get_fps())))
             pygame.display.flip()

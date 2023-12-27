@@ -6,7 +6,7 @@ from config import PASSABLE_TEXTURES_PATH, SOLID_TEXTURES_PATH, TILE
 class PassableSprite(pygame.sprite.Sprite):
     def __init__(self, *group, file_name, x, y):
         super().__init__(*group)
-        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name), (TILE, TILE))
+        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name, color_key=None), (TILE, TILE))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y

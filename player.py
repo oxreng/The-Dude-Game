@@ -28,6 +28,9 @@ class Player(pygame.sprite.Sprite):
             self._dx -= PLAYER_SPEED / FPS
         if pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT]:
             self._dx += PLAYER_SPEED / FPS
+        if self._can_move():
+            self.rect.x += self._dx
+        self._dx = 0
         if self._on_ground:
             if pressed_keys[pygame.K_w] or pressed_keys[pygame.K_UP]:
                 self._dy -= PLAYER_SPEED / FPS
@@ -44,9 +47,6 @@ class Player(pygame.sprite.Sprite):
             else:
                 self._dy += 3
             self.rect.y += self._dy
-        if self._can_move():
-            self.rect.x += self._dx
-        self._dx = 0
 
     def _can_move(self):
         self.rect.x += self._dx

@@ -82,15 +82,25 @@ class MainMenu(Menu):
         mouse_pos = pygame.mouse.get_pos()
         mouse_click = pygame.mouse.get_pressed()
         self._btn_exit_check(mouse_pos, mouse_click)
+        self._btn_start_check(mouse_pos, mouse_click)
 
     def _create_buttons(self):
-        self.btn_exit, self.exit = button(self.screen, EXIT_NAME, WHITE, BTN_EXIT_BACK_POS, BTN_EXIT_BACK_SIZE[0],
-                                          BTN_EXIT_BACK_SIZE[1], button_font)
+        self.btn_exit, self.exit = button(self.screen, EXIT_NAME, WHITE, BTN_EXIT_BACK_POS, *BTN_EXIT_BACK_SIZE,
+                                          button_font)
+        self.btn_start, self.start = button(self.screen, START_NAME, WHITE, BTN_START_BACK_POS, *BTN_START_BACK_SIZE,
+                                            button_font)
 
     def _btn_exit_check(self, mouse_pos, mouse_click):
         if self.btn_exit.collidepoint(mouse_pos):
-            button(self.screen, EXIT_NAME, WHITE, BTN_EXIT_BACK_POS, BTN_EXIT_BACK_SIZE[0], BTN_EXIT_BACK_SIZE[1],
+            button(self.screen, EXIT_NAME, WHITE, BTN_EXIT_BACK_POS, *BTN_EXIT_BACK_SIZE,
                    button_font)
             if mouse_click[0]:
                 pygame.quit()
                 sys.exit()
+
+    def _btn_start_check(self, mouse_pos, mouse_click):
+        if self.btn_start.collidepoint(mouse_pos):
+            button(self.screen, START_NAME, WHITE, BTN_START_BACK_POS, *BTN_START_BACK_SIZE,
+                   button_font)
+            if mouse_click[0]:
+                self.running = False

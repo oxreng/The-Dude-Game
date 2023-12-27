@@ -29,8 +29,11 @@ LOGO_FONT_SIZE = 250
 MENU_BACKGROUND = 'StartWindow.jpg'
 MENU_BACKGROUND_POS = (0, 0)
 EXIT_NAME = 'EXIT'
+START_NAME = 'START'
 BTN_EXIT_BACK_POS = (50, 500)
-BTN_EXIT_BACK_SIZE = (150, 50)
+BTN_EXIT_BACK_SIZE = (150, 60)
+BTN_START_BACK_POS = (50, 100)
+BTN_START_BACK_SIZE = (200, 60)
 
 # Настройки текстур
 TILE = 125
@@ -46,4 +49,3 @@ PLAYER_SPEED = 160
 MENU_THEME = 'music/menu.mp3'
 MUSIC_FOLDER = 'Levels_music'
 MUSIC_FILES = [os.path.join(MUSIC_FOLDER, file) for file in listdir(MUSIC_FOLDER) if isfile(join(MUSIC_FOLDER, file))]
-

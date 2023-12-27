@@ -21,7 +21,7 @@ class Game:
 
     def run(self):
         self._pre_init()
-        # self._menu.run()
+        self._menu.run()
         self._init()
         self._play_theme()
         self._config()

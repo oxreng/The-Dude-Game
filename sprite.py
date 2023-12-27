@@ -1,6 +1,8 @@
+import collections
+
 import pygame.sprite
 from load_image import load_image
-from config import PASSABLE_TEXTURES_PATH, SOLID_TEXTURES_PATH, TILE
+from config import *
 
 
 class PassableSprite(pygame.sprite.Sprite):
@@ -21,6 +23,21 @@ class SolidSprite(pygame.sprite.Sprite):
         self.rect.y = y
 
         self.mask = pygame.mask.from_surface(self.image)
+
+
+textures_anim_dict = {
+    'wooden_floor': {
+        collections.deque([load_image(PASSABLE_TEXTURES_PATH, 'wooden_floor.jpg')])
+    },
+    'wooden_crate': {
+        collections.deque([load_image(SOLID_TEXTURES_PATH, 'solid_tile.png')])
+    },
+    'telly': {
+        collections.deque(
+            [load_image(SOLID_TEXTURES_PATH, f'telly/{i}.png') for i in range(TELLY_FRAMES_COUNT)]
+        )
+    }
+}
 
 # def sprites_update(sprites, player):
 #     for sprite in sprites:

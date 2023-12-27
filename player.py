@@ -4,11 +4,12 @@ from config import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, player_group, solid_sprites):
+    def __init__(self, x, y, player_group, solid_sprites: pygame.sprite.Group):
         super().__init__(player_group)
         self._now_name_of_image = PLAYER_IMAGE
         self.image = pygame.transform.scale(load_image(PLAYER_PATH + '/default', PLAYER_IMAGE), (TILE, TILE))
         self.rect = self.image.get_rect().move(x, y)
+        self.mask = pygame.mask.from_surface(self.image)
         self._on_ground = True
         self.solid_sprites = solid_sprites
         self.last_y = y
@@ -32,7 +33,8 @@ class Player(pygame.sprite.Sprite):
                 self._dy -= PLAYER_SPEED / FPS
             if pressed_keys[pygame.K_s] or pressed_keys[pygame.K_DOWN]:
                 self._dy += PLAYER_SPEED / FPS
-            self.rect.y += self._dy
+            if self._can_move():
+                self.rect.y += self._dy
             self._dy = 0
         else:
             if self.rect.y > self.last_y:
@@ -42,6 +44,14 @@ class Player(pygame.sprite.Sprite):
             else:
                 self._dy += 3
             self.rect.y += self._dy
-        self.rect.x += self._dx
+        if self._can_move():
+            self.rect.x += self._dx
         self._dx = 0
+
+    def _can_move(self):
+        for sp in self.solid_sprites:
+            coords = (sp.rect.x - self.rect.x - self._dx, sp.rect.y - self.rect.y - self._dy)
+            if self.mask.overlap_area(sp.mask, coords):
+                return False
+        return True
 

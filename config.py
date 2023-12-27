@@ -48,6 +48,9 @@ SOLID_TEXTURES_PATH = 'TextureSprite/solid_textures'
 FPS = 60
 PLAYER_SPEED = 160
 
+# Настройки анимаций
+TELLY_FRAMES_COUNT = 2
+
 # Музыка
 MENU_THEME = 'music/menu.mp3'
 MUSIC_FOLDER = 'Levels_music'

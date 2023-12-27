@@ -14,7 +14,7 @@ class Game:
         self.sprites = pygame.sprite.Group()
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
-        self.player_group = pygame.sprite.Group()
+        self.player_group = pygame.sprite.GroupSingle()
 
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
@@ -31,7 +31,8 @@ class Game:
 
     def _init(self):
         # self.sprites = create_sprites(self._menu.chosen_level)
-        self._player = Player(HALF_SCREEN_WIDTH - TILE // 2, SCREEN_HEIGHT - TILE, self.player_group, self.solid_sprites)
+        self._player = Player(HALF_SCREEN_WIDTH - TILE // 2, SCREEN_HEIGHT - TILE, self.player_group,
+                              self.solid_sprites)
         for i in range(3):
             PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=125 * i, y=0)
         SolidSprite(self.solid_sprites, file_name='solid_tile.png', x=125, y=125)
@@ -42,12 +43,10 @@ class Game:
         pygame.display.set_caption(self._caption)
         pygame.mouse.set_visible(True)
 
-
     def _render(self):
         self.passable_sprites.draw(self._screen)
         self.solid_sprites.draw(self._screen)
         self.player_group.draw(self._screen)
-
 
     def _update(self):
         while self._running:

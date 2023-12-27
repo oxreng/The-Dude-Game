@@ -49,9 +49,13 @@ class Player(pygame.sprite.Sprite):
         self._dx = 0
 
     def _can_move(self):
-        for sp in self.solid_sprites:
-            coords = (sp.rect.x - self.rect.x - self._dx, sp.rect.y - self.rect.y - self._dy)
-            if self.mask.overlap_area(sp.mask, coords):
-                return False
+        self.rect.x += self._dx
+        self.rect.y += self._dy
+        if pygame.sprite.spritecollide(self, self.solid_sprites, False, pygame.sprite.collide_mask):
+            self.rect.x -= self._dx
+            self.rect.y -= self._dy
+            return False
+        self.rect.x -= self._dx
+        self.rect.y -= self._dy
         return True
 

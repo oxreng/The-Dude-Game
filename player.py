@@ -4,8 +4,8 @@ from config import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, x, y, all_sprites, solid_sprites):
-        super().__init__(all_sprites)
+    def __init__(self, x, y, player_group, solid_sprites):
+        super().__init__(player_group)
         self._now_name_of_image = PLAYER_IMAGE
         self.image = pygame.transform.scale(load_image(PLAYER_PATH + '/default', PLAYER_IMAGE), (TILE, TILE))
         self.rect = self.image.get_rect().move(x, y)

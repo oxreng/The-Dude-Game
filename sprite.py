@@ -12,6 +12,14 @@ class PassableSprite(pygame.sprite.Sprite):
         self.rect.y = y
 
 
+class SolidSprite(pygame.sprite.Sprite):
+    def __init__(self, *group, file_name, x, y):
+        super().__init__(*group)
+        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name), (TILE, TILE))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
 # def sprites_update(sprites, player):
 #     for sprite in sprites:
 #         sprite.update()

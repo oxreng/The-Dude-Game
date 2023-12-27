@@ -3,7 +3,6 @@ import pygame
 from player import Player
 from menu import MainMenu
 from sound import Music
-from render import Render
 from sprite import *
 
 
@@ -15,6 +14,7 @@ class Game:
         self.sprites = pygame.sprite.Group()
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
+        self.player_group = pygame.sprite.Group()
 
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
@@ -31,10 +31,9 @@ class Game:
 
     def _init(self):
         # self.sprites = create_sprites(self._menu.chosen_level)
-        self._player = Player(HALF_SCREEN_WIDTH - TILE // 2, SCREEN_HEIGHT - TILE, self.sprites, self.solid_sprites)
+        self._player = Player(HALF_SCREEN_WIDTH - TILE // 2, SCREEN_HEIGHT - TILE, self.player_group, self.solid_sprites)
         for i in range(3):
             PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=125 * i, y=0)
-        self._render = Render(self._screen, self._player, self.sprites)
         self._running = True
         pygame.init()
 
@@ -42,10 +41,17 @@ class Game:
         pygame.display.set_caption(self._caption)
         pygame.mouse.set_visible(True)
 
+
+    def _render(self):
+        self.passable_sprites.draw(self._screen)
+        self.solid_sprites.draw(self._screen)
+        self.player_group.draw(self._screen)
+
+
     def _update(self):
         while self._running:
             self._screen.fill(SKYBLUE)
-            self.passable_sprites.draw(self._screen)
+            self._render()
             self._clock.tick(FPS)
 
             for event in pygame.event.get():
@@ -55,7 +61,6 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         self.run()
             self._player.update()
-            self._render.render()
 
             pygame.display.set_caption('FPS: ' + str(int(self._clock.get_fps())))
             pygame.display.flip()

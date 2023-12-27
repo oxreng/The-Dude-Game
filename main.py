@@ -34,6 +34,7 @@ class Game:
         self._player = Player(HALF_SCREEN_WIDTH - TILE // 2, SCREEN_HEIGHT - TILE, self.player_group, self.solid_sprites)
         for i in range(3):
             PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=125 * i, y=0)
+        SolidSprite(self.solid_sprites, file_name='solid_tile.png', x=125, y=125)
         self._running = True
         pygame.init()
 

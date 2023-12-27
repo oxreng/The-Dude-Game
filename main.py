@@ -14,6 +14,7 @@ class Game:
         self._caption = WINDOW_NAME
         self.sprites = pygame.sprite.Group()
         self.solid_sprites = pygame.sprite.Group()
+        self.passable_sprites = pygame.sprite.Group()
 
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
@@ -31,6 +32,8 @@ class Game:
     def _init(self):
         # self.sprites = create_sprites(self._menu.chosen_level)
         self._player = Player(HALF_SCREEN_WIDTH - TILE // 2, SCREEN_HEIGHT - TILE, self.sprites, self.solid_sprites)
+        for i in range(3):
+            PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=125 * i, y=0)
         self._render = Render(self._screen, self._player, self.sprites)
         self._running = True
         pygame.init()
@@ -42,6 +45,7 @@ class Game:
     def _update(self):
         while self._running:
             self._screen.fill(SKYBLUE)
+            self.passable_sprites.draw(self._screen)
             self._clock.tick(FPS)
 
             for event in pygame.event.get():

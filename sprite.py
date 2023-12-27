@@ -12,8 +12,6 @@ class PassableSprite(pygame.sprite.Sprite):
         self.rect.y = y
 
 
-
-
 # def sprites_update(sprites, player):
 #     for sprite in sprites:
 #         sprite.update()

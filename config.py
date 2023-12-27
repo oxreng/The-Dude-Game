@@ -40,6 +40,8 @@ TILE = 125
 TEXTURES_PATH = 'TextureSprite'
 PLAYER_PATH = 'TextureSprite/player'
 PLAYER_IMAGE = 'player.png'
+PASSABLE_TEXTURES_PATH = 'TextureSprite/passable_textures'
+
 
 # Настройки игрока
 FPS = 60

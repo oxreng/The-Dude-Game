@@ -12,10 +12,6 @@ class Game:
         self._screen = pygame.display.set_mode(SCREEN_SIZE, pygame.DOUBLEBUF)
         self._clock = pygame.time.Clock()
         self._caption = WINDOW_NAME
-        self.solid_sprites = pygame.sprite.Group()
-        self.passable_sprites = pygame.sprite.Group()
-        self.player_group = pygame.sprite.GroupSingle()
-        self.camera_group = CameraGroup_box_camera()
 
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
@@ -31,11 +27,13 @@ class Game:
         self._finish()
 
     def _init(self):
+        self.solid_sprites = pygame.sprite.Group()
+        self.passable_sprites = pygame.sprite.Group()
+        self.player_group = pygame.sprite.GroupSingle()
+        self.camera_group = CameraGroup()
         # self.sprites = create_sprites(self._menu.chosen_level)
         self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH, y=HALF_SCREEN_HEIGHT,
                               solid_sprites=self.solid_sprites)
-        # for _ in range(4):
-        # PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=randint(0, 1000), y=randint(0, 500))
         PassableSprite(self.camera_group, file_name='0.png', x=500, y=100, colorkey=0)
         PassableSprite(self.camera_group, file_name='0.png', x=1500, y=1000, colorkey=0)
         SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=100, y=200)
@@ -59,7 +57,6 @@ class Game:
         while self._running:
             self._screen.fill(SKYBLUE)
             self._player.update()
-            self.camera_group.update()
             self._render()
             self._clock.tick(FPS)
 
@@ -69,6 +66,8 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.run()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.camera_group.zoom_keyboard_control(event.button)
 
             pygame.display.set_caption('FPS: ' + str(int(self._clock.get_fps())))
             pygame.display.flip()

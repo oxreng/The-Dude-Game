@@ -27,13 +27,13 @@ class SolidSprite(pygame.sprite.Sprite):
 
 textures_anim_dict = {
     'wooden_floor': {
-        collections.deque([load_image(PASSABLE_TEXTURES_PATH, 'wooden_floor.jpg')])
+        1: collections.deque([load_image(PASSABLE_TEXTURES_PATH, 'wooden_floor.jpg')])
     },
     'wooden_crate': {
-        collections.deque([load_image(SOLID_TEXTURES_PATH, 'solid_tile.png')])
+        1: collections.deque([load_image(SOLID_TEXTURES_PATH, 'solid_tile.png')])
     },
     'telly': {
-        collections.deque(
+        1: collections.deque(
             [load_image(SOLID_TEXTURES_PATH, f'telly/{i}.png') for i in range(TELLY_FRAMES_COUNT)]
         )
     }

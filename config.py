@@ -42,6 +42,7 @@ PLAYER_PATH = 'TextureSprite/player'
 PLAYER_IMAGE = 'player.png'
 PASSABLE_TEXTURES_PATH = 'TextureSprite/passable_textures'
 SOLID_TEXTURES_PATH = 'TextureSprite/solid_textures'
+PLAYER_TEXTURES_PATH = 'TextureSprite/player'
 
 # Настройки камеры
 BOX_LEFT = 200

@@ -38,6 +38,29 @@ textures_anim_dict = {
     }
 }
 
+player_anim_dict = {
+    'down': {
+        1: collections.deque(
+            [load_image(PLAYER_PATH, f'down_frames/{i}') for i in range(1, 5)])
+    },
+    'up': {
+        1: collections.deque(
+            [load_image(PLAYER_PATH, f'up_frames/{i}') for i in range(1, 5)])
+    },
+    'right': {
+        1: collections.deque(
+            [load_image(PLAYER_PATH, f'right_frames/{i}') for i in range(1, 5)])
+    },
+    'left': {
+        1: collections.deque(
+            [load_image(PLAYER_PATH, f'left_frames/{i}') for i in range(1, 5)])
+    },
+    'standing': {
+        1: collections.deque(
+            [load_image(PLAYER_PATH, f'standing_frames/{i}') for i in range(1, 5)])
+    }
+}
+
 # def sprites_update(sprites, player):
 #     for sprite in sprites:
 #         sprite.update()

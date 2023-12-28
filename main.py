@@ -4,6 +4,7 @@ from player import Player
 from menu import MainMenu
 from sound import Music
 from sprite import *
+from cameras import *
 
 
 class Game:
@@ -13,8 +14,8 @@ class Game:
         self._caption = WINDOW_NAME
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
-        self.all_sprires = [self.solid_sprites, self.passable_sprites]
         self.player_group = pygame.sprite.GroupSingle()
+        self.camera_group = CameraGroup_box_camera()
 
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
@@ -31,11 +32,16 @@ class Game:
 
     def _init(self):
         # self.sprites = create_sprites(self._menu.chosen_level)
-        self._player = Player(HALF_SCREEN_WIDTH - TILE // 2, HALF_SCREEN_HEIGHT - TILE // 2, self.player_group,
-                              self.solid_sprites, self.all_sprires)
-        for i in range(3):
-            PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=125 * i, y=0)
-        SolidSprite(self.solid_sprites, file_name='solid_tile.png', x=125, y=125)
+        self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH, y=HALF_SCREEN_HEIGHT,
+                              solid_sprites=self.solid_sprites)
+        # for _ in range(4):
+        # PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=randint(0, 1000), y=randint(0, 500))
+        PassableSprite(self.camera_group, file_name='0.png', x=500, y=100, colorkey=0)
+        PassableSprite(self.camera_group, file_name='0.png', x=1500, y=1000, colorkey=0)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=100, y=200)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=300, y=200)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=500, y=450)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=100, y=500)
         self._running = True
         pygame.init()
 
@@ -44,14 +50,16 @@ class Game:
         pygame.mouse.set_visible(True)
 
     def _render(self):
-        self.passable_sprites.draw(self._screen)
-        self.solid_sprites.draw(self._screen)
-        self.player_group.draw(self._screen)
+        # self.passable_sprites.draw(self._screen)
+        self.camera_group.custom_draw(player=self._player)
+        # self.solid_sprites.draw(self._screen)
+        # self.player_group.draw(self._screen)
 
     def _update(self):
         while self._running:
             self._screen.fill(SKYBLUE)
             self._player.update()
+            self.camera_group.update()
             self._render()
             self._clock.tick(FPS)
 

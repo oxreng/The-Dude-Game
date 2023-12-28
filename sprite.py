@@ -6,22 +6,21 @@ from config import *
 
 
 class PassableSprite(pygame.sprite.Sprite):
-    def __init__(self, *group, file_name, x, y):
-        super().__init__(*group)
-        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name, color_key=None), (TILE, TILE))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+    def __init__(self, *groups, file_name, x, y, colorkey=None):
+        super().__init__()
+        for group in groups:
+            self.add(group)
+        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name, color_key=colorkey), (TILE, TILE))
+        self.rect = self.image.get_rect(topleft=(x, y))
 
 
 class SolidSprite(pygame.sprite.Sprite):
-    def __init__(self, *group, file_name, x, y):
-        super().__init__(*group)
+    def __init__(self, *groups, file_name, x, y):
+        super().__init__()
+        for group in groups:
+            self.add(group)
         self.image = pygame.transform.scale(load_image(SOLID_TEXTURES_PATH, file_name), (TILE, TILE))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-
+        self.rect = self.image.get_rect(topleft=(x, y))
         self.mask = pygame.mask.from_surface(self.image)
 
 

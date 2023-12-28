@@ -43,10 +43,15 @@ PLAYER_IMAGE = 'player.png'
 PASSABLE_TEXTURES_PATH = 'TextureSprite/passable_textures'
 SOLID_TEXTURES_PATH = 'TextureSprite/solid_textures'
 
+# Настройки камеры
+BOX_LEFT = 200
+BOX_RIGHT = 200
+BOX_TOP = 100
+BOX_BOTTOM = 100
 
 # Настройки игрока
 FPS = 60
-PLAYER_SPEED = 160
+PLAYER_SPEED = 140
 
 # Настройки анимаций
 TELLY_FRAMES_COUNT = 2

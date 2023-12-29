@@ -36,10 +36,12 @@ class Game:
                               solid_sprites=self.solid_sprites)
         PassableSprite(self.camera_group, file_name='0.png', x=500, y=100, colorkey=0)
         PassableSprite(self.camera_group, file_name='0.png', x=1500, y=1000, colorkey=0)
+        PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=900, y=50)
         SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=100, y=200)
         SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=300, y=200)
         SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=500, y=450)
         SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=100, y=500)
+        self.camera_group.center_target_camera(self._player)
         self._running = True
         pygame.init()
 
@@ -49,7 +51,7 @@ class Game:
 
     def _render(self):
         # self.passable_sprites.draw(self._screen)
-        self.camera_group.custom_draw(player=self._player)
+        self.camera_group.custom_draw(self.passable_sprites, player=self._player)
         # self.solid_sprites.draw(self._screen)
         # self.player_group.draw(self._screen)
 
@@ -67,7 +69,7 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         self.run()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.camera_group.zoom_keyboard_control(event.button)
+                    self.camera_group.zooming(event.button)
 
             pygame.display.set_caption('FPS: ' + str(int(self._clock.get_fps())))
             pygame.display.flip()

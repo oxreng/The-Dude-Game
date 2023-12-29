@@ -29,14 +29,15 @@ class Game:
     def _init(self):
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
+        self.partly_passable_sprites = pygame.sprite.Group()
         self.player_group = pygame.sprite.GroupSingle()
         self.camera_group = CameraGroup()
         # self.sprites = create_sprites(self._menu.chosen_level)
-        self._player = Player(self.camera_group, self.player_group, x=1000, y=1000,
-                              solid_sprites=self.solid_sprites)
+        self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH, y=HALF_SCREEN_HEIGHT,
+                              solid_sprites=self.solid_sprites, partly_sprites=self.partly_passable_sprites)
 
         # Создание спрайтов карты
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/back_wall.png', x=0, y=-200,
+        PartlyPassableSprite(self.camera_group, self.partly_passable_sprites, file_name='map_tiles/back_wall.png', x=0, y=-200,
                     colorkey=None, tiling_x=800, tiling_y=200)
         SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/side_wall.png', x=-40, y=-200,
                     colorkey=None, tiling_x=40, tiling_y=680)
@@ -44,7 +45,7 @@ class Game:
                     colorkey=None, tiling_x=40, tiling_y=680)
         SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/down_wall.png', x=0, y=380,
                     colorkey=None, tiling_x=800, tiling_y=100)
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/inside_wall.png', x=180, y=-200,
+        PartlyPassableSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/inside_wall.png', x=180, y=-200,
                     colorkey=None, tiling_x=40, tiling_y=280)
         self.camera_group.center_target_camera(self._player)
         self._running = True

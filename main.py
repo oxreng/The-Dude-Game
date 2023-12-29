@@ -34,13 +34,18 @@ class Game:
         # self.sprites = create_sprites(self._menu.chosen_level)
         self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH, y=HALF_SCREEN_HEIGHT,
                               solid_sprites=self.solid_sprites)
-        PassableSprite(self.camera_group, file_name='0.png', x=500, y=100, colorkey=0)
-        PassableSprite(self.camera_group, file_name='0.png', x=1500, y=1000, colorkey=0)
-        PassableSprite(self.passable_sprites, file_name='wooden_floor.jpg', x=900, y=50)
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=100, y=200)
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=300, y=200)
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=500, y=450)
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='solid_tile.png', x=100, y=500)
+
+        # Создание спрайтов карты
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/back_wall.png', x=0, y=-200,
+                    colorkey=None, tiling_x=800, tiling_y=200)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/side_wall.png', x=-40, y=-200,
+                    colorkey=None, tiling_x=40, tiling_y=680)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/side_wall.png', x=800, y=-200,
+                    colorkey=None, tiling_x=40, tiling_y=680)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/down_wall.png', x=0, y=380,
+                    colorkey=None, tiling_x=800, tiling_y=100)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/inside_wall.png', x=180, y=-200,
+                    colorkey=None, tiling_x=40, tiling_y=280)
         self.camera_group.center_target_camera(self._player)
         self._running = True
         pygame.init()
@@ -57,7 +62,7 @@ class Game:
 
     def _update(self):
         while self._running:
-            self._screen.fill(SKYBLUE)
+            self._screen.fill(BLACK)
             self._player.update()
             self._render()
             self._clock.tick(FPS)

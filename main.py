@@ -32,7 +32,7 @@ class Game:
         self.player_group = pygame.sprite.GroupSingle()
         self.camera_group = CameraGroup()
         # self.sprites = create_sprites(self._menu.chosen_level)
-        self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH, y=HALF_SCREEN_HEIGHT,
+        self._player = Player(self.camera_group, self.player_group, x=1000, y=1000,
                               solid_sprites=self.solid_sprites)
 
         # Создание спрайтов карты
@@ -76,9 +76,10 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.camera_group.zooming(event.button)
 
-            # keys = pygame.key.get_pressed()
-            # if keys[pygame.K_h]:
-                # self.camera_group.center_target_camera(self._player)
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_h]:
+                self.camera_group.center_target_camera(self._player)
+                self._player.center_target()
 
             pygame.display.set_caption('FPS: ' + str(int(self._clock.get_fps())))
             pygame.display.flip()

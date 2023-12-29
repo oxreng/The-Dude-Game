@@ -39,10 +39,11 @@ BTN_START_BACK_SIZE = (200, 60)
 TILE = 100
 TEXTURES_PATH = 'TextureSprite'
 PLAYER_PATH = 'TextureSprite/player'
-PLAYER_IMAGE = 'player.png'
+PLAYER_IMAGE = ...
 PASSABLE_TEXTURES_PATH = 'TextureSprite/passable_textures'
 SOLID_TEXTURES_PATH = 'TextureSprite/solid_textures'
 PLAYER_TEXTURES_PATH = 'TextureSprite/player'
+SPRITE_ANIMATION_SPEED = 50
 
 # Настройки камеры
 BOX_LEFT = 300

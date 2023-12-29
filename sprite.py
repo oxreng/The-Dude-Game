@@ -55,25 +55,26 @@ textures_anim_dict = {
 }
 
 player_anim_dict = {
-    'down': {
-        1: collections.deque(
-            [load_image(PLAYER_PATH, f'down_frames/{i}.png') for i in range(1, 5)])
-    },
-    'up': {
-        1: collections.deque(
-            [load_image(PLAYER_PATH, f'up_frames/{i}.png') for i in range(1, 5)])
-    },
-    'right': {
-        1: collections.deque(
-            [load_image(PLAYER_PATH, f'right_frames/{i}.png') for i in range(1, 5)])
-    },
-    'left': {
-        1: collections.deque(
-            [load_image(PLAYER_PATH, f'left_frames/{i}.png') for i in range(1, 5)])
-    },
-    'standing': {
-        1: collections.deque(
-            [load_image(PLAYER_PATH, f'standing_frames/{i}.png') for i in range(1, 5)])
+    'normal': {
+        'down':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/normal', f'down_frames/{i}.png') for i in range(1, 5)])
+        ,
+        'up':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/normal', f'up_frames/{i}.png') for i in range(1, 5)])
+        ,
+        'right':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/normal', f'right_frames/{i}.png') for i in range(1, 5)])
+        ,
+        'left':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/normal', f'left_frames/{i}.png') for i in range(1, 5)])
+        ,
+        'standing':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/normal', f'standing_frames/{i}.png') for i in range(1, 5)])
     }
 }
 

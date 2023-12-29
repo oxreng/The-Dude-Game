@@ -15,11 +15,11 @@ class PassableSprite(pygame.sprite.Sprite):
 
 
 class SolidSprite(pygame.sprite.Sprite):
-    def __init__(self, *groups, file_name, x, y):
+    def __init__(self, *groups, file_name, x, y, colorkey=-1, tiling_x=TILE, tiling_y=TILE):
         super().__init__()
         for group in groups:
             self.add(group)
-        self.image = pygame.transform.scale(load_image(SOLID_TEXTURES_PATH, file_name), (TILE, TILE))
+        self.image = pygame.transform.scale(load_image(TEXTURES_PATH, file_name, color_key=colorkey), (tiling_x, tiling_y))
         self.rect = self.image.get_rect(topleft=(x, y))
         self.mask = pygame.mask.from_surface(self.image)
 

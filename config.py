@@ -36,7 +36,7 @@ BTN_START_BACK_POS = (50, 100)
 BTN_START_BACK_SIZE = (200, 60)
 
 # Настройки текстур
-TILE = 125
+TILE = 100
 TEXTURES_PATH = 'TextureSprite'
 PLAYER_PATH = 'TextureSprite/player'
 PLAYER_IMAGE = 'player.png'

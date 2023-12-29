@@ -30,8 +30,8 @@ class CameraGroup(pygame.sprite.Group):
         self._internal_offset.y = self._internal_surface_size[1] // 2 - HALF_SCREEN_HEIGHT
 
         # Для фона
-        # self._ground_surf = load_image(..., ...)
-        # self._ground_rect = self._ground_surf.get_rect(topleft=(0, 0))
+        self._ground_surf = pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/floor.png', color_key=None), (800, 400))
+        self._ground_rect = self._ground_surf.get_rect(topleft=(0, 0))
 
     def box_target_camera(self, target):
         if target.rect.left < self._camera_rect.left:
@@ -57,11 +57,11 @@ class CameraGroup(pygame.sprite.Group):
         self.box_target_camera(player)
 
         # Делаем зум
-        self._internal_surface.fill(SKYBLUE)
+        self._internal_surface.fill(BLACK)
 
         # Рисуем фон
-        # ground_offset = self._ground_rect - self._offset + self._internal_offset
-        # self._internal_surface.blit(self._ground_surf, ground_offset)
+        ground_offset = self._ground_rect.topleft - self._offset + self._internal_offset
+        self._internal_surface.blit(self._ground_surf, ground_offset)
 
         # Обрабатываем объекты
         for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):

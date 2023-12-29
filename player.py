@@ -4,7 +4,7 @@ from config import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group):
+    def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group, partly_sprites: pygame.sprite.Group):
         super().__init__()
         for group in groups:
             self.add(group)
@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self._on_ground = True
         self.solid_sprites = solid_sprites
+        self.partly_passable_sprites = partly_sprites
         self.last_y = y
         self.direction = pygame.math.Vector2()
 
@@ -52,7 +53,8 @@ class Player(pygame.sprite.Sprite):
 
     def _can_move(self):
         self.rect.center += self.direction
-        if pygame.sprite.spritecollide(self, self.solid_sprites, False, pygame.sprite.collide_mask):
+        if pygame.sprite.spritecollide(self, self.solid_sprites, False, pygame.sprite.collide_mask) or (
+                pygame.sprite.spritecollide(self, self.partly_passable_sprites, False, pygame.sprite.collide_mask)):
             self.rect.center -= self.direction
             return False
         self.rect.center -= self.direction

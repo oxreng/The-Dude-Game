@@ -24,6 +24,22 @@ class SolidSprite(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
 
+class PartlyPassableSprite(pygame.sprite.Sprite):
+    def __init__(self, *groups, file_name, x, y, colorkey=-1, tiling_x=TILE, tiling_y=TILE):
+        super().__init__()
+        for group in groups:
+            self.add(group)
+        self.image = pygame.transform.scale(load_image(TEXTURES_PATH, file_name, color_key=colorkey), (tiling_x, tiling_y))
+        self.rect = self.image.get_rect(topleft=(x, y))
+        self.mask = pygame.mask.from_surface(pygame.transform.scale(load_image(
+            TEXTURES_PATH, file_name, color_key=colorkey), (tiling_x, tiling_y - (TILE * 0.8))))
+        # self.mask_rect = self.mask.get_rect()
+        # self.mask_rect.width = tiling_x
+        # self.mask_rect.height = tiling_y - TILE
+        # self.s = self.mask.to_surface()
+        # self.s.set_colorkey((255, 255, 255))
+
+
 textures_anim_dict = {
     'wooden_floor': {
         1: collections.deque([load_image(PASSABLE_TEXTURES_PATH, 'wooden_floor.jpg')])

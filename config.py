@@ -45,7 +45,7 @@ PLAYER_IMAGE = ...
 PASSABLE_TEXTURES_PATH = 'TextureSprite/passable_textures'
 SOLID_TEXTURES_PATH = 'TextureSprite/solid_textures'
 PLAYER_TEXTURES_PATH = 'TextureSprite/player'
-SPRITE_ANIMATION_SPEED = 50
+SPRITE_ANIMATION_SPEED = 25
 
 # Настройки камеры
 BOX_LEFT = 300

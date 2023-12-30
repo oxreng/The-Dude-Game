@@ -5,6 +5,7 @@ from menu import MainMenu
 from sound import Music
 from sprite import *
 from cameras import *
+from debug import debug
 
 
 class Game:
@@ -58,6 +59,7 @@ class Game:
     def _render(self):
         # self.passable_sprites.draw(self._screen)
         self.camera_group.custom_draw(self.passable_sprites, player=self._player)
+        debug(self._player.direction)
         # self.solid_sprites.draw(self._screen)
         # self.player_group.draw(self._screen)
 

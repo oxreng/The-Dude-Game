@@ -65,6 +65,7 @@ class Player(pygame.sprite.Sprite):
         self._rotation_switch()
         self._image_update()
         self._process_keyboard()
+        self._move(PLAYER_SPEED)
 
     def center_target(self):
         self._offset_central = pygame.math.Vector2(self.rect.centerx - HALF_SCREEN_WIDTH,
@@ -73,25 +74,38 @@ class Player(pygame.sprite.Sprite):
     def _process_keyboard(self):
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_a] or pressed_keys[pygame.K_LEFT]:
-            self.direction.x -= PLAYER_SPEED / FPS
-        if pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT]:
-            self.direction.x += PLAYER_SPEED / FPS
-        if self._can_move():
-            self.rect.x += self.direction.x
-        self.direction.x = 0
+            self.direction.x = -1
+        elif pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT]:
+            self.direction.x = 1
+        else:
+            self.direction.x = 0
         if pressed_keys[pygame.K_w] or pressed_keys[pygame.K_UP]:
-            self.direction.y -= PLAYER_SPEED / FPS
-        if pressed_keys[pygame.K_s] or pressed_keys[pygame.K_DOWN]:
-            self.direction.y += PLAYER_SPEED / FPS
-        if self._can_move():
-            self.rect.y += self.direction.y
-        self.direction.y = 0
+            self.direction.y = -1
+        elif pressed_keys[pygame.K_s] or pressed_keys[pygame.K_DOWN]:
+            self.direction.y = 1
+        else:
+            self.direction.y = 0
 
-    def _can_move(self):
-        self.rect.center += self.direction - self._offset_central
-        if pygame.sprite.spritecollide(self, self.solid_sprites, False, pygame.sprite.collide_mask) or (
-                pygame.sprite.spritecollide(self, self.partly_passable_sprites, False, pygame.sprite.collide_mask)):
-            self.rect.center -= self.direction - self._offset_central
-            return False
-        self.rect.center -= self.direction - self._offset_central
-        return True
+    def _move(self, speed):
+        if self.direction.magnitude() != 0:
+            self.direction = self.direction.normalize()
+        self.rect.x += self.direction.x * speed
+        self._collision('horizontal')
+        self.rect.y += self.direction.y * speed
+        self._collision('vertical')
+
+    def _collision(self, direction):
+        if direction == 'horizontal':
+            for sprite in self.solid_sprites:
+                if sprite.rect.colliderect(self.rect):
+                    if self.direction.x > 0:
+                        self.rect.right = sprite.rect.left
+                    if self.direction.x < 0:
+                        self.rect.left = sprite.rect.right
+        if direction == 'vertical':
+            for sprite in self.solid_sprites:
+                if sprite.rect.colliderect(self.rect):
+                    if self.direction.y > 0:
+                        self.rect.bottom = sprite.rect.top
+                    if self.direction.y < 0:
+                        self.rect.top = sprite.rect.bottom

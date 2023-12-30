@@ -3,6 +3,8 @@ import os.path
 from os import listdir
 from os.path import isfile, join
 
+import pygame
+
 SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (1200, 600)
 HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT = SCREEN_WIDTH >> 1, SCREEN_HEIGHT >> 1
 WINDOW_NAME = 'GAME'
@@ -61,7 +63,7 @@ BOX_BOTTOM_MIN = -BOX_BOTTOM_ZOOM * 3
 
 # Настройки игрока
 FPS = 60
-PLAYER_SPEED = 600
+PLAYER_SPEED = 8
 
 # Настройки анимаций
 TELLY_FRAMES_COUNT = 2

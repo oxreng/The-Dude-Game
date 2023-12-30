@@ -6,7 +6,7 @@ import pygame
 """
 
 
-def load_image(file_name, name, color_key=-1):
+def load_image(file_name, name, color_key=None):
     fullname = os.path.join(file_name, name)
     image = pygame.image.load(fullname)
 

@@ -51,10 +51,10 @@ class Player(pygame.sprite.Sprite):
 
     def _rotation_switch(self):
         pressed_keys = pygame.key.get_pressed()
-        if any([self.left != pressed_keys[pygame.K_a] or pressed_keys[pygame.K_LEFT],
-                self.right != pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT],
-                self.up != pressed_keys[pygame.K_w] or pressed_keys[pygame.K_UP],
-                self.down != pressed_keys[pygame.K_s] or pressed_keys[pygame.K_DOWN]]):
+        if any([self.left != (pressed_keys[pygame.K_a] or pressed_keys[pygame.K_LEFT]),
+                self.right != (pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT]),
+                self.up != (pressed_keys[pygame.K_w] or pressed_keys[pygame.K_UP]),
+                self.down != (pressed_keys[pygame.K_s] or pressed_keys[pygame.K_DOWN])]):
             self.animation_count = self.animation_speed
         self.left = pressed_keys[pygame.K_a] or pressed_keys[pygame.K_LEFT]
         self.right = pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT]

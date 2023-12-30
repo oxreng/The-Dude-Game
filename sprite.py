@@ -75,6 +75,27 @@ player_anim_dict = {
         'standing':
             collections.deque(
                 [load_image(f'{PLAYER_PATH}/normal', f'standing_frames/{i}.png') for i in range(1, 5)])
+    },
+    'christmas': {
+        'down':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/christmas', f'down_frames/{i}.png') for i in range(1, 5)])
+        ,
+        'up':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/christmas', f'up_frames/{i}.png') for i in range(1, 5)])
+        ,
+        'right':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/christmas', f'right_frames/{i}.png') for i in range(1, 5)])
+        ,
+        'left':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/christmas', f'left_frames/{i}.png') for i in range(1, 5)])
+        ,
+        'standing':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/christmas', f'standing_frames/{i}.png') for i in range(1, 5)])
     }
 }
 

@@ -4,7 +4,7 @@ from config import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group, partly_sprites: pygame.sprite.Group,
+    def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
                  animations=player_anim_dict['normal'], animation_speed=SPRITE_ANIMATION_SPEED / 2):
         super().__init__()
         for group in groups:
@@ -20,7 +20,6 @@ class Player(pygame.sprite.Sprite):
         self.left = self.right = self.down = self.up = False
 
         self.solid_sprites = solid_sprites
-        self.partly_passable_sprites = partly_sprites
 
         self.last_y = y
         self.direction = pygame.math.Vector2()

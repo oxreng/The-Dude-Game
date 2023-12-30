@@ -14,7 +14,7 @@ class CameraGroup(pygame.sprite.Group):
         self._offset = pygame.math.Vector2()
         # camera zoom
         self._zoom_scale = 0.8
-        self._internal_surface_size = (2500, 2500)
+        self._internal_surface_size = (2400, 1200)
         self._internal_surface = pygame.Surface(self._internal_surface_size, pygame.SRCALPHA)
         self._internal_rect = self._internal_surface.get_rect(center=(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT))
         self._internal_surface_size_vector = pygame.math.Vector2(self._internal_surface_size)

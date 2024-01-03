@@ -10,7 +10,8 @@ class PassableSprite(pygame.sprite.Sprite):
         super().__init__()
         for group in groups:
             self.add(group)
-        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name, color_key=colorkey), (TILE, TILE))
+        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name, color_key=colorkey),
+                                            (TILE, TILE))
         self.rect = self.image.get_rect(topleft=(x, y))
 
 
@@ -19,14 +20,16 @@ class SolidSprite(pygame.sprite.Sprite):
         super().__init__()
         for group in groups:
             self.add(group)
-        self.image = pygame.transform.scale(load_image(TEXTURES_PATH, file_name, color_key=colorkey), (tiling_x, tiling_y))
+        self.image = pygame.transform.scale(load_image(TEXTURES_PATH, file_name, color_key=colorkey),
+                                            (tiling_x, tiling_y))
         self.rect = self.image.get_rect(topleft=(x, y))
         self.mask = pygame.mask.from_surface(self.image)
 
 
 class PartlyPassableSprite(SolidSprite):
     def __init__(self, *groups, file_name, x, y, colorkey=-1, tiling_x=TILE, tiling_y=TILE):
-        super().__init__(*groups, file_name=file_name, x=x, y=y, colorkey=colorkey, tiling_x=tiling_x, tiling_y=tiling_y)
+        super().__init__(*groups, file_name=file_name, x=x, y=y, colorkey=colorkey, tiling_x=tiling_x,
+                         tiling_y=tiling_y)
         self.rect = pygame.transform.scale(load_image(
             TEXTURES_PATH, file_name, color_key=colorkey), (tiling_x, tiling_y - (TILE * 0.8))).get_rect(topleft=(x, y))
 
@@ -58,7 +61,11 @@ player_anim_dict = {
                 [load_image(f'{PLAYER_PATH}/normal', f'left_frames/{i}.png') for i in range(1, 5)]),
         'standing':
             collections.deque(
-                [load_image(f'{PLAYER_PATH}/normal', f'standing_frames/{i}.png') for i in range(1, 5)])
+                [load_image(f'{PLAYER_PATH}/normal', f'standing_frames/{i}.png') for i in range(1, 5)]),
+        'left_attack': collections.deque([load_image(f'{PLAYER_PATH}/christmas', f'left_frames/1.png')]),
+        'right_attack': collections.deque([load_image(f'{PLAYER_PATH}/christmas', f'right_frames/1.png')]),
+        'down_attack': collections.deque([load_image(f'{PLAYER_PATH}/christmas', f'down_frames/1.png')]),
+        'up_attack': collections.deque([load_image(f'{PLAYER_PATH}/christmas', f'up_frames/1.png')])
     },
     'christmas': {
         'down':
@@ -75,7 +82,11 @@ player_anim_dict = {
                 [load_image(f'{PLAYER_PATH}/christmas', f'left_frames/{i}.png') for i in range(1, 5)]),
         'standing':
             collections.deque(
-                [load_image(f'{PLAYER_PATH}/christmas', f'standing_frames/{i}.png') for i in range(1, 5)])
+                [load_image(f'{PLAYER_PATH}/christmas', f'standing_frames/{i}.png') for i in range(1, 5)]),
+        'left_attack': collections.deque([load_image(f'{PLAYER_PATH}/normal', f'left_frames/1.png')]),
+        'right_attack': collections.deque([load_image(f'{PLAYER_PATH}/normal', f'right_frames/1.png')]),
+        'down_attack': collections.deque([load_image(f'{PLAYER_PATH}/normal', f'down_frames/1.png')]),
+        'up_attack': collections.deque([load_image(f'{PLAYER_PATH}/normal', f'up_frames/1.png')])
     }
 }
 

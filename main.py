@@ -56,11 +56,8 @@ class Game:
         pygame.mouse.set_visible(True)
 
     def _render(self):
-        # self.passable_sprites.draw(self._screen)
         self.camera_group.custom_draw(self.passable_sprites, player=self._player)
-        debug(self._player.direction)
-        # self.solid_sprites.draw(self._screen)
-        # self.player_group.draw(self._screen)
+        debug(self._player.status)
 
     def _update(self):
         while self._running:

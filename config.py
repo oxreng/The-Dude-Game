@@ -41,7 +41,6 @@ BTN_START_BACK_SIZE = (200, 60)
 TILE = 100
 TEXTURES_PATH = 'TextureSprite'
 PLAYER_PATH = 'TextureSprite/player'
-PLAYER_IMAGE = ...
 PASSABLE_TEXTURES_PATH = 'TextureSprite/passable_textures'
 SOLID_TEXTURES_PATH = 'TextureSprite/solid_textures'
 PLAYER_TEXTURES_PATH = 'TextureSprite/player'
@@ -64,6 +63,8 @@ BOX_BOTTOM_MIN = -BOX_BOTTOM_ZOOM * 3
 # Настройки игрока
 FPS = 60
 PLAYER_SPEED = 8
+PLAYER_ANIMATION_SPEED = 0.1
+PLAYER_ATTACK_COOLDOWN = 400
 
 # Настройки анимаций
 TELLY_FRAMES_COUNT = 2

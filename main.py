@@ -44,6 +44,7 @@ class Game:
         SolidSprite(self.camera_group, self.solid_sprites, file_name='down_wall', x=0, y=380)
         PartlyPassableSprite(self.camera_group, self.solid_sprites, file_name='inside_wall', x=180, y=-200,
                     tiling_x=40, tiling_y=280)
+        PassableSprite(self.passable_sprites, file_name='carpet.jpg', x=100, y=100)
 
         # Создание спрайтов окружения
         PartlyPassableSprite(self.camera_group, self.solid_sprites, file_name='oven', x=40, y=-60, anim_state=-1)

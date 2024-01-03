@@ -10,8 +10,11 @@ class PassableSprite(pygame.sprite.Sprite):
         super().__init__()
         for group in groups:
             self.add(group)
-        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name, color_key=colorkey), (TILE, TILE))
+        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name, color_key=colorkey), (200, 125))
         self.rect = self.image.get_rect(topleft=(x, y))
+
+    def image_update(self, *args, **kwargs):
+        pass
 
 
 class SolidSprite(pygame.sprite.Sprite):
@@ -26,7 +29,7 @@ class SolidSprite(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.animation_count = 0
 
-    def _image_update(self, animation_speed=SPRITE_ANIMATION_SPEED / 2):
+    def image_update(self, animation_speed=SPRITE_ANIMATION_SPEED / 2):
         self.animation_count += 1
         if animation_speed <= self.animation_count:
             self.animations[self.animation_state].rotate(-1)

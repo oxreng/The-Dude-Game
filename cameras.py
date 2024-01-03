@@ -96,11 +96,10 @@ class CameraGroup(pygame.sprite.Group):
                 sprite: sprite.rect.centery):
             if sprite != player:
                 offset_pos = sprite.rect.topleft - self._offset + self._internal_offset + self._offset_central
+                sprite.image_update()
             else:
                 offset_pos = sprite.rect.topleft - self._offset + self._internal_offset
             self._internal_surface.blit(sprite.image, offset_pos)
-
-            sprite._image_update()
 
         # Отрисовка pop-up подсказок
         for obj, obj_rect in collide_areas.items():

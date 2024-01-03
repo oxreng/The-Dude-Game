@@ -5,7 +5,7 @@ from config import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
-                 animations=player_anim_dict['normal'], animation_speed=SPRITE_ANIMATION_SPEED / 2):
+                 animations=player_anim_dict['christmas'], animation_speed=SPRITE_ANIMATION_SPEED / 2):
         super().__init__()
         for group in groups:
             self.add(group)

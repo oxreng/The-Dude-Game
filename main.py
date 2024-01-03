@@ -37,16 +37,17 @@ class Game:
                               solid_sprites=self.solid_sprites)
 
         # Создание спрайтов карты
-        PartlyPassableSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/back_wall.png', x=0, y=-200,
-                    colorkey=None, tiling_x=800, tiling_y=200)
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/side_wall.png', x=-40, y=-200,
-                    colorkey=None, tiling_x=40, tiling_y=680)
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/side_wall.png', x=800, y=-200,
-                    colorkey=None, tiling_x=40, tiling_y=680)
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/down_wall.png', x=0, y=380,
-                    colorkey=None, tiling_x=800, tiling_y=100)
-        PartlyPassableSprite(self.camera_group, self.solid_sprites, file_name='map_tiles/inside_wall.png', x=180, y=-200,
-                    colorkey=None, tiling_x=40, tiling_y=280)
+        PartlyPassableSprite(self.camera_group, self.solid_sprites, file_name='back_wall', x=0, y=-200,
+                    tiling_x=800, tiling_y=200)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='side_wall', x=-40, y=-200)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='side_wall', x=800, y=-200)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='down_wall', x=0, y=380)
+        PartlyPassableSprite(self.camera_group, self.solid_sprites, file_name='inside_wall', x=180, y=-200,
+                    tiling_x=40, tiling_y=280)
+
+        # Создание спрайтов окружения
+        PartlyPassableSprite(self.camera_group, self.solid_sprites, file_name='oven', x=40, y=-60, anim_state=-1)
+
         self.camera_group.center_target_camera(self._player)
         self._running = True
         pygame.init()

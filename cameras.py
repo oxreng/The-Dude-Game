@@ -100,13 +100,15 @@ class CameraGroup(pygame.sprite.Group):
                 offset_pos = sprite.rect.topleft - self._offset + self._internal_offset
             self._internal_surface.blit(sprite.image, offset_pos)
 
+            sprite._image_update()
+
         # Отрисовка pop-up подсказок
         for obj, obj_rect in collide_areas.items():
             if obj_rect.colliderect(player.rect):
                 font = pygame.font.Font('font.ttf', 25)
                 text = font.render(hint_text[obj], True, WHITE)
-                text_pos_x = (obj_rect.topleft - self._offset + self._internal_offset + self._offset_central)[0]
-                text_pos_y = (obj_rect.topleft - self._offset + self._internal_offset + self._offset_central)[1] - text.get_size()[1]
+                text_pos_x = (obj_rect.topleft - self._offset + self._internal_offset + self._offset_central)[0] - (text.get_width() - obj_rect.width) / 2
+                text_pos_y = (obj_rect.topleft - self._offset + self._internal_offset + self._offset_central)[1] - text.get_size()[1] - 10
                 self._internal_surface.blit(text, (text_pos_x, text_pos_y))
 
         scaled_surf = pygame.transform.scale(self._internal_surface,

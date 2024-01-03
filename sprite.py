@@ -6,18 +6,6 @@ from config import *
 
 
 class PassableSprite(pygame.sprite.Sprite):
-    def __init__(self, *groups, file_name, x, y, colorkey=None):
-        super().__init__()
-        for group in groups:
-            self.add(group)
-        self.image = pygame.transform.scale(load_image(PASSABLE_TEXTURES_PATH, file_name, color_key=colorkey), (200, 125))
-        self.rect = self.image.get_rect(topleft=(x, y))
-
-    def image_update(self, *args, **kwargs):
-        pass
-
-
-class SolidSprite(pygame.sprite.Sprite):
     def __init__(self, *groups, file_name, x, y, anim_state=1):
         super().__init__()
         for group in groups:
@@ -26,7 +14,6 @@ class SolidSprite(pygame.sprite.Sprite):
         self.animations = textures_anim_dict[file_name]
         self.image = textures_anim_dict[file_name][anim_state][0]
         self.rect = self.image.get_rect(topleft=(x, y))
-        self.mask = pygame.mask.from_surface(self.image)
         self.animation_count = 0
 
     def image_update(self, animation_speed=SPRITE_ANIMATION_SPEED / 2):
@@ -37,10 +24,11 @@ class SolidSprite(pygame.sprite.Sprite):
             self.animation_count = 0
 
 
-class PartlyPassableSprite(SolidSprite):
-    def __init__(self, *groups, file_name, x, y, tiling_x=TILE, tiling_y=TILE, anim_state=1):
+class SolidSprite(PassableSprite):
+    def __init__(self, *groups, file_name, x, y, anim_state=1, tiling_x=TILE, tiling_y=TILE, partly_passable=False):
         super().__init__(*groups, file_name=file_name, x=x, y=y, anim_state=anim_state)
-        self.rect = pygame.rect.Rect((x, y), (tiling_x, tiling_y - TILE * 0.8))
+        if partly_passable:
+            self.rect = pygame.rect.Rect((x, y), (tiling_x, tiling_y - TILE * 0.8))
 
 
 textures_anim_dict = {
@@ -67,6 +55,12 @@ textures_anim_dict = {
         -1:
             collections.deque(
                 [pygame.transform.scale(load_image(f'{TEXTURES_PATH}/solid_textures', f'oven/on/{i}.png'), (100, 100)) for i in range(1, 7)]
+            )
+    },
+    'carpet': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/carpet.png'), (400, 250))]
             )
     }
 }

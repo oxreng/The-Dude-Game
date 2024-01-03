@@ -23,8 +23,7 @@ class Player(pygame.sprite.Sprite):
 
         self.last_y = y
         self.direction = pygame.math.Vector2()
-        self._offset_central = pygame.math.Vector2(self.rect.centerx - HALF_SCREEN_WIDTH,
-                                                   self.rect.centery - HALF_SCREEN_HEIGHT)
+        self.center_target()
 
     def _image_update(self):
         self.animation_count += 1
@@ -67,8 +66,8 @@ class Player(pygame.sprite.Sprite):
         self._move(PLAYER_SPEED)
 
     def center_target(self):
-        self._offset_central = pygame.math.Vector2(self.rect.centerx - HALF_SCREEN_WIDTH,
-                                                   self.rect.centery - HALF_SCREEN_HEIGHT)
+        self.rect.center -= pygame.math.Vector2(self.rect.centerx - HALF_SCREEN_WIDTH,
+                                                self.rect.centery - HALF_SCREEN_HEIGHT)
 
     def _process_keyboard(self):
         pressed_keys = pygame.key.get_pressed()

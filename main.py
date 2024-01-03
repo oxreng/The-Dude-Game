@@ -78,10 +78,10 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     self.camera_group.zooming(event.button)
 
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_h]:
-                self.camera_group.center_target_camera(self._player)
-                self._player.center_target()
+            # keys = pygame.key.get_pressed()
+            # if keys[pygame.K_h]:
+                # self.camera_group.center_target_camera(self._player)
+                # self._player.center_target()
 
             pygame.display.set_caption('FPS: ' + str(int(self._clock.get_fps())))
             pygame.display.flip()

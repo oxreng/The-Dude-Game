@@ -1,6 +1,7 @@
 import pygame
 from sprite import player_anim_dict
 from config import *
+from sound import *
 
 
 class Player(pygame.sprite.Sprite):
@@ -45,16 +46,19 @@ class Player(pygame.sprite.Sprite):
         if self.direction.x == 0 and self.direction.y == 0 and not self.attacking:
             self.status = 'standing'
 
-        if self.attacking and self.status != 'standing':
+        if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
-            if 'attack' not in self.status:
+            if self.status == 'standing':
+                self.status = 'down_attack'
+            elif 'attack' not in self.status:
                 self.status += '_attack'
 
     def update(self):
         self._process_keyboard()
         self._get_status()
         self._cooldowns()
+        self._play_sound()
         self._image_update()
         self._move(PLAYER_SPEED)
 
@@ -68,18 +72,22 @@ class Player(pygame.sprite.Sprite):
             pressed_keys = pygame.key.get_pressed()
 
             # Ввод для движения
-            if pressed_keys[pygame.K_w] or pressed_keys[pygame.K_UP]:
+            if (pressed_keys[pygame.K_w] or pressed_keys[pygame.K_UP]) and not (
+                    pressed_keys[pygame.K_s] or pressed_keys[pygame.K_DOWN]):
                 self.direction.y = -1
                 self.status = 'up'
-            elif pressed_keys[pygame.K_s] or pressed_keys[pygame.K_DOWN]:
+            elif (pressed_keys[pygame.K_s] or pressed_keys[pygame.K_DOWN]) and not (
+                    pressed_keys[pygame.K_w] or pressed_keys[pygame.K_UP]):
                 self.direction.y = 1
                 self.status = 'down'
             else:
                 self.direction.y = 0
-            if pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT]:
+            if (pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT]) and not (
+                    pressed_keys[pygame.K_a] or pressed_keys[pygame.K_LEFT]):
                 self.direction.x = 1
                 self.status = 'right'
-            elif pressed_keys[pygame.K_a] or pressed_keys[pygame.K_LEFT]:
+            elif (pressed_keys[pygame.K_a] or pressed_keys[pygame.K_LEFT]) and not (
+                    pressed_keys[pygame.K_d] or pressed_keys[pygame.K_RIGHT]):
                 self.direction.x = -1
                 self.status = 'left'
             else:
@@ -120,3 +128,7 @@ class Player(pygame.sprite.Sprite):
         if self.attacking:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
+
+    def _play_sound(self):
+        if self.direction.x or self.direction.y:
+            SpritesSound.footstep(1)

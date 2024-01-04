@@ -47,7 +47,8 @@ class Game:
         PassableSprite(self.passable_sprites, file_name='carpet', x=100, y=100)
 
         # Создание спрайтов окружения
-        SolidSprite(self.camera_group, self.solid_sprites, file_name='oven', x=40, y=-60, anim_state=-1, partly_passable=True)
+        SolidSprite(self.camera_group, self.solid_sprites, file_name='oven', x=40, y=-60, anim_state=-1,
+                    partly_passable=True)
 
         self.camera_group.center_target_camera(self._player)
         self._running = True
@@ -79,8 +80,8 @@ class Game:
 
             # keys = pygame.key.get_pressed()
             # if keys[pygame.K_h]:
-                # self.camera_group.center_target_camera(self._player)
-                # self._player.center_target()
+            # self.camera_group.center_target_camera(self._player)
+            # self._player.center_target()
 
             pygame.display.set_caption('FPS: ' + str(int(self._clock.get_fps())))
             pygame.display.flip()

@@ -72,4 +72,5 @@ TELLY_FRAMES_COUNT = 2
 # Музыка
 MENU_THEME = 'music/menu.mp3'
 MUSIC_FOLDER = 'Levels_music'
+FOOTSTEP_SOUND = 'sound/playerstep.mp3'
 MUSIC_FILES = [os.path.join(MUSIC_FOLDER, file) for file in listdir(MUSIC_FOLDER) if isfile(join(MUSIC_FOLDER, file))]

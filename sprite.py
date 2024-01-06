@@ -80,9 +80,18 @@ player_anim_dict = {
         'left':
             collections.deque(
                 [load_image(f'{PLAYER_PATH}/normal', f'left_frames/{i}.png', color_key=-1) for i in range(1, 5)]),
-        'standing':
+        'down_idle':
             collections.deque(
-                [load_image(f'{PLAYER_PATH}/normal', f'standing_frames/{i}.png') for i in range(1, 5)]),
+                [load_image(f'{PLAYER_PATH}/normal', f'down_idle_frames/{i}.png') for i in range(1, 5)]),
+        'up_idle':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/normal', f'up_idle_frames/{i}.png') for i in range(1, 5)]),
+        'left_idle':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/normal', f'left_idle_frames/{i}.png') for i in range(1, 5)]),
+        'right_idle':
+            collections.deque(
+                [load_image(f'{PLAYER_PATH}/normal', f'right_idle_frames/{i}.png') for i in range(1, 5)]),
         'left_attack': collections.deque([load_image(f'{PLAYER_PATH}/christmas', f'left_frames/1.png')]),
         'right_attack': collections.deque([load_image(f'{PLAYER_PATH}/christmas', f'right_frames/1.png')]),
         'down_attack': collections.deque([load_image(f'{PLAYER_PATH}/christmas', f'down_frames/1.png')]),

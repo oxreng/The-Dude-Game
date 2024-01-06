@@ -1,3 +1,4 @@
+import collections
 import random
 import pygame
 from config import *
@@ -68,4 +69,10 @@ class SoundEffect:
 class SpritesSound:
     @staticmethod
     def footstep(channel=2):
-        SoundEffect(FOOTSTEP_SOUND).play_sound(channel)
+        current_step = steps_collection[0]
+        steps_collection.rotate(-1)
+        SoundEffect(f'sound/{current_step}.mp3').play_sound(channel)
+
+
+steps_collection = collections.deque(
+            [f'step_{i}' for i in range(1, 4)])

@@ -7,13 +7,13 @@ from sound import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
-                 animations=player_anim_dict['christmas']):
+                 animations=player_anim_dict['normal']):
         super().__init__()
         for group in groups:
             self.add(group)
 
         self.animations = animations.copy()
-        self.image = pygame.transform.scale(self.animations['standing'][0], (TILE, TILE))
+        self.image = pygame.transform.scale(self.animations['down_idle'][0], (TILE, TILE))
         self.rect = self.image.get_rect(center=(x, y))
 
         # Анимации
@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.center_target()
 
     def _image_update(self):
-        animations = self.animations['standing']
+        animations = self.animations[self.status]
 
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animations):
@@ -61,7 +61,7 @@ class Player(pygame.sprite.Sprite):
                     self.status += '_attack'
         else:
             if 'attack' in self.status:
-                self.status.replace('_attack', '')
+                self.status = self.status.replace('_attack', '')
 
     def update(self):
         self._process_keyboard()

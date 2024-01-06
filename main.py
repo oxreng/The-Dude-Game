@@ -45,11 +45,15 @@ class Game:
         SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='down_wall', x=0, y=380)
         SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='inside_wall', x=180, y=-200,
                     tiling_x=40, tiling_y=280, partly_passable=True)
-        PassableSprite(self.passable_sprites, interaction_group, file_name='carpet', x=100, y=100)
+        # SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='inside_wall_2', x=640, y=140,
+        #             partly_passable=True)
 
         # Создание спрайтов окружения
-        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='oven', x=40, y=-60, anim_state=-1,
+        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='oven', x=40, y=-60, anim_state=1,
                     partly_passable=True)
+        PassableSprite(self.passable_sprites, interaction_group, file_name='carpet', x=100, y=100)
+        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='wardrobe', x=720, y=-150,
+                    tiling_x=60, tiling_y=200, anim_state=1, partly_passable=True)
 
         self.camera_group.center_target_camera(self._player)
         self._running = True

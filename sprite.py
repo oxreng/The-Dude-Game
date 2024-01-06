@@ -49,6 +49,10 @@ textures_anim_dict = {
         1: collections.deque(
             [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/inside_wall.png'), (40, 280))])
     },
+    # 'inside_wall_2': {
+    #     1: collections.deque(
+    #         [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/inside_wall_2.png'), (160, 120))])
+    # },
     'oven': {
         1:
             collections.deque(
@@ -57,6 +61,10 @@ textures_anim_dict = {
             collections.deque(
                 [pygame.transform.scale(load_image(f'{TEXTURES_PATH}/solid_textures', f'oven/on/{i}.png'), (100, 100)) for i in range(1, 7)]
             )
+    },
+    'wardrobe': {
+        1: collections.deque(
+            [pygame.transform.scale(load_image(TEXTURES_PATH, 'solid_textures/wardrobe/wardrobe.png'), (60, 200))])
     },
     'carpet': {
         1:

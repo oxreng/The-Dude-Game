@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
         # Анимации
         self.animation_speed = PLAYER_ANIMATION_SPEED
         self.frame_index = 0
-        self.status = 'standing'
+        self.status = 'down_idle'
         self.attacking = False
         self.interacting = False
         self.attack_cooldown = PLAYER_ATTACK_COOLDOWN
@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.center_target()
 
     def _image_update(self):
-        animations = self.animations[self.status]
+        animations = self.animations['standing']
 
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animations):
@@ -48,15 +48,20 @@ class Player(pygame.sprite.Sprite):
 
     def _get_status(self):
         if self.direction.x == 0 and self.direction.y == 0 and not self.attacking:
-            self.status = 'standing'
+            if 'idle' not in self.status and 'attack' not in self.status:
+                self.status += '_idle'
 
         if self.attacking:
             self.direction.x = 0
             self.direction.y = 0
-            if self.status == 'standing':
-                self.status = 'down_attack'
-            elif 'attack' not in self.status:
-                self.status += '_attack'
+            if 'attack' not in self.status:
+                if 'idle' in self.status:
+                    self.status = self.status.replace('_idle', '_attack')
+                else:
+                    self.status += '_attack'
+        else:
+            if 'attack' in self.status:
+                self.status.replace('_attack', '')
 
     def update(self):
         self._process_keyboard()

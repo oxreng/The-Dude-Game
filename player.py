@@ -1,5 +1,6 @@
 import pygame
 from sprite import player_anim_dict
+from interactions import player_interaction
 from config import *
 from sound import *
 
@@ -20,8 +21,11 @@ class Player(pygame.sprite.Sprite):
         self.frame_index = 0
         self.status = 'standing'
         self.attacking = False
+        self.interacting = False
         self.attack_cooldown = PLAYER_ATTACK_COOLDOWN
+        self.interact_cooldown = PLAYER_INTERACTION_COOLDOWN
         self.attack_time = 0
+        self.interact_time = 0
 
         self.solid_sprites = solid_sprites
 
@@ -93,6 +97,11 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.direction.x = 0
 
+            if pressed_keys[pygame.K_e] and not self.interacting:
+                self.interact_time = pygame.time.get_ticks()
+                self.interacting = True
+                player_interaction(self)
+
             # Ввод для атаки
             if pressed_keys[pygame.K_SPACE] and not self.attacking:
                 self.attack_time = pygame.time.get_ticks()
@@ -128,6 +137,9 @@ class Player(pygame.sprite.Sprite):
         if self.attacking:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
+        if self.interacting:
+            if current_time - self.interact_time >= self.interact_cooldown:
+                self.interacting = False
 
     def _play_sound(self):
         if self.direction.x or self.direction.y:

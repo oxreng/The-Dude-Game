@@ -65,6 +65,7 @@ FPS = 60
 PLAYER_SPEED = 8
 PLAYER_ANIMATION_SPEED = 0.1
 PLAYER_ATTACK_COOLDOWN = 400
+PLAYER_INTERACTION_COOLDOWN = 500
 
 # Настройки анимаций
 TELLY_FRAMES_COUNT = 2
@@ -74,3 +75,9 @@ MENU_THEME = 'music/menu.mp3'
 MUSIC_FOLDER = 'Levels_music'
 FOOTSTEP_SOUND = 'sound/playerstep.mp3'
 MUSIC_FILES = [os.path.join(MUSIC_FOLDER, file) for file in listdir(MUSIC_FOLDER) if isfile(join(MUSIC_FOLDER, file))]
+
+# Подсказки
+hint_text = {
+    'door': 'Press  E  to  open',
+    'oven': 'Press  E  to  interact'
+}

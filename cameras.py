@@ -1,7 +1,7 @@
 import pygame
 from config import *
 from load_image import load_image
-from sprite import collide_areas, hint_text
+from interactions import collide_areas
 
 
 class CameraGroup(pygame.sprite.Group):
@@ -102,12 +102,12 @@ class CameraGroup(pygame.sprite.Group):
             self._internal_surface.blit(sprite.image, offset_pos)
 
         # Отрисовка pop-up подсказок
-        for obj, obj_rect in collide_areas.items():
-            if obj_rect.colliderect(player.rect):
+        for obj  in collide_areas:
+            if obj.rect.colliderect(player.rect):
                 font = pygame.font.Font('font.ttf', 25)
-                text = font.render(hint_text[obj], True, WHITE)
-                text_pos_x = (obj_rect.topleft - self._offset + self._internal_offset + self._offset_central)[0] - (text.get_width() - obj_rect.width) / 2
-                text_pos_y = (obj_rect.topleft - self._offset + self._internal_offset + self._offset_central)[1] - text.get_size()[1] - 10
+                text = font.render(hint_text[obj.name], True, WHITE)
+                text_pos_x = (obj.rect.topleft - self._offset + self._internal_offset + self._offset_central)[0] - (text.get_width() - obj.rect.width) / 2
+                text_pos_y = (obj.rect.topleft - self._offset + self._internal_offset + self._offset_central)[1] - text.get_size()[1] - 10
                 self._internal_surface.blit(text, (text_pos_x, text_pos_y))
 
         scaled_surf = pygame.transform.scale(self._internal_surface,

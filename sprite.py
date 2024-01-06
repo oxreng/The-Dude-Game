@@ -15,6 +15,7 @@ class PassableSprite(pygame.sprite.Sprite):
         self.image = textures_anim_dict[file_name][anim_state][0]
         self.rect = self.image.get_rect(topleft=(x, y))
         self.animation_count = 0
+        self.name = file_name
 
     def image_update(self, animation_speed=SPRITE_ANIMATION_SPEED / 2):
         self.animation_count += 1
@@ -110,15 +111,6 @@ player_anim_dict = {
     }
 }
 
-collide_areas = {
-    'door': pygame.Rect((320, -140,), (80, 140)),
-    'oven': pygame.Rect((40, -60), (100, 100))
-}
-
-hint_text = {
-    'door': 'Press  E  to  open',
-    'oven': 'Press  E  to  interact'
-}
 
 # def sprites_update(sprites, player):
 #     for sprite in sprites:

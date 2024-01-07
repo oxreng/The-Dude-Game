@@ -7,12 +7,13 @@ from sound import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
-                 animations=player_anim_dict['normal']):
+                 animations='normal'):
         super().__init__()
         for group in groups:
             self.add(group)
 
-        self.animations = animations.copy()
+        self.animations_state = animations
+        self.animations = player_anim_dict[self.animations_state]
         self.image = pygame.transform.scale(self.animations['down_idle'][0], (TILE, TILE))
         self.rect = self.image.get_rect(center=(x, y))
 
@@ -149,3 +150,10 @@ class Player(pygame.sprite.Sprite):
     def _play_sound(self):
         if self.direction.x or self.direction.y:
             SpritesSound.footstep(1)
+
+    def change_animation_state(self):
+        if self.animations_state == 'normal':
+            self.animations_state = 'christmas'
+        else:
+            self.animations_state = 'normal'
+        self.animations = player_anim_dict[self.animations_state]

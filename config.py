@@ -75,5 +75,6 @@ MUSIC_FILES = [os.path.join(MUSIC_FOLDER, file) for file in listdir(MUSIC_FOLDER
 # Подсказки
 hint_text = {
     'door': 'Press  E  to  open',
-    'oven': 'Press  E  to  interact'
+    'oven': 'Press  E  to  interact',
+    'wardrobe': 'Press  E  to  get  changed'
 }

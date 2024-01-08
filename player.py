@@ -7,7 +7,7 @@ from sound import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
-                 animations=player_anim_dict['normal'], hp=PLAYER_STAT_HP, attack=PLAYER_STAT_ATTACK,
+                 animations='normal', hp=PLAYER_STAT_HP, attack=PLAYER_STAT_ATTACK,
                  speed=PLAYER_SPEED):
         super().__init__()
         for group in groups:

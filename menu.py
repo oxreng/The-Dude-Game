@@ -6,8 +6,8 @@ from load_image import load_image
 
 pygame.init()
 background = load_image(TEXTURES_PATH, MENU_BACKGROUND, color_key=None)
-button_font = pygame.font.Font(FONT, BUTTON_FONT_SIZE)
-logo_font = pygame.font.Font(FONT, LOGO_FONT_SIZE)
+button_font = pygame.font.Font(MENU_FONT, BUTTON_FONT_SIZE)
+logo_font = pygame.font.Font(MENU_FONT, LOGO_FONT_SIZE)
 
 
 def button(screen, name, color, rect_pos, width, height, font):

@@ -7,7 +7,8 @@ from sound import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
-                 animations=player_anim_dict['normal']):
+                 animations=player_anim_dict['normal'], hp=PLAYER_STAT_HP, attack=PLAYER_STAT_ATTACK,
+                 speed=PLAYER_SPEED):
         super().__init__()
         for group in groups:
             self.add(group)
@@ -27,10 +28,17 @@ class Player(pygame.sprite.Sprite):
         self.attack_time = 0
         self.interact_time = 0
 
+        # Спрайты, через которые мы не проходим
         self.solid_sprites = solid_sprites
 
         # Движение
         self.direction = pygame.math.Vector2()
+
+        # Статистика
+        self.stats = {'health': hp, 'attack': attack, 'speed': speed}
+        self.health = self.stats['health']
+        self.money = 123
+        self.speed = self.stats['speed']
 
         # Центровка игрока
         self._central_offset = None
@@ -69,12 +77,13 @@ class Player(pygame.sprite.Sprite):
         self._cooldowns()
         self._play_sound()
         self._image_update()
-        self._move(PLAYER_SPEED)
+        self._move(self.speed)
 
     def center_target(self):
-        self._central_offset = pygame.math.Vector2(self.rect.centerx - HALF_SCREEN_WIDTH,
-                                                   self.rect.centery - HALF_SCREEN_HEIGHT)
-        self.rect.center -= self._central_offset
+        # self._central_offset = pygame.math.Vector2(self.rect.centerx - HALF_SCREEN_WIDTH,
+        # self.rect.centery - HALF_SCREEN_HEIGHT)
+        # self.rect.center -= self._central_offset
+        pass
 
     def _process_keyboard(self):
         if not self.attacking:
@@ -111,7 +120,6 @@ class Player(pygame.sprite.Sprite):
             if pressed_keys[pygame.K_SPACE] and not self.attacking:
                 self.attack_time = pygame.time.get_ticks()
                 self.attacking = True
-                print('ATTACK')
 
     def _move(self, speed):
         if self.direction.magnitude() != 0:

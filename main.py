@@ -7,6 +7,7 @@ from sprite import *
 from interactions import interaction_group
 from cameras import *
 from debug import debug
+from level import Level
 
 
 class Game:
@@ -18,6 +19,7 @@ class Game:
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
         self._menu = MainMenu(self._screen, self._clock)
+        self._level = Level()
 
     def run(self):
         self._pre_init()
@@ -29,33 +31,6 @@ class Game:
         self._finish()
 
     def _init(self):
-        self.solid_sprites = pygame.sprite.Group()
-        self.passable_sprites = pygame.sprite.Group()
-        self.player_group = pygame.sprite.GroupSingle()
-        self.camera_group = CameraGroup()
-        # self.sprites = create_sprites(self._menu.chosen_level)
-        self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH, y=HALF_SCREEN_HEIGHT,
-                              solid_sprites=self.solid_sprites)
-
-        # Создание спрайтов карты
-        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='back_wall', x=0, y=-200,
-                    tiling_x=800, tiling_y=200, partly_passable=True)
-        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='side_wall', x=-40, y=-200)
-        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='side_wall', x=800, y=-200)
-        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='down_wall', x=0, y=380)
-        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='inside_wall', x=180, y=-200,
-                    tiling_x=40, tiling_y=280, partly_passable=True)
-        # SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='inside_wall_2', x=640, y=140,
-        #             partly_passable=True)
-
-        # Создание спрайтов окружения
-        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='oven', x=40, y=-60, anim_state=1,
-                    partly_passable=True)
-        PassableSprite(self.passable_sprites, interaction_group, file_name='carpet', x=100, y=100)
-        SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='wardrobe', x=720, y=-150,
-                    tiling_x=60, tiling_y=200, anim_state=1, partly_passable=True)
-
-        self.camera_group.center_target_camera(self._player)
         self._running = True
         pygame.init()
 
@@ -63,15 +38,10 @@ class Game:
         pygame.display.set_caption(self._caption)
         pygame.mouse.set_visible(True)
 
-    def _render(self):
-        self.camera_group.custom_draw(self.passable_sprites, player=self._player)
-        debug(self._player.status)
-
     def _update(self):
         while self._running:
             self._screen.fill(BLACK)
-            self._player.update()
-            self._render()
+            self._level.show()
             self._clock.tick(FPS)
 
             for event in pygame.event.get():
@@ -81,7 +51,7 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         self.run()
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.camera_group.zooming(event.button)
+                    self._level.zoom_cam(event.button)
 
             # keys = pygame.key.get_pressed()
             # if keys[pygame.K_h]:

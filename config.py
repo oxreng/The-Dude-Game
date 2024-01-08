@@ -3,9 +3,7 @@ import os.path
 from os import listdir
 from os.path import isfile, join
 
-import pygame
-
-SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (1200, 600)
+SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (1600, 900)
 HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT = SCREEN_WIDTH >> 1, SCREEN_HEIGHT >> 1
 WINDOW_NAME = 'GAME'
 
@@ -22,10 +20,16 @@ WHITE = 'White'
 BRICK = (139, 79, 57)
 ANTHRACITE = (45, 45, 45)
 BLUE = 'Blue'
+WATER_COLOR = '#71ddee'
+UI_BG_COLOR = '#222222'
+UI_BORDER_COLOR = '#111111'
+UI_TEXT_COLOR = '#EEEEEE'
+UI_HEALTH_COLOR = RED
+UI_BORDER_COLOR_ACTIVE = 'gold'
 
 # Настройки меню
 MENU_FPS = 30
-FONT = 'font.ttf'
+MENU_FONT = 'fonts/font.ttf'
 BUTTON_FONT_SIZE = 75
 LOGO_FONT_SIZE = 250
 MENU_BACKGROUND = 'StartWindow.jpg'
@@ -47,18 +51,20 @@ PLAYER_TEXTURES_PATH = 'TextureSprite/player'
 SPRITE_ANIMATION_SPEED = 25
 
 # Настройки камеры
-BOX_LEFT = 300
+BOX_LEFT = 450
 BOX_RIGHT = BOX_LEFT
-BOX_TOP = 200
+BOX_TOP = 300
 BOX_BOTTOM = BOX_TOP
-BOX_LEFT_ZOOM = 50
-BOX_LEFT_MIN = -BOX_LEFT_ZOOM * 3
-BOX_TOP_ZOOM = 50
-BOX_TOP_MIN = -BOX_TOP_ZOOM * 3
+BOX_LEFT_ZOOM = 150
+BOX_LEFT_MIN = BOX_LEFT - 2 * BOX_LEFT_ZOOM
+BOX_TOP_ZOOM = 100
+BOX_TOP_MIN = BOX_TOP - 2 * BOX_TOP_ZOOM
 BOX_RIGHT_ZOOM = BOX_LEFT_ZOOM
-BOX_RIGHT_MIN = -BOX_RIGHT_ZOOM * 3
+BOX_RIGHT_MIN = BOX_RIGHT - 2 * BOX_RIGHT_ZOOM
 BOX_BOTTOM_ZOOM = BOX_TOP_ZOOM
-BOX_BOTTOM_MIN = -BOX_BOTTOM_ZOOM * 3
+BOX_BOTTOM_MIN = BOX_BOTTOM - 2 * BOX_BOTTOM_ZOOM
+MIN_ZOOM = 0.9
+MAX_ZOOM = 0.7
 
 # Настройки игрока
 FPS = 60
@@ -66,6 +72,24 @@ PLAYER_SPEED = 8
 PLAYER_ANIMATION_SPEED = 0.1
 PLAYER_ATTACK_COOLDOWN = 400
 PLAYER_INTERACTION_COOLDOWN = 500
+PLAYER_STAT_HP = 100
+PLAYER_STAT_ATTACK = 60
+
+# UI
+UI_BAR_HEIGHT = 20
+UI_HEALTH_BAR_WIDTH = 200
+UI_HEALTH_BAR_COORDS = (10, 10)
+UI_FONT = 'fonts/joystix.ttf'
+UI_FONT_SIZE = 18
+
+# Настройки врагов
+monster_data = {
+    'squid': {'health': 100, 'exp': 100, 'damage': 20, 'attack_type': 'slash', 'attack_sound': 'slash', 'speed': 3,
+              'resistance': 3, 'attack_radius': 80, 'notice_radius': 360}
+}
+
+# Настройки анимаций
+TELLY_FRAMES_COUNT = 2
 
 # Музыка
 MENU_THEME = 'music/menu.mp3'

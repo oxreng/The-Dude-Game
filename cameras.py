@@ -14,8 +14,8 @@ class CameraGroup(pygame.sprite.Group):
         # camera offset
         self._offset = pygame.math.Vector2()
         # camera zoom
-        self._zoom_scale = 0.8
-        self._internal_surface_size = (2400, 1200)
+        self._zoom_scale = MIN_ZOOM
+        self._internal_surface_size = (2300, 1300)
         self._internal_surface = pygame.Surface(self._internal_surface_size, pygame.SRCALPHA)
         self._internal_rect = self._internal_surface.get_rect(center=(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT))
         self._internal_surface_size_vector = pygame.math.Vector2(self._internal_surface_size)
@@ -32,7 +32,8 @@ class CameraGroup(pygame.sprite.Group):
         self._camera_rect = pygame.Rect(left, top, w, h)
 
         # Для фона
-        self._ground_surf = pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/floor.png', color_key=None), (800, 400))
+        self._ground_surf = pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/floor.png', color_key=None),
+                                                   (800, 400))
         self._ground_rect = self._ground_surf.get_rect(topleft=(0, 0))
 
     def center_target_camera(self, target):
@@ -64,15 +65,15 @@ class CameraGroup(pygame.sprite.Group):
 
     def _zoom_keyboard_control(self, mouse):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_z] and mouse == 4:
-            self._zoom_scale = min(0.8, self._zoom_scale + 0.1)
+        if keys[pygame.K_z] and mouse == 4 and round(self._zoom_scale, 1) != MIN_ZOOM:
+            self._zoom_scale = self._zoom_scale + 0.1
             self._camera_borders['left'] = min(self._camera_borders['left'] + BOX_LEFT_ZOOM, BOX_LEFT)
             self._camera_borders['top'] = min(self._camera_borders['top'] + BOX_TOP_ZOOM, BOX_TOP)
             self._camera_borders['right'] = min(self._camera_borders['right'] + BOX_RIGHT_ZOOM, BOX_RIGHT)
             self._camera_borders['bottom'] = min(self._camera_borders['bottom'] + BOX_BOTTOM_ZOOM, BOX_BOTTOM)
             return True
-        if keys[pygame.K_z] and mouse == 5:
-            self._zoom_scale = max(0.5, self._zoom_scale - 0.1)
+        if keys[pygame.K_z] and mouse == 5 and round(self._zoom_scale, 1) != MAX_ZOOM:
+            self._zoom_scale = self._zoom_scale - 0.1
             self._camera_borders['left'] = max(self._camera_borders['left'] - BOX_LEFT_ZOOM, BOX_LEFT_MIN)
             self._camera_borders['top'] = max(self._camera_borders['top'] - BOX_TOP_ZOOM, BOX_TOP_MIN)
             self._camera_borders['right'] = max(self._camera_borders['right'] - BOX_RIGHT_ZOOM, BOX_RIGHT_MIN)
@@ -102,12 +103,14 @@ class CameraGroup(pygame.sprite.Group):
             self._internal_surface.blit(sprite.image, offset_pos)
 
         # Отрисовка pop-up подсказок
-        for obj  in collide_areas:
+        for obj in collide_areas:
             if obj.rect.colliderect(player.rect):
-                font = pygame.font.Font('font.ttf', 25)
+                font = pygame.font.Font('fonts/font.ttf', 25)
                 text = font.render(hint_text[obj.name], True, WHITE)
-                text_pos_x = (obj.rect.topleft - self._offset + self._internal_offset + self._offset_central)[0] - (text.get_width() - obj.rect.width) / 2
-                text_pos_y = (obj.rect.topleft - self._offset + self._internal_offset + self._offset_central)[1] - text.get_size()[1] - 10
+                text_pos_x = (obj.rect.topleft - self._offset + self._internal_offset + self._offset_central)[0] - (
+                        text.get_width() - obj.rect.width) / 2
+                text_pos_y = (obj.rect.topleft - self._offset + self._internal_offset + self._offset_central)[1] - \
+                             text.get_size()[1] - 10
                 self._internal_surface.blit(text, (text_pos_x, text_pos_y))
 
         scaled_surf = pygame.transform.scale(self._internal_surface,

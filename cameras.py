@@ -67,17 +67,17 @@ class CameraGroup(pygame.sprite.Group):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_z] and mouse == 4 and round(self._zoom_scale, 1) != MIN_ZOOM:
             self._zoom_scale = self._zoom_scale + 0.1
-            self._camera_borders['left'] = min(self._camera_borders['left'] + BOX_LEFT_ZOOM, BOX_LEFT)
-            self._camera_borders['top'] = min(self._camera_borders['top'] + BOX_TOP_ZOOM, BOX_TOP)
-            self._camera_borders['right'] = min(self._camera_borders['right'] + BOX_RIGHT_ZOOM, BOX_RIGHT)
-            self._camera_borders['bottom'] = min(self._camera_borders['bottom'] + BOX_BOTTOM_ZOOM, BOX_BOTTOM)
+            self._camera_borders['left'] = self._camera_borders['left'] + BOX_LEFT_ZOOM
+            self._camera_borders['top'] = self._camera_borders['top'] + BOX_TOP_ZOOM
+            self._camera_borders['right'] = self._camera_borders['right'] + BOX_RIGHT_ZOOM
+            self._camera_borders['bottom'] = self._camera_borders['bottom'] + BOX_BOTTOM_ZOOM
             return True
         if keys[pygame.K_z] and mouse == 5 and round(self._zoom_scale, 1) != MAX_ZOOM:
             self._zoom_scale = self._zoom_scale - 0.1
-            self._camera_borders['left'] = max(self._camera_borders['left'] - BOX_LEFT_ZOOM, BOX_LEFT_MIN)
-            self._camera_borders['top'] = max(self._camera_borders['top'] - BOX_TOP_ZOOM, BOX_TOP_MIN)
-            self._camera_borders['right'] = max(self._camera_borders['right'] - BOX_RIGHT_ZOOM, BOX_RIGHT_MIN)
-            self._camera_borders['bottom'] = max(self._camera_borders['bottom'] - BOX_BOTTOM_ZOOM, BOX_BOTTOM_MIN)
+            self._camera_borders['left'] = self._camera_borders['left'] - BOX_LEFT_ZOOM
+            self._camera_borders['top'] = self._camera_borders['top'] - BOX_TOP_ZOOM
+            self._camera_borders['right'] = self._camera_borders['right'] - BOX_RIGHT_ZOOM
+            self._camera_borders['bottom'] = self._camera_borders['bottom'] - BOX_BOTTOM_ZOOM
             return True
         return False
 

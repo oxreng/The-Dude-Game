@@ -1,0 +1,9 @@
+name;type;partly_passable;tiling_x;tiling_y;x;y
+back_wall;solid;1;800;200;0;-200
+side_wall;solid;0;40;680;-40;-200
+side_wall;solid;0;40;680;800;-200
+down_wall;solid;0;800;100;0;380
+inside_wall;solid;1;40;280;180;-200
+oven;solid;1;100;100;40;-60
+carpet;passable;0;400;250;100;100
+wardrobe;solid;1;60;200;720;-150

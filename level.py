@@ -7,6 +7,7 @@ from cameras import *
 from debug import debug
 from ui import UI
 from enemy import Enemy
+import csv
 
 
 class Level:
@@ -21,34 +22,29 @@ class Level:
         # Создаём UI пользователю
         self.ui = UI()
 
-    def change_level(self, level='start'):
+    def change_level(self, level_name='level_1'):
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
         self.player_group = pygame.sprite.GroupSingle()
         self.camera_group = CameraGroup()
-        if level == 'start':
-            # Создание спрайтов карты
-            SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='back_wall', x=0, y=-200,
-                        tiling_x=800, tiling_y=200, partly_passable=True)
-            SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='side_wall', x=-40, y=-200)
-            SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='side_wall', x=800, y=-200)
-            # SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='down_wall', x=0, y=380)
-            SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='inside_wall', x=180,
-                        y=-200,
-                        tiling_x=40, tiling_y=280, partly_passable=True)
+        with open(f'{TEXTURES_PATH}/level_csv/{level_name}.csv') as level_file:
+            reader = csv.DictReader(level_file, delimiter=';', quotechar='"')
+            for item in reader:
+                print(item)
+                if item['type'] == 'passable':
+                    PassableSprite(self.passable_sprites, interaction_group,
+                                   file_name=item['name'], x=int(item['x']), y=int(item['y']))
+                else:
+                    SolidSprite(self.solid_sprites, self.camera_group, interaction_group,
+                                file_name=item['name'], x=int(item['x']), y=int(item['y']),
+                                tiling_x=int(item['tiling_x']), tiling_y=int(item['tiling_y']),
+                                partly_passable=(False if item['partly_passable'] == '0' else True))
 
-            # Создание спрайтов окружения
-            SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='oven', x=40, y=-60,
-                        anim_state=1,
-                        partly_passable=True)
-            PassableSprite(self.passable_sprites, interaction_group, file_name='carpet', x=100, y=100)
-            SolidSprite(self.camera_group, self.solid_sprites, interaction_group, file_name='wardrobe', x=720, y=-150,
-                        tiling_x=60, tiling_y=200, anim_state=1, partly_passable=True)
-            Enemy(self.camera_group, monster_name='normal', x=300, y=300,
-                  solid_sprites=self.solid_sprites)
-            self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
-                                  y=HALF_SCREEN_HEIGHT - 200,
-                                  solid_sprites=self.solid_sprites)
+        Enemy(self.camera_group, monster_name='normal', x=300, y=300,
+              solid_sprites=self.solid_sprites)
+        self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
+                              y=HALF_SCREEN_HEIGHT - 200,
+                              solid_sprites=self.solid_sprites)
         # self.camera_group.center_target_camera(self._player)
 
     def show(self):

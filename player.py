@@ -1,39 +1,32 @@
 import pygame
-from sprite import player_anim_dict
+from sprite import player_anim_dict, Entity
 from interactions import player_interaction
 from config import *
 from sound import *
 
 
-class Player(pygame.sprite.Sprite):
+class Player(Entity):
     def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
                  animations='normal', hp=PLAYER_STAT_HP, attack=PLAYER_STAT_ATTACK,
                  speed=PLAYER_SPEED):
-        super().__init__()
-        for group in groups:
-            self.add(group)
-
-        self.animations_state = animations
-        self.animations = player_anim_dict[self.animations_state]
-        self.image = pygame.transform.scale(self.animations['down_idle'][0], (TILE, TILE))
-        self.rect = self.image.get_rect(center=(x, y))
+        super().__init__(groups)
 
         # Анимации
-        self.animation_speed = PLAYER_ANIMATION_SPEED
-        self.frame_index = 0
         self.status = 'down_idle'
+        self.animations_state = animations
+        self.animations = player_anim_dict[self.animations_state]
+        self.image = pygame.transform.scale(self.animations[self.status][self.frame_index], (TILE, TILE))
+        self.rect = self.image.get_rect(center=(x, y))
         self.attacking = False
         self.interacting = False
         self.attack_cooldown = PLAYER_ATTACK_COOLDOWN
         self.interact_cooldown = PLAYER_INTERACTION_COOLDOWN
         self.attack_time = 0
         self.interact_time = 0
+        self.hitbox = self.rect.inflate((-20, 0))
 
         # Спрайты, через которые мы не проходим
         self.solid_sprites = solid_sprites
-
-        # Движение
-        self.direction = pygame.math.Vector2()
 
         # Статистика
         self.stats = {'health': hp, 'attack': attack, 'speed': speed}
@@ -78,7 +71,7 @@ class Player(pygame.sprite.Sprite):
         self._cooldowns()
         self._play_sound()
         self._image_update()
-        self._move(self.speed)
+        self.move(self.speed)
 
     def center_target(self):
         # self._central_offset = pygame.math.Vector2(self.rect.centerx - HALF_SCREEN_WIDTH,
@@ -121,30 +114,6 @@ class Player(pygame.sprite.Sprite):
             if pressed_keys[pygame.K_SPACE] and not self.attacking:
                 self.attack_time = pygame.time.get_ticks()
                 self.attacking = True
-
-    def _move(self, speed):
-        if self.direction.magnitude() != 0:
-            self.direction = self.direction.normalize()
-        self.rect.x += self.direction.x * speed
-        self._collision('horizontal')
-        self.rect.y += self.direction.y * speed
-        self._collision('vertical')
-
-    def _collision(self, direction):
-        if direction == 'horizontal':
-            for sprite in self.solid_sprites:
-                if sprite.rect.colliderect(self.rect):
-                    if self.direction.x > 0:
-                        self.rect.right = sprite.rect.left
-                    if self.direction.x < 0:
-                        self.rect.left = sprite.rect.right
-        if direction == 'vertical':
-            for sprite in self.solid_sprites:
-                if sprite.rect.colliderect(self.rect):
-                    if self.direction.y > 0:
-                        self.rect.bottom = sprite.rect.top
-                    if self.direction.y < 0:
-                        self.rect.top = sprite.rect.bottom
 
     def _cooldowns(self):
         current_time = pygame.time.get_ticks()

@@ -7,15 +7,17 @@ from config import *
 
 class PassableSprite(pygame.sprite.Sprite):
     def __init__(self, *groups, file_name, x, y, anim_state=1):
-        super().__init__()
-        for group in groups:
-            self.add(group)
+        super().__init__(*groups)
         self.animation_state = anim_state
         self.animations = textures_anim_dict[file_name]
         self.image = textures_anim_dict[file_name][anim_state][0]
         self.rect = self.image.get_rect(topleft=(x, y))
+        self.hitbox = self.rect.copy()
         self.animation_count = 0
         self.name = file_name
+
+    def update(self):
+        self.image_update()
 
     def image_update(self, animation_speed=SPRITE_ANIMATION_SPEED / 2):
         self.animation_count += 1
@@ -29,7 +31,41 @@ class SolidSprite(PassableSprite):
     def __init__(self, *groups, file_name, x, y, anim_state=1, tiling_x=TILE, tiling_y=TILE, partly_passable=False):
         super().__init__(*groups, file_name=file_name, x=x, y=y, anim_state=anim_state)
         if partly_passable:
-            self.rect = pygame.rect.Rect((x, y), (tiling_x, tiling_y - TILE * 0.8))
+            self.hitbox = pygame.rect.Rect((x, y), (tiling_x, tiling_y - TILE * 0.8))
+
+
+class Entity(pygame.sprite.Sprite):
+    def __init__(self, groups, speed=PLAYER_ANIMATION_SPEED):
+        super().__init__(*groups)
+        # Движение
+        self.direction = pygame.math.Vector2()
+        self.animation_speed = speed
+        self.frame_index = 0
+
+    def move(self, speed):
+        if self.direction.magnitude() != 0:
+            self.direction = self.direction.normalize()
+        self.hitbox.x += self.direction.x * speed
+        self.collision('horizontal')
+        self.hitbox.y += self.direction.y * speed
+        self.collision('vertical')
+        self.rect.center = self.hitbox.center
+
+    def collision(self, direction):
+        if direction == 'horizontal':
+            for sprite in self.solid_sprites:
+                if sprite.hitbox.colliderect(self.hitbox):
+                    if self.direction.x > 0:
+                        self.hitbox.right = sprite.hitbox.left
+                    if self.direction.x < 0:
+                        self.hitbox.left = sprite.hitbox.right
+        if direction == 'vertical':
+            for sprite in self.solid_sprites:
+                if sprite.hitbox.colliderect(self.hitbox):
+                    if self.direction.y > 0:
+                        self.hitbox.bottom = sprite.hitbox.top
+                    if self.direction.y < 0:
+                        self.hitbox.top = sprite.hitbox.bottom
 
 
 textures_anim_dict = {

@@ -3,7 +3,9 @@ import os.path
 from os import listdir
 from os.path import isfile, join
 
-SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (1600, 900)
+import pygame
+
+SCREEN_SIZE = SCREEN_WIDTH, SCREEN_HEIGHT = (1200, 600)
 HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT = SCREEN_WIDTH >> 1, SCREEN_HEIGHT >> 1
 WINDOW_NAME = 'GAME'
 
@@ -51,20 +53,20 @@ PLAYER_TEXTURES_PATH = 'TextureSprite/player'
 SPRITE_ANIMATION_SPEED = 25
 
 # Настройки камеры
-BOX_LEFT = 450
+BOX_LEFT = 200
 BOX_RIGHT = BOX_LEFT
-BOX_TOP = 300
+BOX_TOP = 150
 BOX_BOTTOM = BOX_TOP
-BOX_LEFT_ZOOM = 150
+BOX_LEFT_ZOOM = 100
 BOX_LEFT_MIN = BOX_LEFT - 2 * BOX_LEFT_ZOOM
-BOX_TOP_ZOOM = 100
+BOX_TOP_ZOOM = 50
 BOX_TOP_MIN = BOX_TOP - 2 * BOX_TOP_ZOOM
 BOX_RIGHT_ZOOM = BOX_LEFT_ZOOM
 BOX_RIGHT_MIN = BOX_RIGHT - 2 * BOX_RIGHT_ZOOM
 BOX_BOTTOM_ZOOM = BOX_TOP_ZOOM
 BOX_BOTTOM_MIN = BOX_BOTTOM - 2 * BOX_BOTTOM_ZOOM
-MIN_ZOOM = 0.9
-MAX_ZOOM = 0.7
+MIN_ZOOM = 1
+MAX_ZOOM = 0.8
 
 # Настройки игрока
 FPS = 60
@@ -84,7 +86,7 @@ UI_FONT_SIZE = 18
 
 # Настройки врагов
 monster_data = {
-    'squid': {'health': 100, 'exp': 100, 'damage': 20, 'attack_type': 'slash', 'attack_sound': 'slash', 'speed': 3,
+    'skeleton': {'health': 100, 'money': 100, 'damage': 20, 'attack_type': 'slash', 'attack_sound': 'slash', 'speed': 3,
               'resistance': 3, 'attack_radius': 80, 'notice_radius': 360}
 }
 

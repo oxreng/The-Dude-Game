@@ -2,6 +2,7 @@ import pygame
 from config import *
 from load_image import load_image
 from interactions import collide_areas
+from enemy import Enemy
 
 
 class CameraGroup(pygame.sprite.Group):
@@ -15,7 +16,7 @@ class CameraGroup(pygame.sprite.Group):
         self._offset = pygame.math.Vector2()
         # camera zoom
         self._zoom_scale = MIN_ZOOM
-        self._internal_surface_size = (2300, 1300)
+        self._internal_surface_size = (1500, 750)
         self._internal_surface = pygame.Surface(self._internal_surface_size, pygame.SRCALPHA)
         self._internal_rect = self._internal_surface.get_rect(center=(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT))
         self._internal_surface_size_vector = pygame.math.Vector2(self._internal_surface_size)
@@ -81,9 +82,14 @@ class CameraGroup(pygame.sprite.Group):
             return True
         return False
 
+    def enemy_update(self, player):
+        for enemy in [sprite for sprite in self.sprites() if isinstance(sprite, Enemy)]:
+            enemy.enemy_update(player)
+
     def custom_draw(self, *groups, player):
         # Меняем координаты всем объектам
         self.box_target_camera(player)
+        self.enemy_update(player)
 
         # Делаем зум
         self._internal_surface.fill(BLACK)
@@ -97,7 +103,6 @@ class CameraGroup(pygame.sprite.Group):
                 sprite: sprite.rect.centery):
             if sprite != player:
                 offset_pos = sprite.rect.topleft - self._offset + self._internal_offset + self._offset_central
-                sprite.image_update()
             else:
                 offset_pos = sprite.rect.topleft - self._offset + self._internal_offset
             self._internal_surface.blit(sprite.image, offset_pos)

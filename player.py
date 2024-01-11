@@ -1,6 +1,5 @@
 import pygame
 from sprite import player_anim_dict, Entity
-from interactions import player_interaction
 from config import *
 from sound import *
 
@@ -8,7 +7,7 @@ from sound import *
 class Player(Entity):
     def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
                  animations='normal', hp=PLAYER_STAT_HP, attack=PLAYER_STAT_ATTACK,
-                 speed=PLAYER_SPEED):
+                 speed=PLAYER_SPEED, level=None):
         super().__init__(groups)
 
         # Анимации
@@ -37,6 +36,8 @@ class Player(Entity):
         # Центровка игрока
         self._central_offset = None
         self.center_target()
+
+        self.level = level
 
     def _image_update(self):
         animations = self.animations[self.status]
@@ -108,7 +109,7 @@ class Player(Entity):
             if pressed_keys[pygame.K_e] and not self.interacting:
                 self.interact_time = pygame.time.get_ticks()
                 self.interacting = True
-                player_interaction(self)
+                self.level.player_interaction()
 
             # Ввод для атаки
             if pressed_keys[pygame.K_SPACE] and not self.attacking:

@@ -4,7 +4,6 @@ from player import Player
 from menu import MainMenu
 from sound import Music
 from sprite import *
-from interactions import interaction_group
 from cameras import *
 from debug import debug
 from level import Level

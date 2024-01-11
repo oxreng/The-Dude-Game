@@ -49,7 +49,7 @@ class Level:
 
     def show(self):
         self._player.update()
-        self.passable_sprites.update()
+        self.solid_sprites.update()
         self.camera_group.custom_draw(self.passable_sprites, player=self._player)
         self.ui.show_in_display(self._player)
 

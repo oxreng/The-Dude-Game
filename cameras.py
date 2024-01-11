@@ -86,7 +86,7 @@ class CameraGroup(pygame.sprite.Group):
         for enemy in [sprite for sprite in self.sprites() if isinstance(sprite, Enemy)]:
             enemy.enemy_update(player)
 
-    def custom_draw(self, *groups, player):
+    def custom_draw(self, *groups, player, now_level):
         # Меняем координаты всем объектам
         self.box_target_camera(player)
         self.enemy_update(player)
@@ -104,7 +104,7 @@ class CameraGroup(pygame.sprite.Group):
             self._display_surface.blit(sprite.image, offset_pos)
 
         # Отрисовка pop-up подсказок
-        for obj in collide_areas:
+        for obj in collide_areas[now_level]:
             if obj.rect.colliderect(player.rect):
                 font = pygame.font.Font('fonts/font.ttf', 25)
                 text = font.render(hint_text[obj.name], True, WHITE)

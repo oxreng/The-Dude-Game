@@ -15,6 +15,7 @@ class Level:
         # Получить экран
         self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self._player = \
             self.interaction_group = None
+        self.now_level = 'level_1'
         self._display_surface = pygame.display.get_surface()
 
         # Создаём уровень
@@ -24,6 +25,7 @@ class Level:
         self.ui = UI()
 
     def change_level(self, level_name='level_1'):
+        self.now_level = level_name
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
         self.player_group = pygame.sprite.GroupSingle()
@@ -32,7 +34,6 @@ class Level:
         with open(f'{TEXTURES_PATH}/level_csv/{level_name}.csv') as level_file:
             reader = csv.DictReader(level_file, delimiter=';', quotechar='"')
             for item in reader:
-                print(item)
                 if item['type'] == 'passable':
                     PassableSprite(self.passable_sprites, self.interaction_group,
                                    file_name=item['name'], x=int(item['x']), y=int(item['y']))
@@ -51,14 +52,14 @@ class Level:
     def show(self):
         self._player.update()
         self.solid_sprites.update()
-        self.camera_group.custom_draw(self.passable_sprites, player=self._player)
+        self.camera_group.custom_draw(self.passable_sprites, player=self._player, now_level=self.now_level)
         self.ui.show_in_display(self._player)
 
     def zoom_cam(self, event_button):
         self.camera_group.zooming(event_button)
 
     def player_interaction(self):
-        for obj in collide_areas:
+        for obj in collide_areas[self.now_level]:
             if obj.rect.colliderect(self._player.rect):
                 if obj.type == 'switch_animation':
                     for sprite in self.interaction_group:

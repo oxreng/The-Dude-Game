@@ -15,7 +15,7 @@ class DoorObject(InteractionObject):
 
 
 collide_areas = [
-    DoorObject(pygame.Rect((320, -140,), (80, 140)), 'door', 'change_level', 'level_2.csv'),
+    DoorObject(pygame.Rect((320, -140,), (80, 140)), 'door', 'change_level', 'level_2'),
     InteractionObject(pygame.Rect((40, -60), (100, 100)), 'oven', 'switch_animation'),
     InteractionObject(pygame.Rect((720, -150), (60, 200)), 'wardrobe', 'change_outfit')
 ]

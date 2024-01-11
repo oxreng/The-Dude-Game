@@ -40,7 +40,7 @@ class Level:
                     SolidSprite(self.solid_sprites, self.camera_group, self.interaction_group,
                                 file_name=item['name'], x=int(item['x']), y=int(item['y']),
                                 tiling_x=int(item['tiling_x']), tiling_y=int(item['tiling_y']),
-                                partly_passable=(False if item['partly_passable'] == '0' else True))
+                                partly_passable=(bool(item['partly_passable'])))
         Enemy(self.camera_group, monster_name='normal', x=300, y=300,
               solid_sprites=self.solid_sprites)
         self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
@@ -67,6 +67,4 @@ class Level:
                 elif obj.type == 'change_outfit':
                     self._player.change_animation_state()
                 elif obj.type == 'change_level':
-                    print(obj.where)
-
-# default_level = Level()
+                    self.change_level(obj.where)

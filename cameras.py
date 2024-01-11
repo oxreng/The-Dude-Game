@@ -21,8 +21,8 @@ class CameraGroup(pygame.sprite.Group):
         self._internal_rect = self._internal_surface.get_rect(center=(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT))
         self._internal_surface_size_vector = pygame.math.Vector2(self._internal_surface_size)
         self._internal_offset = pygame.math.Vector2()
-        self._internal_offset.x = self._internal_surface_size[0] // 2 - HALF_SCREEN_WIDTH
-        self._internal_offset.y = self._internal_surface_size[1] // 2 - HALF_SCREEN_HEIGHT
+        # self._internal_offset.x = self._internal_surface_size[0] // 2 - HALF_SCREEN_WIDTH
+        # self._internal_offset.y = self._internal_surface_size[1] // 2 - HALF_SCREEN_HEIGHT
 
         # box setup
         self._camera_borders = {'left': BOX_LEFT, 'right': BOX_RIGHT, 'top': BOX_TOP, 'bottom': BOX_BOTTOM}
@@ -92,7 +92,7 @@ class CameraGroup(pygame.sprite.Group):
         self.enemy_update(player)
 
         # Делаем зум
-        self._internal_surface.fill(BLACK)
+        self._display_surface.fill(BLACK)
 
         # Обрабатываем объекты
         for sprite in [sprite for group in groups for sprite in group.sprites()] + sorted(self.sprites(), key=lambda
@@ -101,7 +101,7 @@ class CameraGroup(pygame.sprite.Group):
                 offset_pos = sprite.rect.topleft - self._offset + self._internal_offset + self._offset_central
             else:
                 offset_pos = sprite.rect.topleft - self._offset + self._internal_offset
-            self._internal_surface.blit(sprite.image, offset_pos)
+            self._display_surface.blit(sprite.image, offset_pos)
 
         # Отрисовка pop-up подсказок
         for obj in collide_areas:
@@ -112,9 +112,9 @@ class CameraGroup(pygame.sprite.Group):
                         text.get_width() - obj.rect.width) / 2
                 text_pos_y = (obj.rect.topleft - self._offset + self._internal_offset + self._offset_central)[1] - \
                              text.get_size()[1] - 10
-                self._internal_surface.blit(text, (text_pos_x, text_pos_y))
+                self._display_surface.blit(text, (text_pos_x, text_pos_y))
 
-        scaled_surf = pygame.transform.scale(self._internal_surface,
-                                             self._internal_surface_size_vector * self._zoom_scale)
-        scaled_rect = scaled_surf.get_rect(center=(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT))
-        self._display_surface.blit(scaled_surf, scaled_rect)
+        # scaled_surf = pygame.transform.scale(self._internal_surface,
+                                             # self._internal_surface_size_vector * self._zoom_scale)
+        # scaled_rect = scaled_surf.get_rect(center=(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT))
+        # self._display_surface.blit(scaled_surf, scaled_rect)

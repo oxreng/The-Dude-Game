@@ -33,9 +33,9 @@ class CameraGroup(pygame.sprite.Group):
         self._camera_rect = pygame.Rect(left, top, w, h)
 
         # Для фона
-        self._ground_surf = pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/floor.png', color_key=None),
-                                                   (800, 400))
-        self._ground_rect = self._ground_surf.get_rect(topleft=(0, 0))
+        # self._ground_surf = pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/floor.png', color_key=None),
+        #                                            (800, 400))
+        # self._ground_rect = self._ground_surf.get_rect(topleft=(0, 0))
 
     def center_target_camera(self, target):
         self._offset_central.x = target.rect.centerx - HALF_SCREEN_WIDTH
@@ -93,10 +93,6 @@ class CameraGroup(pygame.sprite.Group):
 
         # Делаем зум
         self._internal_surface.fill(BLACK)
-
-        # Рисуем фон
-        ground_offset = self._ground_rect.topleft - self._offset + self._internal_offset + self._offset_central
-        self._internal_surface.blit(self._ground_surf, ground_offset)
 
         # Обрабатываем объекты
         for sprite in [sprite for group in groups for sprite in group.sprites()] + sorted(self.sprites(), key=lambda

@@ -55,3 +55,6 @@ class Level:
 
     def zoom_cam(self, event_button):
         self.camera_group.zooming(event_button)
+
+
+# default_level = Level()

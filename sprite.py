@@ -69,6 +69,16 @@ class Entity(pygame.sprite.Sprite):
 
 
 textures_anim_dict = {
+    'floor': {
+        1: collections.deque(
+            [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/floor.png'), (800, 400))]
+        )
+    },
+    'floor_2': {
+        1: collections.deque(
+            [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/floor_2.png'), (1540, 1160))]
+        )
+    },
     'back_wall': {
         1: collections.deque(
             [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/back_wall.png'), (800, 200))])

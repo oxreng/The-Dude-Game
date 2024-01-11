@@ -1,4 +1,5 @@
 import pygame
+# from level import default_level
 
 
 class InteractionObject:
@@ -19,6 +20,8 @@ def player_interaction(player):
                         sprite.animation_state = -sprite.animation_state
             elif obj.name in interaction_types['change_outfit']:
                 player.change_animation_state()
+            elif obj.name in interaction_types['change_level']:
+                default_level.change_level(level_changers[obj.name])
 
 
 collide_areas = [
@@ -29,5 +32,10 @@ collide_areas = [
 
 interaction_types = {
     'switch_animation': ['oven'],
-    'change_outfit': ['wardrobe']
+    'change_outfit': ['wardrobe'],
+    'change_level': ['door']
+}
+
+level_changers = {
+    'door': 'level_2'
 }

@@ -42,7 +42,7 @@ class Level:
                                 file_name=item['name'], x=int(item['x']), y=int(item['y']),
                                 tiling_x=int(item['tiling_x']), tiling_y=int(item['tiling_y']),
                                 partly_passable=(bool(item['partly_passable'])))
-        Enemy(self.camera_group, monster_name='normal', x=300, y=300,
+        Enemy(self.camera_group, monster_name='skeleton', x=300, y=300,
               solid_sprites=self.solid_sprites)
         self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
                               y=HALF_SCREEN_HEIGHT - 200,

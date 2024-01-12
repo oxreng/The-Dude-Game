@@ -46,10 +46,10 @@ BTN_START_BACK_SIZE = (200, 60)
 # Настройки текстур
 TILE = 100
 TEXTURES_PATH = 'TextureSprite'
-PLAYER_PATH = 'TextureSprite/player'
 PASSABLE_TEXTURES_PATH = 'TextureSprite/passable_textures'
 SOLID_TEXTURES_PATH = 'TextureSprite/solid_textures'
 PLAYER_TEXTURES_PATH = 'TextureSprite/player'
+ENEMY_TEXTURES_PATH = 'TextureSprite/enemies'
 SPRITE_ANIMATION_SPEED = 25
 
 # Настройки камеры
@@ -87,7 +87,7 @@ UI_FONT_SIZE = 18
 # Настройки врагов
 monster_data = {
     'skeleton': {'health': 100, 'money': 100, 'damage': 20, 'attack_type': 'slash', 'attack_sound': 'slash', 'speed': 3,
-              'resistance': 3, 'attack_radius': 80, 'notice_radius': 360}
+              'resistance': 3, 'attack_radius': 80, 'notice_radius': 360, 'attack_cooldown': 400}
 }
 
 # Настройки анимаций

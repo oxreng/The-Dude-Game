@@ -49,8 +49,10 @@ class Player(Entity):
     def _image_update(self):
         animations = self.animations[self.status]
 
-        self.frame_index += self.animation_speed
+        self.frame_index += self.animation_speed if not self.attacking else self.animation_speed * 2
         if self.frame_index >= len(animations):
+            if self.attacking:
+                self.attacking = False
             self.frame_index = 0
 
         self.image = pygame.transform.scale(animations[int(self.frame_index)], (TILE, TILE))
@@ -86,7 +88,7 @@ class Player(Entity):
                     self.attacking_rect = self.hitbox.copy().move(0, -PLAYER_ATTACK_OFFSET)
         else:
             if 'attack' in self.status:
-                self.status = self.status.replace('_attack', '')
+                self.status = self.status.replace('_attack', '_idle')
 
     def get_all_damage(self):
         return self.damage
@@ -138,6 +140,7 @@ class Player(Entity):
 
             # Ввод для атаки
             if pressed_keys[pygame.K_SPACE] and not self.attacking:
+                self.frame_index = 0
                 self.attack_time = pygame.time.get_ticks()
                 self.attacking = True
 

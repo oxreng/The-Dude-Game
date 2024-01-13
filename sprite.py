@@ -162,10 +162,14 @@ player_anim_dict = {
         'right_idle':
             collections.deque(
                 [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'right_idle_frames/{i}.png') for i in range(1, 5)]),
-        'left_attack': collections.deque([load_image(f'{PLAYER_TEXTURES_PATH}/christmas', f'left_frames/1.png')]),
-        'right_attack': collections.deque([load_image(f'{PLAYER_TEXTURES_PATH}/christmas', f'right_frames/1.png')]),
-        'down_attack': collections.deque([load_image(f'{PLAYER_TEXTURES_PATH}/christmas', f'down_frames/1.png')]),
-        'up_attack': collections.deque([load_image(f'{PLAYER_TEXTURES_PATH}/christmas', f'up_frames/1.png')])
+        'left_attack': collections.deque(
+            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_left_frames/{i}.png') for i in range(1, 6)]),
+        'right_attack': collections.deque(
+            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_right_frames/{i}.png') for i in range(1, 6)]),
+        'down_attack': collections.deque(
+            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_down_frames/{i}.png') for i in range(1, 8)]),
+        'up_attack': collections.deque(
+            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_up_frames/{i}.png') for i in range(1, 7)]),
     },
     'christmas': {
         'down':

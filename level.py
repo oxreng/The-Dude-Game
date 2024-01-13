@@ -24,7 +24,7 @@ class Level:
         # Создаём UI пользователю
         self.ui = UI()
 
-    def change_level(self, level_name='level_1'):
+    def change_level(self, level_name='level_1', first_player=True):
         self.now_level = level_name
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
@@ -45,9 +45,15 @@ class Level:
                                 partly_passable=(bool(item['partly_passable'])))
         Enemy(self.camera_group, self.attackable_sprites, monster_name='skeleton', x=300, y=300,
               solid_sprites=self.solid_sprites, damage_player_func=self.damage_player)
-        self.player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
-                             y=HALF_SCREEN_HEIGHT - 200,
-                             solid_sprites=self.solid_sprites, level=self)
+        if first_player:
+            self.player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
+                                 y=HALF_SCREEN_HEIGHT - 200,
+                                 solid_sprites=self.solid_sprites, level=self)
+        else:
+            self.player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
+                                 y=HALF_SCREEN_HEIGHT - 200,
+                                 solid_sprites=self.solid_sprites, level=self, hp=self.player.health,
+                                 animations=self.player.animations_state)
         # self.camera_group.center_target_camera(self.player)
 
     def damage_player(self, amount, attack_type):
@@ -87,4 +93,4 @@ class Level:
                 elif obj.type == 'change_outfit':
                     self.player.change_animation_state()
                 elif obj.type == 'change_level':
-                    self.change_level(obj.where)
+                    self.change_level(obj.where, False)

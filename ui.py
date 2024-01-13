@@ -34,6 +34,6 @@ class UI:
         pygame.draw.rect(self._display_surface, UI_BORDER_COLOR, text_rect.inflate(20, 20), 3)
 
     def show_in_display(self, player):
-        self.show_bar(player.health, player.stats['health'], self.health_bar_rect, UI_HEALTH_COLOR)
+        self.show_bar(player.health, PLAYER_STAT_HP, self.health_bar_rect, UI_HEALTH_COLOR)
 
         self.show_money(player.money)

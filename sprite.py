@@ -163,13 +163,13 @@ player_anim_dict = {
             collections.deque(
                 [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'right_idle_frames/{i}.png') for i in range(1, 5)]),
         'left_attack': collections.deque(
-            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_left_frames/{i}.png') for i in range(1, 6)]),
+            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_left_frames/{i}.png') for i in range(1, 8)]),
         'right_attack': collections.deque(
-            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_right_frames/{i}.png') for i in range(1, 6)]),
+            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_right_frames/{i}.png') for i in range(1, 8)]),
         'down_attack': collections.deque(
             [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_down_frames/{i}.png') for i in range(1, 8)]),
         'up_attack': collections.deque(
-            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_up_frames/{i}.png') for i in range(1, 7)]),
+            [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'attack_up_frames/{i}.png') for i in range(1, 8)]),
     },
     'christmas': {
         'down':

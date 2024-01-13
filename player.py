@@ -17,6 +17,7 @@ class Player(Entity):
         self.image = pygame.transform.scale(self.animations[self.status][self.frame_index], (TILE, TILE))
         self.rect = self.image.get_rect(center=(x, y))
         self.attacking = False
+        self.can_attack = True
         self.interacting = False
         self.attack_cooldown = PLAYER_ATTACK_COOLDOWN
         self.interact_cooldown = PLAYER_INTERACTION_COOLDOWN
@@ -49,11 +50,13 @@ class Player(Entity):
     def _image_update(self):
         animations = self.animations[self.status]
 
-        self.frame_index += self.animation_speed if not self.attacking else self.animation_speed * 2
+        self.frame_index += self.animation_speed if not self.attacking else self.animation_speed * 4
         if self.frame_index >= len(animations):
             if self.attacking:
                 self.attacking = False
-            self.frame_index = 0
+                self.frame_index = len(animations) - 1
+            else:
+                self.frame_index = 0
 
         self.image = pygame.transform.scale(animations[int(self.frame_index)], (TILE, TILE))
         self.rect = self.image.get_rect(center=self.rect.center)
@@ -139,16 +142,17 @@ class Player(Entity):
                 self.level.player_interaction()
 
             # Ввод для атаки
-            if pressed_keys[pygame.K_SPACE] and not self.attacking:
+            if pressed_keys[pygame.K_SPACE] and self.can_attack:
                 self.frame_index = 0
                 self.attack_time = pygame.time.get_ticks()
                 self.attacking = True
+                self.can_attack = False
 
     def _cooldowns(self):
         current_time = pygame.time.get_ticks()
-        if self.attacking:
+        if not self.can_attack:
             if current_time - self.attack_time >= self.attack_cooldown:
-                self.attacking = False
+                self.can_attack = True
 
         if self.interacting:
             if current_time - self.interact_time >= self.interact_cooldown:

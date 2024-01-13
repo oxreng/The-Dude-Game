@@ -3,6 +3,7 @@ import collections
 import pygame.sprite
 from load_image import load_image
 from config import *
+from math import sin
 
 
 class PassableSprite(pygame.sprite.Sprite):
@@ -41,6 +42,8 @@ class Entity(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2()
         self.animation_speed = speed
         self.frame_index = 0
+        self.vulnerable = True
+        self.hit_time = None
 
     def move(self, speed):
         if self.direction.magnitude() != 0:
@@ -66,6 +69,14 @@ class Entity(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.hitbox.top
                     if self.direction.y < 0:
                         self.hitbox.top = sprite.hitbox.bottom
+
+    @staticmethod
+    def alpha_get():
+        value = sin(pygame.time.get_ticks())
+        if value >= 0:
+            return 255
+        else:
+            return 0
 
 
 textures_anim_dict = {
@@ -105,7 +116,8 @@ textures_anim_dict = {
                 [pygame.transform.scale(load_image(TEXTURES_PATH, 'solid_textures/oven/off/1.png'), (100, 100))]),
         -1:
             collections.deque(
-                [pygame.transform.scale(load_image(f'{TEXTURES_PATH}/solid_textures', f'oven/on/{i}.png'), (100, 100)) for i in range(1, 7)]
+                [pygame.transform.scale(load_image(f'{TEXTURES_PATH}/solid_textures', f'oven/on/{i}.png'), (100, 100))
+                 for i in range(1, 7)]
             )
     },
     'wardrobe': {
@@ -124,16 +136,20 @@ player_anim_dict = {
     'normal': {
         'down':
             collections.deque(
-                [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'down_frames/{i}.png', color_key=-1) for i in range(1, 5)]),
+                [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'down_frames/{i}.png', color_key=-1) for i in
+                 range(1, 5)]),
         'up':
             collections.deque(
-                [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'up_frames/{i}.png', color_key=-1) for i in range(1, 5)]),
+                [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'up_frames/{i}.png', color_key=-1) for i in
+                 range(1, 5)]),
         'right':
             collections.deque(
-                [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'right_frames/{i}.png', color_key=-1) for i in range(1, 5)]),
+                [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'right_frames/{i}.png', color_key=-1) for i in
+                 range(1, 5)]),
         'left':
             collections.deque(
-                [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'left_frames/{i}.png', color_key=-1) for i in range(1, 5)]),
+                [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'left_frames/{i}.png', color_key=-1) for i in
+                 range(1, 5)]),
         'down_idle':
             collections.deque(
                 [load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'down_idle_frames/{i}.png') for i in range(1, 5)]),

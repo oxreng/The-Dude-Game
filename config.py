@@ -76,6 +76,9 @@ PLAYER_ATTACK_COOLDOWN = 400
 PLAYER_INTERACTION_COOLDOWN = 500
 PLAYER_STAT_HP = 100
 PLAYER_STAT_ATTACK = 60
+PLAYER_ATTACK_OFFSET = 20
+PLAYER_DAMAGE = 10
+PLAYER_HURT_TIME = 500
 
 # UI
 UI_BAR_HEIGHT = 20
@@ -86,9 +89,10 @@ UI_FONT_SIZE = 18
 
 # Настройки врагов
 monster_data = {
-    'skeleton': {'health': 100, 'money': 100, 'damage': 20, 'attack_type': 'slash', 'attack_sound': 'slash', 'speed': 3,
+    'skeleton': {'health': 100, 'money': 10000, 'damage': 5, 'attack_type': 'slash', 'attack_sound': 'slash', 'speed': 3,
               'resistance': 3, 'attack_radius': 80, 'notice_radius': 360, 'attack_cooldown': 400}
 }
+ENEMY_VULNERABLE_DURATION = 400
 
 # Настройки анимаций
 TELLY_FRAMES_COUNT = 2

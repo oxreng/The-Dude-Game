@@ -13,8 +13,8 @@ import csv
 class Level:
     def __init__(self):
         # Получить экран
-        self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self._player = \
-            self.interaction_group = None
+        self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self.player = \
+            self.interaction_group = self.attackable_sprites = None
         self.now_level = 'level_1'
         self._display_surface = pygame.display.get_surface()
 
@@ -28,6 +28,7 @@ class Level:
         self.now_level = level_name
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
+        self.attackable_sprites = pygame.sprite.Group()
         self.player_group = pygame.sprite.GroupSingle()
         self.camera_group = CameraGroup()
         self.interaction_group = pygame.sprite.Group()
@@ -42,30 +43,48 @@ class Level:
                                 file_name=item['name'], x=int(item['x']), y=int(item['y']),
                                 tiling_x=int(item['tiling_x']), tiling_y=int(item['tiling_y']),
                                 partly_passable=(bool(item['partly_passable'])))
-        Enemy(self.camera_group, monster_name='skeleton', x=300, y=300,
-              solid_sprites=self.solid_sprites)
-        self._player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
-                              y=HALF_SCREEN_HEIGHT - 200,
-                              solid_sprites=self.solid_sprites, level=self)
-        # self.camera_group.center_target_camera(self._player)
+        Enemy(self.camera_group, self.attackable_sprites, monster_name='skeleton', x=300, y=300,
+              solid_sprites=self.solid_sprites, damage_player_func=self.damage_player)
+        self.player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
+                             y=HALF_SCREEN_HEIGHT - 200,
+                             solid_sprites=self.solid_sprites, level=self)
+        # self.camera_group.center_target_camera(self.player)
+
+    def damage_player(self, amount, attack_type):
+        if self.player.vulnerable:
+            self.player.health -= amount
+            self.player.vulnerable = False
+            self.player.hit_time = pygame.time.get_ticks()
+            # Создаём партиклы
 
     def show(self):
-        self._player.update()
+        self.player.update()
         self.solid_sprites.update()
-        self.camera_group.custom_draw(self.passable_sprites, player=self._player, now_level=self.now_level)
-        self.ui.show_in_display(self._player)
+        self.camera_group.custom_draw(self.passable_sprites, player=self.player, now_level=self.now_level)
+        self.player_attack_logic()
+        self.ui.show_in_display(self.player)
 
     def zoom_cam(self, event_button):
         self.camera_group.zooming(event_button)
 
+    def player_attack_logic(self):
+        if self.player.attacking:
+            rect = self.player.attacking_rect
+            for target_spr in self.attackable_sprites:
+                if rect.colliderect(target_spr.hitbox):
+                    if isinstance(target_spr, Enemy):
+                        target_spr.get_damage(self.player)
+                    else:
+                        print('SPRITE', target_spr)
+
     def player_interaction(self):
         for obj in collide_areas[self.now_level]:
-            if obj.rect.colliderect(self._player.rect):
+            if obj.rect.colliderect(self.player.rect):
                 if obj.type == 'switch_animation':
                     for sprite in self.interaction_group:
                         if sprite.name == obj.name:
                             sprite.animation_state = -sprite.animation_state
                 elif obj.type == 'change_outfit':
-                    self._player.change_animation_state()
+                    self.player.change_animation_state()
                 elif obj.type == 'change_level':
                     self.change_level(obj.where)

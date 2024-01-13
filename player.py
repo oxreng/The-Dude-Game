@@ -32,10 +32,17 @@ class Player(Entity):
         self.health = self.stats['health']
         self.money = 123
         self.speed = self.stats['speed']
+        self.damage = PLAYER_DAMAGE
 
         # Центровка игрока
         self._central_offset = None
         self.center_target()
+
+        # Атака
+        self.attacking_rect = self.hitbox.copy()
+
+        # Таймер для получения урона
+        self.vulnerable_duration = PLAYER_HURT_TIME
 
         self.level = level
 
@@ -48,6 +55,13 @@ class Player(Entity):
 
         self.image = pygame.transform.scale(animations[int(self.frame_index)], (TILE, TILE))
         self.rect = self.image.get_rect(center=self.rect.center)
+
+        # При получении урона делаем "анимацию"
+        if not self.vulnerable:
+            alpha = self.alpha_get()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
 
     def _get_status(self):
         if self.direction.x == 0 and self.direction.y == 0 and not self.attacking:
@@ -62,9 +76,20 @@ class Player(Entity):
                     self.status = self.status.replace('_idle', '_attack')
                 else:
                     self.status += '_attack'
+                if 'right' in self.status:
+                    self.attacking_rect = self.hitbox.copy().move(PLAYER_ATTACK_OFFSET, 0)
+                elif 'left' in self.status:
+                    self.attacking_rect = self.hitbox.copy().move(-PLAYER_ATTACK_OFFSET, 0)
+                elif 'down' in self.status:
+                    self.attacking_rect = self.hitbox.copy().move(0, PLAYER_ATTACK_OFFSET)
+                else:
+                    self.attacking_rect = self.hitbox.copy().move(0, -PLAYER_ATTACK_OFFSET)
         else:
             if 'attack' in self.status:
                 self.status = self.status.replace('_attack', '')
+
+    def get_all_damage(self):
+        return self.damage
 
     def update(self):
         self._process_keyboard()
@@ -121,9 +146,14 @@ class Player(Entity):
         if self.attacking:
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.attacking = False
+
         if self.interacting:
             if current_time - self.interact_time >= self.interact_cooldown:
                 self.interacting = False
+
+        if not self.vulnerable:
+            if current_time - self.hit_time >= self.vulnerable_duration:
+                self.vulnerable = True
 
     def _play_sound(self):
         if self.direction.x or self.direction.y:

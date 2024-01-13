@@ -4,7 +4,7 @@ from sprite import *
 
 
 class Enemy(Entity):
-    def __init__(self, *groups, monster_name, x, y, solid_sprites):
+    def __init__(self, *groups, monster_name, x, y, solid_sprites, damage_player_func=None):
         super().__init__(groups)
 
         # Картинки
@@ -33,6 +33,10 @@ class Enemy(Entity):
         self.can_attack = True
         self.attack_time = None
         self.attack_cooldown = info['attack_cooldown']
+        self.damage_player = damage_player_func
+
+        # Таймер для ударов игрока
+        self.vulnerable_duration = ENEMY_VULNERABLE_DURATION
 
     def get_player_distance_direction(self, player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
@@ -79,6 +83,7 @@ class Enemy(Entity):
     def actions(self, player):
         if 'attack' in self.status:
             self.attack_time = pygame.time.get_ticks()
+            self.damage_player(self.attack_damage, self.attack_type)
         elif self.status in ('up', 'down', 'left', 'right'):
             self.direction = self.get_player_distance_direction(player)[1]
         else:
@@ -95,16 +100,45 @@ class Enemy(Entity):
 
         self.image = pygame.transform.scale(animation[int(self.frame_index)], (TILE, TILE))
         self.rect = self.image.get_rect(center=self.hitbox.center)
-        
-    def cooldown(self):
+
+        # При получении урона делаем "анимацию"
+        if not self.vulnerable:
+            alpha = self.alpha_get()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
+
+    def cooldowns(self):
+        current_time = pygame.time.get_ticks()
         if not self.can_attack:
-            current_time = pygame.time.get_ticks()
             if current_time - self.attack_time >= self.attack_cooldown:
                 self.can_attack = True
+
+        if not self.vulnerable:
+            if current_time - self.hit_time >= self.vulnerable_duration:
+                self.vulnerable = True
+
+    def get_damage(self, player):
+        if self.vulnerable:
+            self.direction = self.get_player_distance_direction(player)[1]
+            self.health -= player.get_all_damage()
+            self.hit_time = pygame.time.get_ticks()
+            self.vulnerable = False
+
+    def check_death(self, player):
+        if self.health <= 0:
+            self.kill()
+            player.money += self.money
+
+    def hit_reaction(self):
+        if not self.vulnerable:
+            self.direction *= -self.resistance
 
     def enemy_update(self, player):
         self.get_status(player)
         self.actions(player)
         self.image_update()
-        self.cooldown()
+        self.cooldowns()
+        self.check_death(player)
+        self.hit_reaction()
         self.move(self.speed)

@@ -3,6 +3,9 @@ from config import *
 from load_image import load_image
 from interactions import collide_areas
 from enemy import Enemy
+from particles import ParticleEffect
+from random import choice
+from sprite import player_particles_dict
 
 
 class CameraGroup(pygame.sprite.Group):
@@ -113,3 +116,8 @@ class CameraGroup(pygame.sprite.Group):
                                              self._internal_surface_size_vector * self._zoom_scale)
         scaled_rect = scaled_surf.get_rect(center=(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT))
         self._display_surface.blit(scaled_surf, scaled_rect)
+
+    @staticmethod
+    def particles_create(*groups, particle_name, pos):
+        animations = choice(player_particles_dict[particle_name])
+        ParticleEffect(*groups, pos=pos, animations=animations)

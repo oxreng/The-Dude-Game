@@ -32,6 +32,7 @@ class Enemy(Entity):
         # Взаимодействие с игроком
         self.can_attack = True
         self.attack_time = None
+        self.attacking = False
         self.attack_cooldown = info['attack_cooldown']
         self.damage_player = damage_player_func
 
@@ -52,8 +53,7 @@ class Enemy(Entity):
 
     def get_status(self, player):
         distance, direction = self.get_player_distance_direction(player)
-
-        if distance <= self.attack_radius and self.can_attack:
+        if distance <= self.attack_radius and self.can_attack and not self.attacking:
             if 'attack' not in self.status:
                 self.frame_index = 0
             if abs(direction.x) >= abs(direction.y):
@@ -66,7 +66,7 @@ class Enemy(Entity):
                     self.status = 'down_attack'
                 else:
                     self.status = 'up_attack'
-        elif distance <= self.notice_radius:
+        elif distance <= self.notice_radius and not self.attacking:
             if abs(direction.x) >= abs(direction.y):
                 if direction.x > 0:
                     self.status = 'right'
@@ -77,12 +77,16 @@ class Enemy(Entity):
                     self.status = 'down'
                 else:
                     self.status = 'up'
+        elif self.attacking:
+            pass
         else:
             self.status = 'down_idle'
 
     def actions(self, player):
-        if 'attack' in self.status:
+        if 'attack' in self.status and self.can_attack and not self.attacking:
             self.attack_time = pygame.time.get_ticks()
+            self.can_attack = False
+            self.attacking = True
             self.damage_player(self.attack_damage, self.attack_type)
         elif self.status in ('up', 'down', 'left', 'right'):
             self.direction = self.get_player_distance_direction(player)[1]
@@ -90,15 +94,17 @@ class Enemy(Entity):
             self.direction = pygame.math.Vector2()
 
     def image_update(self):
-        animation = self.animations[self.status]
+        animations = self.animations[self.status]
 
-        self.frame_index += self.animation_speed
-        if self.frame_index >= len(animation):
-            if 'attack' in self.status:
-                self.can_attack = False
-            self.frame_index = 0
+        self.frame_index += self.animation_speed if not self.attacking else self.animation_speed * 2
+        if self.frame_index >= len(animations):
+            if self.attacking:
+                self.attacking = False
+                self.frame_index = len(animations) - 1
+            else:
+                self.frame_index = 0
 
-        self.image = pygame.transform.scale(animation[int(self.frame_index)], (TILE, TILE))
+        self.image = pygame.transform.scale(animations[int(self.frame_index)], (TILE, TILE))
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
         # При получении урона делаем "анимацию"

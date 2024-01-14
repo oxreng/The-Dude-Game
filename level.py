@@ -8,13 +8,14 @@ from debug import debug
 from ui import UI
 from enemy import Enemy
 import csv
+from random import randint
 
 
 class Level:
     def __init__(self):
         # Получить экран
         self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self.player = \
-            self.interaction_group = self.attackable_sprites = None
+            self.interaction_group = self.attackable_sprites = self.particles_sprites = None
         self.now_level = 'level_1'
         self._display_surface = pygame.display.get_surface()
 
@@ -32,6 +33,7 @@ class Level:
         self.player_group = pygame.sprite.GroupSingle()
         self.camera_group = CameraGroup()
         self.interaction_group = pygame.sprite.Group()
+        self.particles_sprites = pygame.sprite.Group()
         with open(f'{TEXTURES_PATH}/level_csv/{level_name}.csv') as level_file:
             reader = csv.DictReader(level_file, delimiter=';', quotechar='"')
             for item in reader:
@@ -43,6 +45,10 @@ class Level:
                                 file_name=item['name'], x=int(item['x']), y=int(item['y']),
                                 tiling_x=int(item['tiling_x']), tiling_y=int(item['tiling_y']),
                                 partly_passable=(bool(item['partly_passable'])))
+        SolidSprite(self.solid_sprites, self.camera_group, self.attackable_sprites, self.interaction_group,
+                    file_name='wardrobe', x=100, y=200,
+                    tiling_x=40, tiling_y=60,
+                    partly_passable=0)
         Enemy(self.camera_group, self.attackable_sprites, monster_name='skeleton', x=300, y=300,
               solid_sprites=self.solid_sprites, damage_player_func=self.damage_player)
         if first_player:
@@ -65,6 +71,7 @@ class Level:
 
     def show(self):
         self.player.update()
+        self.particles_sprites.update()
         self.solid_sprites.update()
         self.camera_group.custom_draw(self.passable_sprites, player=self.player, now_level=self.now_level)
         self.player_attack_logic()
@@ -81,7 +88,12 @@ class Level:
                     if isinstance(target_spr, Enemy):
                         target_spr.get_damage(self.player)
                     else:
-                        print('SPRITE', target_spr)
+                        pos = target_spr.rect.center
+                        offset = pygame.math.Vector2(0, 75)
+                        for _ in range(randint(3, 6)):
+                            self.camera_group.particles_create(self.camera_group, self.particles_sprites,
+                                                               particle_name='leaf', pos=pos-offset)
+                        target_spr.kill()
 
     def player_interaction(self):
         for obj in collide_areas[self.now_level]:

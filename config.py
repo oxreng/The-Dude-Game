@@ -94,8 +94,9 @@ monster_data = {
 }
 ENEMY_VULNERABLE_DURATION = 400
 
-# Настройки анимаций
-TELLY_FRAMES_COUNT = 2
+# Настройки партиклов
+PARTICLES_ANIMATION_SPEED = 0.15
+PARTICLES_TEXTURES_PATH = 'TextureSprite/particles'
 
 # Музыка
 MENU_THEME = 'music/menu.mp3'

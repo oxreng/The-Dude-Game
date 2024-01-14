@@ -24,7 +24,7 @@ class Music:
     def play_music(self):
         if self.theme.get_volume() != 0:
             self.theme.set_volume(0.1)
-            self.theme.play()
+            self.theme.play(-1)
 
     def change_music_volume(self, volume):
         self.theme.set_volume(volume)

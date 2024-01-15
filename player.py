@@ -89,6 +89,7 @@ class Player(Entity):
                     self.attacking_rect = self.hitbox.copy().move(0, PLAYER_ATTACK_OFFSET)
                 else:
                     self.attacking_rect = self.hitbox.copy().move(0, -PLAYER_ATTACK_OFFSET)
+            SpritesSound.punching(1)
         else:
             if 'attack' in self.status:
                 self.status = self.status.replace('_attack', '_idle')

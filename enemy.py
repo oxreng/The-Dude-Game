@@ -1,6 +1,7 @@
 import pygame
 from config import *
 from sprite import *
+from sound import SpritesSound
 
 
 class Enemy(Entity):
@@ -93,6 +94,7 @@ class Enemy(Entity):
             self.can_attack = False
             self.attacking = True
             self.damage_player(self.attack_damage, self.attack_type)
+            SpritesSound.damage_receiving(1)
         elif self.status in ('up', 'down', 'left', 'right'):
             self.direction = self.get_player_distance_direction(player)[1]
         else:
@@ -141,6 +143,7 @@ class Enemy(Entity):
             self.kill()
             enemy_log[self.id_numb] = False
             player.money += self.money
+            SpritesSound.death_sound(1)
 
     def check_existence(self, id_numb):
         if enemy_log[id_numb] is False:

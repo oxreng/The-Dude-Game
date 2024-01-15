@@ -7,7 +7,7 @@ from sound import *
 class Player(Entity):
     def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
                  animations='normal', hp=PLAYER_STAT_HP, attack=PLAYER_STAT_ATTACK,
-                 speed=PLAYER_SPEED, level=None):
+                 speed=PLAYER_SPEED, level=None, interacting=False, interact_time=0):
         super().__init__(groups)
 
         # Анимации
@@ -18,11 +18,11 @@ class Player(Entity):
         self.rect = self.image.get_rect(center=(x, y))
         self.attacking = False
         self.can_attack = True
-        self.interacting = False
+        self.interacting = interacting
         self.attack_cooldown = PLAYER_ATTACK_COOLDOWN
         self.interact_cooldown = PLAYER_INTERACTION_COOLDOWN
         self.attack_time = 0
-        self.interact_time = 0
+        self.interact_time = interact_time
         self.hitbox = self.rect.inflate((-20, 0))
 
         # Спрайты, через которые мы не проходим
@@ -139,7 +139,7 @@ class Player(Entity):
             if pressed_keys[pygame.K_e] and not self.interacting:
                 self.interact_time = pygame.time.get_ticks()
                 self.interacting = True
-                self.level.player_interaction()
+                self.level.player_interaction(self.interact_time)
 
             # Ввод для атаки
             if pressed_keys[pygame.K_SPACE] and self.can_attack:

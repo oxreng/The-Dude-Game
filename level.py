@@ -25,7 +25,7 @@ class Level:
         # Создаём UI пользователю
         self.ui = UI()
 
-    def change_level(self, level_name='level_1', first_player=True):
+    def change_level(self, level_name='level_1', first_player=True, area=None, interact_time=None):
         self.now_level = level_name
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
@@ -56,10 +56,11 @@ class Level:
                                  y=HALF_SCREEN_HEIGHT - 200,
                                  solid_sprites=self.solid_sprites, level=self)
         else:
-            self.player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
-                                 y=HALF_SCREEN_HEIGHT - 200,
+            self.player = Player(self.camera_group, self.player_group, x=area.x + 50,
+                                 y=area.y + 150,
                                  solid_sprites=self.solid_sprites, level=self, hp=self.player.health,
-                                 animations=self.player.animations_state)
+                                 animations=self.player.animations_state, interacting=True,
+                                 interact_time=interact_time)
         # self.camera_group.center_target_camera(self.player)
 
     def damage_player(self, amount, attack_type):
@@ -95,7 +96,7 @@ class Level:
                                                                particle_name='leaf', pos=pos-offset)
                         target_spr.kill()
 
-    def player_interaction(self):
+    def player_interaction(self, interact_time):
         for obj in collide_areas[self.now_level]:
             if obj.rect.colliderect(self.player.rect):
                 if obj.type == 'switch_animation':
@@ -105,4 +106,4 @@ class Level:
                 elif obj.type == 'change_outfit':
                     self.player.change_animation_state()
                 elif obj.type == 'change_level':
-                    self.change_level(obj.where, False)
+                    self.change_level(obj.where, False, obj.rect, interact_time)

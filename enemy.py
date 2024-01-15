@@ -4,7 +4,7 @@ from sprite import *
 
 
 class Enemy(Entity):
-    def __init__(self, *groups, monster_name, x, y, solid_sprites, damage_player_func=None):
+    def __init__(self, *groups, monster_name, x, y, solid_sprites, id_numb, damage_player_func=None):
         super().__init__(groups)
 
         # Картинки
@@ -35,6 +35,11 @@ class Enemy(Entity):
         self.attacking = False
         self.attack_cooldown = info['attack_cooldown']
         self.damage_player = damage_player_func
+        if id_numb not in enemy_log:
+            enemy_log[id_numb] = True
+        else:
+            self.check_existence(id_numb)
+        self.id_numb = id_numb
 
         # Таймер для ударов игрока
         self.vulnerable_duration = ENEMY_VULNERABLE_DURATION
@@ -134,7 +139,12 @@ class Enemy(Entity):
     def check_death(self, player):
         if self.health <= 0:
             self.kill()
+            enemy_log[self.id_numb] = False
             player.money += self.money
+
+    def check_existence(self, id_numb):
+        if enemy_log[id_numb] is False:
+            self.kill()
 
     def hit_reaction(self):
         if not self.vulnerable:

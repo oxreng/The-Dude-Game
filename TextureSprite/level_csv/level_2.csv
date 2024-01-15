@@ -1,3 +1,5 @@
-name;type;partly_passable;tiling_x;tiling_y;x;y
-floor_2;passable;0;1540;1160;0;0
-back_wall;solid;1;800;200;0;-200
+name;type;partly_passable;id;tiling_x;tiling_y;x;y
+floor_2;passable;0;0;1540;1160;0;0
+back_wall;solid;1;0;800;200;0;-200
+skeleton;enemy;0;1;0;1;300;300
+wardrobe;breakable;0;1;140;60;100;200

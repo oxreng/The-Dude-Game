@@ -29,10 +29,24 @@ class PassableSprite(pygame.sprite.Sprite):
 
 
 class SolidSprite(PassableSprite):
-    def __init__(self, *groups, file_name, x, y, anim_state=1, tiling_x=TILE, tiling_y=TILE, partly_passable=False):
+    def __init__(self, *groups, file_name, x, y, anim_state=1, tiling_x=TILE, tiling_y=TILE, partly_passable=False,
+                 breakable=False, id_numb=None):
         super().__init__(*groups, file_name=file_name, x=x, y=y, anim_state=anim_state)
+        if breakable:
+            if id_numb not in breakable_log:
+                breakable_log[id_numb] = True
+            else:
+                self.check_existence(id_numb)
+            self.id_numb = id_numb
         if partly_passable:
             self.hitbox = pygame.rect.Rect((x, y), (tiling_x, tiling_y - TILE * 0.8))
+
+    def check_existence(self, id_numb):
+        if breakable_log[id_numb] is False:
+            self.kill()
+
+    def break_object(self):
+        breakable_log[self.id_numb] = False
 
 
 class Entity(pygame.sprite.Sprite):

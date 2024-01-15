@@ -109,3 +109,7 @@ hint_text = {
     'oven': 'Press  E  to  interact',
     'wardrobe': 'Press  E  to  get  changed'
 }
+
+# Учет уничтожаемых предметов
+enemy_log = {}
+breakable_log = {}

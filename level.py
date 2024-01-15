@@ -55,13 +55,6 @@ class Level:
                     Enemy(self.camera_group, self.attackable_sprites, monster_name=item['name'],
                           x=int(item['x']), y=int(item['y']), id_numb=int(item['id']),
                           solid_sprites=self.solid_sprites, damage_player_func=self.damage_player)
-
-        # SolidSprite(self.solid_sprites, self.camera_group, self.attackable_sprites, self.interaction_group,
-        #             file_name='wardrobe', x=100, y=200,
-        #             tiling_x=40, tiling_y=60,
-        #             partly_passable=0)
-        # Enemy(self.camera_group, self.attackable_sprites, monster_name='skeleton', x=300, y=300,
-        #       solid_sprites=self.solid_sprites, damage_player_func=self.damage_player)
         if first_player:
             self.player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
                                  y=HALF_SCREEN_HEIGHT - 200,

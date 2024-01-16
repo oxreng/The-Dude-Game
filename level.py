@@ -50,7 +50,7 @@ class Level:
                     SolidSprite(self.solid_sprites, self.camera_group, self.attackable_sprites, self.interaction_group,
                                 file_name=item['name'], x=int(item['x']), y=int(item['y']),
                                 tiling_x=int(item['tiling_x']), tiling_y=int(item['tiling_y']),
-                                breakable=True, id_numb=int(item['id']))
+                                breakable=True, id_numb=int(item['id']), partly_passable=bool(item['partly_passable']))
                 else:
                     Enemy(self.camera_group, self.attackable_sprites, monster_name=item['name'],
                           x=int(item['x']), y=int(item['y']), id_numb=int(item['id']),

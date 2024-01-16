@@ -19,7 +19,7 @@ class Enemy(Entity):
         self.solid_sprites = solid_sprites
 
         # Статы
-        self.monster_name = 'skeleton'
+        self.monster_name = monster_name
         info = monster_data[self.monster_name]
         self.health = info['health']
         self.money = info['money']
@@ -94,7 +94,7 @@ class Enemy(Entity):
             self.can_attack = False
             self.attacking = True
             self.damage_player(self.attack_damage, self.attack_type)
-            SpritesSound.damage_receiving(1)
+            SpritesSound.damage_receiving(4)
         elif self.status in ('up', 'down', 'left', 'right'):
             self.direction = self.get_player_distance_direction(player)[1]
         else:
@@ -143,7 +143,7 @@ class Enemy(Entity):
             self.kill()
             enemy_log[self.id_numb] = False
             player.money += self.money
-            SpritesSound.death_sound(1)
+            SpritesSound.death_sound(2)
 
     def check_existence(self, id_numb):
         if enemy_log[id_numb] is False:

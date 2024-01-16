@@ -89,7 +89,6 @@ class Player(Entity):
                     self.attacking_rect = self.hitbox.copy().move(0, PLAYER_ATTACK_OFFSET)
                 else:
                     self.attacking_rect = self.hitbox.copy().move(0, -PLAYER_ATTACK_OFFSET)
-            SpritesSound.punching(1)
         else:
             if 'attack' in self.status:
                 self.status = self.status.replace('_attack', '_idle')
@@ -148,6 +147,7 @@ class Player(Entity):
                 self.attack_time = pygame.time.get_ticks()
                 self.attacking = True
                 self.can_attack = False
+                SpritesSound.punching(3)
 
     def _cooldowns(self):
         current_time = pygame.time.get_ticks()

@@ -94,31 +94,27 @@ class Entity(pygame.sprite.Sprite):
 
 
 textures_anim_dict = {
+    # level 1
     'floor': {
         1: collections.deque(
-            [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/floor.png'), (800, 400))]
-        )
-    },
-    'floor_2': {
-        1: collections.deque(
-            [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/floor_2.png'), (1540, 1160))]
+            [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_1/floor.png'), (800, 400))]
         )
     },
     'back_wall': {
         1: collections.deque(
-            [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/back_wall.png'), (800, 200))])
+            [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_1/back_wall.png'), (800, 200))])
     },
     'side_wall': {
         1: collections.deque(
-            [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/side_wall.png'), (40, 680))])
+            [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_1/side_wall.png'), (40, 680))])
     },
     'down_wall': {
         1: collections.deque(
-            [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/down_wall.png'), (800, 100))])
+            [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_1/down_wall.png'), (800, 100))])
     },
     'inside_wall': {
         1: collections.deque(
-            [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/inside_wall.png'), (40, 280))])
+            [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_1/inside_wall.png'), (40, 280))])
     },
     # 'inside_wall_2': {
     #     1: collections.deque(
@@ -141,7 +137,57 @@ textures_anim_dict = {
     'carpet': {
         1:
             collections.deque(
-                [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/carpet.png'), (400, 250))]
+                [pygame.transform.scale(load_image(TEXTURES_PATH, 'passable_textures/carpet.png'), (400, 250))]
+            )
+    },
+    # level 2
+    'back_wall_2': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/back_wall.png'), (1920, 200))]
+            )
+    },
+    'down_wall_1': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/down_wall_1.png'), (1520, 100))]
+            )
+    },
+    'down_wall_2': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/down_wall_2.png'), (960, 100))]
+            )
+    },
+    'floor_2': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/floor.png'), (1920, 960))]
+            )
+    },
+    'roofs': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs.png'), (2300, 1480))]
+            )
+    },
+    'store_back': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/store_back.png'), (220, 120))]
+            )
+    },
+    'store_front': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/store_front.png'), (200, 80))]
+            )
+    },
+    'flowerbed': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(f'{TEXTURES_PATH}/solid_textures', f'flowerbed/{i}.png'), (120, 60))
+                 for i in range(2)]
             )
     }
 }

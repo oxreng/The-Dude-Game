@@ -49,13 +49,6 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.run()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self._level.zoom_cam(event.button)
-
-            # keys = pygame.key.get_pressed()
-            # if keys[pygame.K_h]:
-            # self.camera_group.center_target_camera(self._player)
-            # self._player.center_target()
 
             pygame.display.set_caption('FPS: ' + str(int(self._clock.get_fps())))
             pygame.display.flip()

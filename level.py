@@ -15,7 +15,8 @@ class Level:
     def __init__(self):
         # Получить экран
         self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self.player = \
-            self.interaction_group = self.attackable_sprites = self.particles_sprites = None
+            self.interaction_group = self.attackable_sprites = self.particles_sprites = self.first_group = \
+            self.last_group = None
         self.now_level = 'level_1'
         self._display_surface = pygame.display.get_surface()
 
@@ -34,19 +35,40 @@ class Level:
         self.camera_group = CameraGroup()
         self.interaction_group = pygame.sprite.Group()
         self.particles_sprites = pygame.sprite.Group()
+        self.first_group = pygame.sprite.Group()
+        self.last_group = pygame.sprite.Group()
         with open(f'{TEXTURES_PATH}/level_csv/{level_name}.csv') as level_file:
             reader = csv.DictReader(level_file, delimiter=';', quotechar='"')
             for item in reader:
                 if item['type'] == 'passable':
-                    PassableSprite(self.passable_sprites, self.interaction_group,
+                    if item['blit'] == 'y':
+                        groups = [self.passable_sprites, self.interaction_group]
+                    elif item['blit'] == 'first':
+                        groups = [self.passable_sprites, self.first_group, self.interaction_group]
+                    elif item['blit'] == 'last':
+                        groups = [self.passable_sprites, self.last_group, self.interaction_group]
+                    PassableSprite(*groups,
                                    file_name=item['name'], x=int(item['x']), y=int(item['y']))
                 elif item['type'] == 'solid':
-                    SolidSprite(self.solid_sprites, self.camera_group, self.interaction_group,
+                    if item['blit'] == 'y':
+                        groups = [self.solid_sprites, self.camera_group, self.interaction_group]
+                    elif item['blit'] == 'first':
+                        groups = [self.solid_sprites, self.first_group, self.interaction_group]
+                    elif item['blit'] == 'last':
+                        groups = [self.solid_sprites, self.last_group, self.interaction_group]
+                    SolidSprite(*groups,
                                 file_name=item['name'], x=int(item['x']), y=int(item['y']),
                                 tiling_x=int(item['tiling_x']) if int(item['tiling_x']) != 0 else TILE,
                                 tiling_y=int(item['tiling_y']) if int(item['tiling_y']) != 0 else TILE,
                                 partly_passable=(bool(item['partly_passable'])))
                 elif item['type'] == 'breakable':
+                    if item['blit'] == 'y':
+                        groups = [self.solid_sprites, self.camera_group, self.interaction_group,
+                                  self.attackable_sprites]
+                    elif item['blit'] == 'first':
+                        groups = [self.solid_sprites, self.first_group, self.interaction_group, self.attackable_sprites]
+                    elif item['blit'] == 'last':
+                        groups = [self.solid_sprites, self.last_group, self.interaction_group, self.attackable_sprites]
                     SolidSprite(self.solid_sprites, self.camera_group, self.attackable_sprites, self.interaction_group,
                                 file_name=item['name'], x=int(item['x']), y=int(item['y']),
                                 tiling_x=int(item['tiling_x']), tiling_y=int(item['tiling_y']),
@@ -61,7 +83,7 @@ class Level:
                                  solid_sprites=self.solid_sprites, level=self)
         else:
             self.player = Player(self.camera_group, self.player_group, x=area.x + 50,
-                                 y=area.y + 150,
+                                 y=area.y + 250,
                                  solid_sprites=self.solid_sprites, level=self, hp=self.player.health,
                                  animations=self.player.animations_state, interacting=True,
                                  interact_time=interact_time)
@@ -78,7 +100,7 @@ class Level:
         self.player.update()
         self.particles_sprites.update()
         self.solid_sprites.update()
-        self.camera_group.custom_draw(self.passable_sprites, player=self.player, now_level=self.now_level)
+        self.camera_group.custom_draw(self.first_group, self.last_group, player=self.player, now_level=self.now_level)
         self.player_attack_logic()
         self.ui.show_in_display(self.player)
 
@@ -97,7 +119,7 @@ class Level:
                         offset = pygame.math.Vector2(0, 75)
                         for _ in range(randint(3, 6)):
                             self.camera_group.particles_create(self.camera_group, self.particles_sprites,
-                                                               particle_name='leaf', pos=pos-offset)
+                                                               particle_name='leaf', pos=pos - offset)
                         target_spr.kill()
                         target_spr.break_object()
 

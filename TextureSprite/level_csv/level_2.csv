@@ -1,5 +1,11 @@
-name;type;partly_passable;id;tiling_x;tiling_y;x;y
-floor_2;passable;0;0;1540;1160;0;0
-back_wall;solid;1;0;800;200;0;-200
-skeleton;enemy;0;1;0;1;300;300
-wardrobe;breakable;0;1;60;200;100;200
+name;type;partly_passable;id;blit;tiling_x;tiling_y;x;y
+floor_2;passable;0;0;first;1920;960;0;0
+back_wall_2;solid;1;0;y;1920;200;0;-200
+down_wall_1;solid;0;0;first;1520;100;-200;500
+down_wall_2;solid;0;0;first;960;100;1160;1040
+roofs;passable;0;0;last;2300;1480;-200;-400
+flowerbed;solid;1;0;y;0;0;32;24
+skeleton;enemy;0;1;y;0;1;300;300
+wardrobe;breakable;0;1;y;60;200;100;200
+store_back;passable;0;0;last;220;120;1320;-200
+store_front;solid;1;0;y;200;85;1340;-65

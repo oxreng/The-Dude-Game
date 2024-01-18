@@ -30,18 +30,18 @@ UI_HEALTH_COLOR = RED
 UI_BORDER_COLOR_ACTIVE = 'gold'
 
 # Настройки меню
-MENU_FPS = 30
-MENU_FONT = 'fonts/font.ttf'
+MENU_FPS = 60
+MENU_FONT = 'fonts/joystix.ttf'
 BUTTON_FONT_SIZE = 75
 LOGO_FONT_SIZE = 250
 MENU_BACKGROUND = 'StartWindow.jpg'
 MENU_BACKGROUND_POS = (0, 0)
 EXIT_NAME = 'EXIT'
 START_NAME = 'START'
-BTN_EXIT_BACK_POS = (50, 500)
-BTN_EXIT_BACK_SIZE = (150, 60)
-BTN_START_BACK_POS = (50, 100)
-BTN_START_BACK_SIZE = (200, 60)
+MENU_FONT_SIZE = 18
+MENU_BTN_EXIT_POS = (50, 500)
+MENU_BTN_START_POS = (50, 100)
+MENU_BTN_SETTINGS_POS = (50, 300)
 
 # Настройки текстур
 TILE = 100
@@ -80,8 +80,8 @@ UI_FONT_SIZE = 18
 
 # Настройки врагов
 monster_data = {
-    'skeleton': {'health': 100, 'money': 10000, 'damage': 5, 'attack_type': 'slash', 'attack_sound': 'slash', 'speed': 3,
-              'resistance': 3, 'attack_radius': 80, 'notice_radius': 360, 'attack_cooldown': 400}
+    'skeleton': {'health': 100, 'money': 10000, 'damage': 5, 'attack_type': 'slash', 'attack_sound': 'slash',
+                 'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360, 'attack_cooldown': 400}
 }
 ENEMY_VULNERABLE_DURATION = 400
 

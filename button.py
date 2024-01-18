@@ -1,4 +1,5 @@
 import pygame
+from config import *
 
 
 class Button(pygame.sprite.Sprite):  # Создание кнопок
@@ -30,15 +31,19 @@ class Button(pygame.sprite.Sprite):  # Создание кнопок
         else:
             current_image = self.image
         screen.blit(current_image, self.rect.topleft)
-        font = pygame.font.Font(None, 36)
+        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
         text_surface = font.render(self.text, True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
-    def check_event(self, mouse_pos, mouse_click):  # Наведена ли мышка на кнопку
-        self.is_hovered = self.rect.collidepoint(mouse_pos)
-        if self.is_hovered and mouse_click[0]:
+    def check_event(self, mouse_pos, event):  # Наведена ли мышка на кнопку
+        if not self.is_down:
+            self.is_hovered = self.rect.collidepoint(mouse_pos)
+        if self.is_hovered and event.type == pygame.MOUSEBUTTONDOWN:
             self.is_down = True
-            pygame.event.post(pygame.event.Event(pygame.USEREVENT, button=self))
-        else:
+        elif event.type == pygame.MOUSEBUTTONUP and self.is_down:
             self.is_down = False
+            self.is_hovered = self.rect.collidepoint(mouse_pos)
+            if self.is_hovered:
+                return True
+        return False

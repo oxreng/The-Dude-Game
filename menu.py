@@ -17,13 +17,11 @@ class Menu:
         self.x = 0
         self.screen = screen
         self.clock = clock
-        self.delay = 0
         self.running = True
         self.buttons_group = pygame.sprite.Group()
 
     def run(self):
         self._create_buttons()
-        pygame.time.delay(self.delay)
         pygame.mouse.set_visible(True)
         self.running = True
         while self.running:
@@ -43,7 +41,6 @@ class Menu:
 
     def operations(self):
         self._draw_background()
-        self._logo()
         self._mouse_operations()
         self._draw_buttons()
 
@@ -54,9 +51,6 @@ class Menu:
     def _draw_buttons(self):
         for button in self.buttons_group:
             button.draw(self.screen)
-
-    def _logo(self):
-        ...
 
     def _create_buttons(self):
         pass
@@ -81,13 +75,17 @@ class MainMenu(Menu):
         self._btn_settings_check(mouse_pos, event)
 
     def _create_buttons(self):
-        self.btn_exit = Button(self.buttons_group, *MENU_BTN_EXIT_POS, 'EXIT', textures_anim_dict['oven'][1][0],
-                               textures_anim_dict['oven'][-1][0], textures_anim_dict['wardrobe'][1][0])
-        self.btn_start = Button(self.buttons_group, *MENU_BTN_START_POS, 'START', textures_anim_dict['oven'][1][0],
-                                textures_anim_dict['oven'][-1][0], textures_anim_dict['wardrobe'][1][0])
-        self.btn_setting = Button(self.buttons_group, *MENU_BTN_SETTINGS_POS, 'SETTINGS',
-                                  textures_anim_dict['oven'][1][0],
-                                  textures_anim_dict['oven'][-1][0], textures_anim_dict['wardrobe'][1][0])
+        self.btn_exit = Button(self.buttons_group, *MENU_BTN_EXIT_POS, MENU_EXIT_NAME,
+                               textures_buttons_dict['menu']['normal'][0],
+                               textures_buttons_dict['menu']['hovered'][0], textures_buttons_dict['menu']['clicked'][0])
+        self.btn_start = Button(self.buttons_group, *MENU_BTN_START_POS, MENU_START_NAME,
+                                textures_buttons_dict['menu']['normal'][0],
+                                textures_buttons_dict['menu']['hovered'][0],
+                                textures_buttons_dict['menu']['clicked'][0])
+        self.btn_setting = Button(self.buttons_group, *MENU_BTN_SETTINGS_POS, MENU_SETTING_NAME,
+                                  textures_buttons_dict['menu']['normal'][0],
+                                  textures_buttons_dict['menu']['hovered'][0],
+                                  textures_buttons_dict['menu']['clicked'][0])
 
     def _btn_exit_check(self, mouse_pos, event):
         if self.btn_exit.check_event(mouse_pos, event):
@@ -115,8 +113,9 @@ class Settings(Menu):
         self._btn_exit_check(mouse_pos, event)
 
     def _create_buttons(self):
-        self.btn_exit = Button(self.buttons_group, *MENU_BTN_EXIT_POS, 'TO MENU', textures_anim_dict['oven'][1][0],
-                               textures_anim_dict['oven'][-1][0], textures_anim_dict['wardrobe'][1][0])
+        self.btn_exit = Button(self.buttons_group, *MENU_BTN_EXIT_POS, MENU_EXIT_NAME,
+                               textures_buttons_dict['menu']['normal'][0],
+                               textures_buttons_dict['menu']['hovered'][0], textures_buttons_dict['menu']['clicked'][0])
 
     def _btn_exit_check(self, mouse_pos, event):
         if self.btn_exit.check_event(mouse_pos, event):

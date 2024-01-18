@@ -305,3 +305,17 @@ enemy_anim_dict = {
             [load_image(f'{ENEMY_TEXTURES_PATH}/skeleton', f'attack_up_frames/{i}.png') for i in range(7)])
     }
 }
+
+textures_buttons_dict = {
+    'menu': {
+        'normal':
+            collections.deque(
+                [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'0.png'), (186, 60))]),
+        'hovered':
+            collections.deque(
+                [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'1.png'), (186, 60))]),
+        'clicked':
+            collections.deque(
+                [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'2.png'), (186, 60))])
+    }
+}

@@ -36,12 +36,21 @@ BUTTON_FONT_SIZE = 75
 LOGO_FONT_SIZE = 250
 MENU_BACKGROUND = 'StartWindow.jpg'
 MENU_BACKGROUND_POS = (0, 0)
-EXIT_NAME = 'EXIT'
-START_NAME = 'START'
+MENU_EXIT_NAME = 'EXIT'
+MENU_START_NAME = 'START'
+MENU_SETTING_NAME = 'SETTINGS'
 MENU_FONT_SIZE = 18
-MENU_BTN_EXIT_POS = (50, 500)
-MENU_BTN_START_POS = (50, 100)
-MENU_BTN_SETTINGS_POS = (50, 300)
+MENU_BTN_START_POS = (50, 105)
+MENU_BTN_SETTINGS_POS = (50, 270)
+MENU_BTN_EXIT_POS = (50, 435)
+
+# Настройки паузы
+PAUSE_CONTINUE_NAME = 'CONTINUE'
+PAUSE_BACK_TO_MENU_NAME = 'BACK TO MENU'
+PAUSE_BTN_CONTINUE_POS = (50, 105)
+PAUSE_BTN_SETTINGS_POS = (50, 270)
+PAUSE_BTN_BACK_TO_MENU_POS = (50, 435)
+
 
 # Настройки текстур
 TILE = 100
@@ -51,6 +60,7 @@ PASSABLE_TEXTURES_PATH = 'TextureSprite/passable_textures'
 SOLID_TEXTURES_PATH = 'TextureSprite/solid_textures'
 PLAYER_TEXTURES_PATH = 'TextureSprite/player'
 ENEMY_TEXTURES_PATH = 'TextureSprite/enemies'
+MENU_BUTTONS_TEXTURES_PATH = 'TextureSprite/buttons_ui'
 SPRITE_ANIMATION_SPEED = 25
 
 # Настройки камеры
@@ -92,6 +102,10 @@ PARTICLES_TEXTURES_PATH = 'TextureSprite/particles'
 # Музыка
 MENU_THEME = 'music/menu.mp3'
 MUSIC_FOLDER = 'Levels_music'
+SOUND_BUTTON_PUSH = 'sound/button_push.mp3'
+SOUND_PUNCH = 'sound/fight/punching.mp3'
+SOUND_DAMAGE_RECEIVING = 'sound/fight/damage_receiving.mp3'
+SOUND_DEATH = 'sound/fight/death_sound.mp3'
 MUSIC_FILES = [os.path.join(MUSIC_FOLDER, file) for file in listdir(MUSIC_FOLDER) if isfile(join(MUSIC_FOLDER, file))]
 
 # Подсказки

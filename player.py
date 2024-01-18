@@ -147,7 +147,7 @@ class Player(Entity):
                 self.attack_time = pygame.time.get_ticks()
                 self.attacking = True
                 self.can_attack = False
-                SpritesSound.punching(3)
+                SpritesSound.punching_sound(3)
 
     def _cooldowns(self):
         current_time = pygame.time.get_ticks()
@@ -165,7 +165,7 @@ class Player(Entity):
 
     def _play_sound(self):
         if self.direction.x or self.direction.y:
-            SpritesSound.footstep(1)
+            SpritesSound.footstep_sound(1)
 
     def change_animation_state(self):
         if self.animations_state == 'normal':

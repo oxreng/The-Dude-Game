@@ -1,5 +1,6 @@
 import pygame
 from config import *
+from sound import SpritesSound
 
 
 class Button(pygame.sprite.Sprite):  # Создание кнопок
@@ -41,6 +42,7 @@ class Button(pygame.sprite.Sprite):  # Создание кнопок
             self.is_hovered = self.rect.collidepoint(mouse_pos)
         if self.is_hovered and event.type == pygame.MOUSEBUTTONDOWN:
             self.is_down = True
+            SpritesSound.button_sound(2)
         elif event.type == pygame.MOUSEBUTTONUP and self.is_down:
             self.is_down = False
             self.is_hovered = self.rect.collidepoint(mouse_pos)

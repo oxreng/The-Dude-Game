@@ -68,23 +68,27 @@ class SoundEffect:
 
 class SpritesSound:
     @staticmethod
-    def footstep(channel=2):
+    def footstep_sound(channel=2):
         current_step = steps_collection[0]
         steps_collection.rotate(-1)
         SoundEffect(f'sound/{current_step}.mp3').play_sound(channel)
 
     @staticmethod
-    def punching(channel=2):
-        SoundEffect('sound/fight/punching.mp3').play_sound(channel)
+    def punching_sound(channel=2):
+        SoundEffect(SOUND_PUNCH).play_sound(channel)
 
     @staticmethod
-    def damage_receiving(channel=2):
-        SoundEffect('sound/fight/damage_receiving.mp3').play_sound(channel)
+    def damage_receiving_sound(channel=2):
+        SoundEffect(SOUND_DAMAGE_RECEIVING).play_sound(channel)
 
     @staticmethod
     def death_sound(channel=2):
-        SoundEffect('sound/fight/death_sound.mp3').play_sound(channel)
+        SoundEffect(SOUND_DEATH).play_sound(channel)
+
+    @staticmethod
+    def button_sound(channel=2):
+        SoundEffect(SOUND_BUTTON_PUSH).play_sound(channel)
 
 
 steps_collection = collections.deque(
-            [f'step_{i}' for i in range(1, 4)])
+    [f'step_{i}' for i in range(3)])

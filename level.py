@@ -95,6 +95,8 @@ class Level:
             self.player.vulnerable = False
             self.player.hit_time = pygame.time.get_ticks()
             # Создаём партиклы
+            if self.player.health <= 0:
+                ...
 
     def show(self):
         self.player.update()

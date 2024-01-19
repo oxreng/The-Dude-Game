@@ -3,7 +3,7 @@ import pygame
 from config import *
 from sound import MenuMusic, SoundEffect
 from load_image import load_image
-from button import Button, Slider
+from buttons import Button, Slider
 from sprite import *
 
 pygame.init()

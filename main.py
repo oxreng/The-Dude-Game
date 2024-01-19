@@ -9,7 +9,7 @@ from sound import SoundEffect
 from debug import debug
 from level import Level
 from pause import Pause
-from death_window import DeathWindow
+from fade import Fade
 
 
 class Game:
@@ -21,7 +21,8 @@ class Game:
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
         self._menu = MainMenu(self.screen, self.clock)
-        self._level = Level(self.screen, self.clock, self.run)
+        self.fade = Fade(self.screen, self.clock)
+        self._level = Level(self.screen, self.clock, self.run, self.fade)
         SoundEffect.change_effects_volume(
             STANDARD_EFFECTS_VOLUME if SoundEffect.return_volume() == 1 else SoundEffect.return_volume())
 
@@ -43,6 +44,9 @@ class Game:
         pygame.mouse.set_visible(True)
 
     def _update(self):
+        self.fade.fade_in(self.screen.copy())
+        self._level.show()
+        self.fade.fade_out(self.screen.copy())
         while self._running:
             self._level.show()
             self.clock.tick(FPS)
@@ -54,6 +58,7 @@ class Game:
                     self._running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
+                        self.fade.faded = False
                         self.set_pause()
 
     def set_pause(self):

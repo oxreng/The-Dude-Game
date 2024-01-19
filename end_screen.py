@@ -5,7 +5,7 @@ from buttons import Button
 from sprite import *
 
 
-class DeathWindow:
+class EndScreen:
     def __init__(self, screen, clock, restart_func):
         self.screen = screen
         self.clock = clock

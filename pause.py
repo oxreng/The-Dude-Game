@@ -1,7 +1,7 @@
 import sys
 import pygame
 from config import *
-from button import Button
+from buttons import Button
 from sprite import *
 from menu import Settings
 

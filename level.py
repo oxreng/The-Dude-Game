@@ -13,7 +13,7 @@ from death_window import DeathWindow
 
 
 class Level:
-    def __init__(self, screen, clock, to_menu_func):
+    def __init__(self, screen, clock, to_menu_func, fade):
         # Получить экран
         self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self.player = \
             self.interaction_group = self.attackable_sprites = self.particles_sprites = self.first_group = \
@@ -22,6 +22,7 @@ class Level:
         self.screen = screen
         self.clock = clock
         self.to_menu_func = to_menu_func
+        self.fade = fade
         # Учет уничтожаемых предметов
         self.enemy_log, self.breakable_log = {}, {}
 
@@ -95,7 +96,6 @@ class Level:
                                  solid_sprites=self.solid_sprites, level=self, hp=self.player.health,
                                  animations=self.player.animations_state, interacting=True,
                                  interact_time=interact_time)
-        # self.camera_group.center_target_camera(self.player)
 
     def damage_player(self, amount, attack_type):
         if self.player.vulnerable:
@@ -142,7 +142,12 @@ class Level:
                 elif obj.type == 'change_outfit':
                     self.player.change_animation_state()
                 elif obj.type == 'change_level':
+                    self.fade.fade_in(self.screen.copy())
                     self.change_level(obj.where, False, interact_time, obj.destination_x, obj.destination_y)
+                    self.camera_group.custom_draw(self.first_group, self.last_group, player=self.player,
+                                                  now_level=self.now_level)
+                    self.ui.show_in_display(self.player)
+                    self.fade.fade_out(self.screen.copy())
 
     def start_new_game(self):
         self.enemy_log, self.breakable_log = {}, {}

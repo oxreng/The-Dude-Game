@@ -96,7 +96,7 @@ UI_FONT_SIZE = 18
 
 # Настройки врагов
 monster_data = {
-    'skeleton': {'health': 100, 'money': 10000, 'damage': 5, 'attack_type': 'slash', 'attack_sound': 'slash',
+    'skeleton': {'health': 100, 'money': 10000, 'damage': 1, 'attack_type': 'slash', 'attack_sound': 'slash',
                  'speed': 3, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 360, 'attack_cooldown': 400}
 }
 ENEMY_VULNERABLE_DURATION = 400
@@ -122,5 +122,12 @@ STANDARD_EFFECTS_VOLUME = 0.4
 hint_text = {
     'door': 'Press  E  to  open',
     'oven': 'Press  E  to  interact',
-    'wardrobe': 'Press  E  to  get  changed'
+    'wardrobe': 'Press  E  to  get  changed',
+    'dialogue_1': 'test_dialogue'
+}
+
+# Тексты диалогов
+dialogue_text = {
+    'dialogue_1': "this  is  a  lot  of  text  and  it  wont  all  fit  on  the  screen  it  needs  to  be  on  "
+                  "multiple  lines  but  it  doesn't  right  now  and  i  need  more  text"
 }

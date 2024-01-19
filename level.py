@@ -10,6 +10,7 @@ from enemy import Enemy
 import csv
 from random import randint
 from death_window import DeathWindow
+from dialogue import Dialogue
 
 
 class Level:

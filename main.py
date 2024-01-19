@@ -6,8 +6,10 @@ from sound import Music
 from sprite import *
 from cameras import *
 from sound import SoundEffect
+from interactions import dialogue_markers
 from debug import debug
 from level import Level
+from dialogue import Dialogue
 from pause import Pause
 from death_window import DeathWindow
 
@@ -43,6 +45,8 @@ class Game:
         pygame.mouse.set_visible(True)
 
     def _update(self):
+        FIRSTDIALOGUETIMER = pygame.USEREVENT + 1
+        pygame.time.set_timer(FIRSTDIALOGUETIMER, 500)
         while self._running:
             self._level.show()
             self.clock.tick(FPS)
@@ -55,6 +59,11 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.set_pause()
+                if event.type == FIRSTDIALOGUETIMER:
+                    if not dialogue_markers['dialogue_1']:
+                        Dialogue(self.screen, self.clock, 'dialogue_1').run()
+                        dialogue_markers['dialogue_1'] = True
+                    pygame.time.set_timer(FIRSTDIALOGUETIMER, 0)
 
     def set_pause(self):
         if Pause(self.screen, self.clock).run():

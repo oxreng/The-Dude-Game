@@ -158,7 +158,7 @@ textures_anim_dict = {
     'down_wall_2': {
         1:
             collections.deque(
-                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/down_wall_2.png'), (960, 100))]
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/down_wall_2.png'), (943, 100))]
             )
     },
     'floor_2': {
@@ -167,16 +167,10 @@ textures_anim_dict = {
                 [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/floor.png'), (1920, 960))]
             )
     },
-    'roofs': {
-        1:
-            collections.deque(
-                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs.png'), (2300, 1480))]
-            )
-    },
     'store_back': {
         1:
             collections.deque(
-                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/store_back.png'), (220, 120))]
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/store_back.png'), (219, 140))]
             )
     },
     'store_front': {
@@ -191,7 +185,43 @@ textures_anim_dict = {
                 [pygame.transform.scale(load_image(f'{TEXTURES_PATH}/solid_textures', f'flowerbed/{i}.png'), (120, 60))
                  for i in range(2)]
             )
-    }
+    },
+    'down_roof_1': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs/down_roof_1.png'), (1545, 160))]
+            )
+    },
+    'down_roof_2': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs/down_roof_2.png'), (580, 160))]
+            )
+    },
+    'left_roof_1': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs/left_roof_1.png'), (200, 900))]
+            )
+    },
+    'left_roof_2': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs/left_roof_2.png'), (195, 600))]
+            )
+    },
+    'right_roof': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs/right_roof.png'), (200, 1500))]
+            )
+    },
+    'up_roof': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs/up_roof.png'), (1920, 200))]
+            )
+    },
 }
 
 player_anim_dict = {

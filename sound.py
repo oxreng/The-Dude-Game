@@ -23,7 +23,7 @@ class Music:
 
     def play_music(self):
         if self.theme.get_volume() != 0:
-            self.theme.set_volume(0.1)
+            self.theme.set_volume(0.08)
             self.theme.play(-1)
 
     def change_music_volume(self, volume):
@@ -63,7 +63,7 @@ class SoundEffect:
 
     @staticmethod
     def return_volume():
-        return pygame.mixer.Channel(1).get_volume(), pygame.mixer.Channel(2).get_volume()
+        return pygame.mixer.Channel(1).get_volume()
 
 
 class SpritesSound:

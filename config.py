@@ -43,6 +43,12 @@ MENU_FONT_SIZE = 18
 MENU_BTN_START_POS = (50, 105)
 MENU_BTN_SETTINGS_POS = (50, 270)
 MENU_BTN_EXIT_POS = (50, 435)
+MENU_MUSIC_UP_NAME = '+'
+MENU_MUSIC_DOWN_NAME = '-'
+MENU_BTN_MUSIC_UP_POS = (866, 240)
+MENU_BTN_MUSIC_DOWN_POS = (50, 240)
+MENU_MUSIC_POS = (300, 240)
+MENU_MUSIC_SIZE = (500, 60)
 
 # Настройки паузы
 PAUSE_CONTINUE_NAME = 'CONTINUE'
@@ -61,7 +67,7 @@ SOLID_TEXTURES_PATH = 'TextureSprite/solid_textures'
 PLAYER_TEXTURES_PATH = 'TextureSprite/player'
 ENEMY_TEXTURES_PATH = 'TextureSprite/enemies'
 MENU_BUTTONS_TEXTURES_PATH = 'TextureSprite/buttons_ui'
-SPRITE_ANIMATION_SPEED = 25
+SPRITE_ANIMATION_SPEED = 50
 
 # Настройки камеры
 BOX_LEFT = 200
@@ -107,6 +113,10 @@ SOUND_PUNCH = 'sound/fight/punching.mp3'
 SOUND_DAMAGE_RECEIVING = 'sound/fight/damage_receiving.mp3'
 SOUND_DEATH = 'sound/fight/death_sound.mp3'
 MUSIC_FILES = [os.path.join(MUSIC_FOLDER, file) for file in listdir(MUSIC_FOLDER) if isfile(join(MUSIC_FOLDER, file))]
+MAX_EFFECTS_VOLUME = 0.8
+EFFECTS_VOLUME_CHANGING = 0.1
+MUSIC_VOLUME_CHANGING = 0.1
+STANDARD_EFFECTS_VOLUME = 0.4
 
 # Подсказки
 hint_text = {
@@ -114,7 +124,3 @@ hint_text = {
     'oven': 'Press  E  to  interact',
     'wardrobe': 'Press  E  to  get  changed'
 }
-
-# Учет уничтожаемых предметов
-enemy_log = {}
-breakable_log = {}

@@ -5,9 +5,11 @@ from menu import MainMenu
 from sound import Music
 from sprite import *
 from cameras import *
+from sound import SoundEffect
 from debug import debug
 from level import Level
 from pause import Pause
+from death_window import DeathWindow
 
 
 class Game:
@@ -19,7 +21,9 @@ class Game:
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
         self._menu = MainMenu(self.screen, self.clock)
-        self._level = Level()
+        self._level = Level(self.screen, self.clock, self.run)
+        SoundEffect.change_effects_volume(
+            STANDARD_EFFECTS_VOLUME if SoundEffect.return_volume() == 1 else SoundEffect.return_volume())
 
     def run(self):
         self._pre_init()
@@ -40,7 +44,6 @@ class Game:
 
     def _update(self):
         while self._running:
-            self.screen.fill(BLACK)
             self._level.show()
             self.clock.tick(FPS)
             pygame.display.set_caption('FPS: ' + str(int(self.clock.get_fps())))

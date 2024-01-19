@@ -1,9 +1,9 @@
 import sys
 import pygame
 from config import *
-from sound import MenuMusic
+from sound import MenuMusic, SoundEffect
 from load_image import load_image
-from button import Button
+from button import Button, Slider
 from sprite import *
 
 pygame.init()
@@ -75,14 +75,14 @@ class MainMenu(Menu):
         self._btn_settings_check(mouse_pos, event)
 
     def _create_buttons(self):
-        self.btn_exit = Button(self.buttons_group, *MENU_BTN_EXIT_POS, MENU_EXIT_NAME,
+        self.btn_exit = Button(self.buttons_group, MENU_BTN_EXIT_POS, MENU_EXIT_NAME,
                                textures_buttons_dict['menu']['normal'][0],
                                textures_buttons_dict['menu']['hovered'][0], textures_buttons_dict['menu']['clicked'][0])
-        self.btn_start = Button(self.buttons_group, *MENU_BTN_START_POS, MENU_START_NAME,
+        self.btn_start = Button(self.buttons_group, MENU_BTN_START_POS, MENU_START_NAME,
                                 textures_buttons_dict['menu']['normal'][0],
                                 textures_buttons_dict['menu']['hovered'][0],
                                 textures_buttons_dict['menu']['clicked'][0])
-        self.btn_setting = Button(self.buttons_group, *MENU_BTN_SETTINGS_POS, MENU_SETTING_NAME,
+        self.btn_setting = Button(self.buttons_group, MENU_BTN_SETTINGS_POS, MENU_SETTING_NAME,
                                   textures_buttons_dict['menu']['normal'][0],
                                   textures_buttons_dict['menu']['hovered'][0],
                                   textures_buttons_dict['menu']['clicked'][0])
@@ -111,12 +111,21 @@ class Settings(Menu):
     def _mouse_operations(self, event=pygame.event.Event):
         mouse_pos = pygame.mouse.get_pos()
         self._btn_exit_check(mouse_pos, event)
+        self._slider_music_check(mouse_pos, event)
 
     def _create_buttons(self):
-        self.btn_exit = Button(self.buttons_group, *MENU_BTN_EXIT_POS, MENU_EXIT_NAME,
+        self.btn_exit = Button(self.buttons_group, MENU_BTN_EXIT_POS, PAUSE_BACK_TO_MENU_NAME,
                                textures_buttons_dict['menu']['normal'][0],
                                textures_buttons_dict['menu']['hovered'][0], textures_buttons_dict['menu']['clicked'][0])
+        self.slider_music = Slider(self.buttons_group, MENU_MUSIC_POS, MENU_MUSIC_SIZE,
+                                   SoundEffect.return_volume() / MAX_EFFECTS_VOLUME, 0,
+                                   MAX_EFFECTS_VOLUME)
 
     def _btn_exit_check(self, mouse_pos, event):
         if self.btn_exit.check_event(mouse_pos, event):
             self.running = False
+
+    def _slider_music_check(self, mouse_pos, event):
+        value = self.slider_music.check_event(mouse_pos, event)
+        if value:
+            SoundEffect.change_effects_volume(value)

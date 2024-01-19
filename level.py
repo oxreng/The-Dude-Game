@@ -9,16 +9,21 @@ from ui import UI
 from enemy import Enemy
 import csv
 from random import randint
+from death_window import DeathWindow
 
 
 class Level:
-    def __init__(self):
+    def __init__(self, screen, clock, to_menu_func):
         # Получить экран
         self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self.player = \
             self.interaction_group = self.attackable_sprites = self.particles_sprites = self.first_group = \
             self.last_group = None
         self.now_level = 'level_1'
-        self._display_surface = pygame.display.get_surface()
+        self.screen = screen
+        self.clock = clock
+        self.to_menu_func = to_menu_func
+        # Учет уничтожаемых предметов
+        self.enemy_log, self.breakable_log = {}, {}
 
         # Создаём уровень
         self.change_level()
@@ -60,7 +65,7 @@ class Level:
                                 file_name=item['name'], x=int(item['x']), y=int(item['y']),
                                 tiling_x=int(item['tiling_x']) if int(item['tiling_x']) != 0 else TILE,
                                 tiling_y=int(item['tiling_y']) if int(item['tiling_y']) != 0 else TILE,
-                                partly_passable=(bool(item['partly_passable'])))
+                                partly_passable=(bool(item['partly_passable'])), breakble_log=self.breakable_log)
                 elif item['type'] == 'breakable':
                     if item['blit'] == 'y':
                         groups = [self.solid_sprites, self.camera_group, self.interaction_group,
@@ -72,11 +77,13 @@ class Level:
                     SolidSprite(self.solid_sprites, self.camera_group, self.attackable_sprites, self.interaction_group,
                                 file_name=item['name'], x=int(item['x']), y=int(item['y']),
                                 tiling_x=int(item['tiling_x']), tiling_y=int(item['tiling_y']),
-                                breakable=True, id_numb=int(item['id']), partly_passable=bool(item['partly_passable']))
+                                breakable=True, id_numb=int(item['id']), partly_passable=bool(item['partly_passable']),
+                                breakble_log=self.breakable_log)
                 else:
                     Enemy(self.camera_group, self.attackable_sprites, monster_name=item['name'],
                           x=int(item['x']), y=int(item['y']), id_numb=int(item['id']),
-                          solid_sprites=self.solid_sprites, damage_player_func=self.damage_player)
+                          solid_sprites=self.solid_sprites, damage_player_func=self.damage_player,
+                          enemy_log=self.enemy_log)
         if first_player:
             self.player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
                                  y=HALF_SCREEN_HEIGHT - 200,
@@ -96,7 +103,9 @@ class Level:
             self.player.hit_time = pygame.time.get_ticks()
             # Создаём партиклы
             if self.player.health <= 0:
-                ...
+                self.ui.show_in_display(self.player)
+                if DeathWindow(self.screen, self.clock, self.start_new_game).run():
+                    self.to_menu_func()
 
     def show(self):
         self.player.update()
@@ -105,9 +114,6 @@ class Level:
         self.camera_group.custom_draw(self.first_group, self.last_group, player=self.player, now_level=self.now_level)
         self.player_attack_logic()
         self.ui.show_in_display(self.player)
-
-    def zoom_cam(self, event_button):
-        self.camera_group.zooming(event_button)
 
     def player_attack_logic(self):
         if self.player.attacking:
@@ -136,3 +142,7 @@ class Level:
                     self.player.change_animation_state()
                 elif obj.type == 'change_level':
                     self.change_level(obj.where, False, obj.rect, interact_time)
+
+    def start_new_game(self):
+        self.enemy_log, self.breakable_log = {}, {}
+        self.change_level()

@@ -5,7 +5,7 @@ from sound import SpritesSound
 
 
 class Enemy(Entity):
-    def __init__(self, *groups, monster_name, x, y, solid_sprites, id_numb, damage_player_func=None):
+    def __init__(self, *groups, monster_name, x, y, solid_sprites, id_numb, enemy_log, damage_player_func=None):
         super().__init__(groups)
 
         # Картинки
@@ -36,6 +36,9 @@ class Enemy(Entity):
         self.attacking = False
         self.attack_cooldown = info['attack_cooldown']
         self.damage_player = damage_player_func
+
+        # Спавнить или нет врага
+        self.enemy_log = enemy_log
         if id_numb not in enemy_log:
             enemy_log[id_numb] = True
         else:
@@ -93,8 +96,8 @@ class Enemy(Entity):
             self.attack_time = pygame.time.get_ticks()
             self.can_attack = False
             self.attacking = True
-            self.damage_player(self.attack_damage, self.attack_type)
             SpritesSound.damage_receiving_sound(4)
+            self.damage_player(self.attack_damage, self.attack_type)
         elif self.status in ('up', 'down', 'left', 'right'):
             self.direction = self.get_player_distance_direction(player)[1]
         else:
@@ -141,12 +144,12 @@ class Enemy(Entity):
     def check_death(self, player):
         if self.health <= 0:
             self.kill()
-            enemy_log[self.id_numb] = False
+            self.enemy_log[self.id_numb] = False
             player.money += self.money
             SpritesSound.death_sound(2)
 
     def check_existence(self, id_numb):
-        if enemy_log[id_numb] is False:
+        if self.enemy_log[id_numb] is False:
             self.kill()
 
     def hit_reaction(self):

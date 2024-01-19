@@ -3,13 +3,13 @@ import pygame
 from config import *
 from button import Button
 from sprite import *
-from menu import Settings
 
 
-class Pause:
-    def __init__(self, screen, clock):
+class DeathWindow:
+    def __init__(self, screen, clock, restart_func):
         self.screen = screen
         self.clock = clock
+        self.restart_func = restart_func
         self.running = True
         self.buttons_group = pygame.sprite.Group()
         self.alpha_screen = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA, 32)
@@ -31,6 +31,7 @@ class Pause:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
+                        self.restart_func()
             self.operations()
             pygame.display.flip()
             self.clock.tick(MENU_FPS)
@@ -48,31 +49,21 @@ class Pause:
                                        textures_buttons_dict['menu']['normal'][0],
                                        textures_buttons_dict['menu']['hovered'][0],
                                        textures_buttons_dict['menu']['clicked'][0])
-        self.btn_continue = Button(self.buttons_group, PAUSE_BTN_CONTINUE_POS, PAUSE_CONTINUE_NAME,
-                                   textures_buttons_dict['menu']['normal'][0],
-                                   textures_buttons_dict['menu']['hovered'][0],
-                                   textures_buttons_dict['menu']['clicked'][0])
-        self.btn_setting = Button(self.buttons_group, PAUSE_BTN_SETTINGS_POS, MENU_SETTING_NAME,
+        self.btn_restart = Button(self.buttons_group, PAUSE_BTN_CONTINUE_POS, PAUSE_CONTINUE_NAME,
                                   textures_buttons_dict['menu']['normal'][0],
                                   textures_buttons_dict['menu']['hovered'][0],
                                   textures_buttons_dict['menu']['clicked'][0])
 
     def _mouse_operations(self, event=pygame.event.Event):
         mouse_pos = pygame.mouse.get_pos()
-        self._btn_continue_check(mouse_pos, event)
-        self._btn_settings_check(mouse_pos, event)
+        self._btn_restart_check(mouse_pos, event)
         return self._back_to_menu_check(mouse_pos, event)
 
     def _back_to_menu_check(self, mouse_pos, event):
         if self.btn_back_to_menu.check_event(mouse_pos, event):
             return True
 
-    def _btn_continue_check(self, mouse_pos, event):
-        if self.btn_continue.check_event(mouse_pos, event):
+    def _btn_restart_check(self, mouse_pos, event):
+        if self.btn_restart.check_event(mouse_pos, event):
             self.running = False
-
-    def _btn_settings_check(self, mouse_pos, event):
-        if self.btn_setting.check_event(mouse_pos, event):
-            last_surf = self.screen.copy()
-            Settings(self.screen, self.clock).run()
-            self.screen.blit(last_surf, (0, 0))
+            self.restart_func()

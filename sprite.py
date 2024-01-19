@@ -7,7 +7,7 @@ from math import sin
 
 
 class PassableSprite(pygame.sprite.Sprite):
-    def __init__(self, *groups, file_name, x, y, anim_state=1):
+    def __init__(self, *groups, file_name, x, y, anim_state=1, animation_speed=SPRITE_ANIMATION_SPEED / 2):
         super().__init__(*groups)
         self.animation_state = anim_state
         self.animations = textures_anim_dict[file_name]
@@ -16,13 +16,14 @@ class PassableSprite(pygame.sprite.Sprite):
         self.hitbox = self.rect.copy()
         self.animation_count = 0
         self.name = file_name
+        self.animation_speed = animation_speed
 
     def update(self):
         self.image_update()
 
-    def image_update(self, animation_speed=SPRITE_ANIMATION_SPEED / 2):
+    def image_update(self):
         self.animation_count += 1
-        if animation_speed <= self.animation_count:
+        if self.animation_speed <= self.animation_count:
             self.animations[self.animation_state].rotate(-1)
             self.image = self.animations[self.animation_state][0]
             self.animation_count = 0
@@ -30,11 +31,12 @@ class PassableSprite(pygame.sprite.Sprite):
 
 class SolidSprite(PassableSprite):
     def __init__(self, *groups, file_name, x, y, anim_state=1, tiling_x=TILE, tiling_y=TILE, partly_passable=False,
-                 breakable=False, id_numb=None):
+                 breakable=False, breakble_log, id_numb=None):
         super().__init__(*groups, file_name=file_name, x=x, y=y, anim_state=anim_state)
+        self.breakable_log = breakble_log
         if breakable:
-            if id_numb not in breakable_log:
-                breakable_log[id_numb] = True
+            if id_numb not in self.breakable_log:
+                self.breakable_log[id_numb] = True
             else:
                 self.check_existence(id_numb)
             self.id_numb = id_numb
@@ -42,11 +44,11 @@ class SolidSprite(PassableSprite):
             self.hitbox = pygame.rect.Rect((x, y), (tiling_x, tiling_y - TILE * 0.8))
 
     def check_existence(self, id_numb):
-        if breakable_log[id_numb] is False:
+        if self.breakable_log[id_numb] is False:
             self.kill()
 
     def break_object(self):
-        breakable_log[self.id_numb] = False
+        self.breakable_log[self.id_numb] = False
 
 
 class Entity(pygame.sprite.Sprite):

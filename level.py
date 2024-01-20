@@ -4,7 +4,7 @@ from player import Player
 from sprite import *
 from interactions import collide_areas
 from cameras import *
-from debug import debug
+from fade import Fade
 from ui import UI
 from enemy import Enemy
 import csv
@@ -13,7 +13,7 @@ from death_window import DeathWindow
 
 
 class Level:
-    def __init__(self, screen, clock, to_menu_func, fade):
+    def __init__(self, screen, clock, to_menu_func):
         # Получить экран
         self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self.player = \
             self.interaction_group = self.attackable_sprites = self.particles_sprites = self.first_group = \
@@ -22,7 +22,6 @@ class Level:
         self.screen = screen
         self.clock = clock
         self.to_menu_func = to_menu_func
-        self.fade = fade
         # Учет уничтожаемых предметов
         self.enemy_log, self.breakable_log = {}, {}
 
@@ -142,12 +141,12 @@ class Level:
                 elif obj.type == 'change_outfit':
                     self.player.change_animation_state()
                 elif obj.type == 'change_level':
-                    self.fade.fade_in(self.screen.copy())
+                    Fade(self.screen).fade_in()
                     self.change_level(obj.where, False, interact_time, obj.destination_x, obj.destination_y)
                     self.camera_group.custom_draw(self.first_group, self.last_group, player=self.player,
                                                   now_level=self.now_level)
                     self.ui.show_in_display(self.player)
-                    self.fade.fade_out(self.screen.copy())
+                    Fade(self.screen).fade_out()
 
     def start_new_game(self):
         self.enemy_log, self.breakable_log = {}, {}

@@ -10,6 +10,7 @@ from debug import debug
 from level import Level
 from pause import Pause
 from fade import Fade
+from end_screen import EndScreen
 
 
 class Game:
@@ -21,8 +22,7 @@ class Game:
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
         self._menu = MainMenu(self.screen, self.clock)
-        self.fade = Fade(self.screen, self.clock)
-        self._level = Level(self.screen, self.clock, self.run, self.fade)
+        self._level = Level(self.screen, self.clock, self.run)
         SoundEffect.change_effects_volume(
             STANDARD_EFFECTS_VOLUME if SoundEffect.return_volume() == 1 else SoundEffect.return_volume())
 
@@ -44,9 +44,9 @@ class Game:
         pygame.mouse.set_visible(True)
 
     def _update(self):
-        self.fade.fade_in(self.screen.copy())
+        Fade(self.screen).fade_in(FADE_SPEED_MENU)
         self._level.show()
-        self.fade.fade_out(self.screen.copy())
+        Fade(self.screen).fade_out(FADE_SPEED_MENU)
         while self._running:
             self._level.show()
             self.clock.tick(FPS)
@@ -58,11 +58,16 @@ class Game:
                     self._running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.fade.faded = False
                         self.set_pause()
+                    if event.key == pygame.K_z:
+                        self.end_screen()
 
     def set_pause(self):
         if Pause(self.screen, self.clock).run():
+            self.run()
+
+    def end_screen(self):
+        if EndScreen(self.screen, self.clock).run():
             self.run()
 
     @staticmethod

@@ -4,6 +4,7 @@ from config import *
 from buttons import Button
 from sprite import *
 from menu import Settings
+from fade import Fade
 
 
 class Pause:
@@ -76,3 +77,4 @@ class Pause:
             last_surf = self.screen.copy()
             Settings(self.screen, self.clock).run()
             self.screen.blit(last_surf, (0, 0))
+            Fade(self.screen).fade_out(50)

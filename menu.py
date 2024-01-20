@@ -5,6 +5,7 @@ from sound import MenuMusic, SoundEffect
 from load_image import load_image
 from buttons import Button, Slider
 from sprite import *
+from fade import Fade
 
 pygame.init()
 background = load_image(TEXTURES_PATH, MENU_BACKGROUND, color_key=None)
@@ -21,10 +22,15 @@ class Menu:
         self.buttons_group = pygame.sprite.Group()
 
     def run(self):
+        Fade(self.screen).fade_in(FADE_SPEED_MENU)
         self._create_buttons()
-        pygame.mouse.set_visible(True)
+        self.operations()
+        Fade(self.screen).fade_out(FADE_SPEED_MENU)
         self.running = True
         while self.running:
+            self.operations()
+            pygame.display.flip()
+            self.clock.tick(MENU_FPS)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -35,9 +41,6 @@ class Menu:
                     if event.key == pygame.K_ESCAPE:
                         if len(self.buttons_group) != 3:
                             self.running = False
-            self.operations()
-            pygame.display.flip()
-            self.clock.tick(MENU_FPS)
 
     def operations(self):
         self._draw_background()
@@ -99,6 +102,8 @@ class MainMenu(Menu):
     def _btn_settings_check(self, mouse_pos, event):
         if self.btn_setting.check_event(mouse_pos, event):
             Settings(self.screen, self.clock).run()
+            self.operations()
+            Fade(self.screen).fade_out(FADE_SPEED_MENU)
 
     def set_music_volume(self, volume):
         self.theme.change_music_volume(volume)
@@ -123,6 +128,7 @@ class Settings(Menu):
 
     def _btn_exit_check(self, mouse_pos, event):
         if self.btn_exit.check_event(mouse_pos, event):
+            Fade(self.screen).fade_in(FADE_SPEED_MENU)
             self.running = False
 
     def _slider_music_check(self, mouse_pos, event):

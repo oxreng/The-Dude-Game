@@ -1,6 +1,6 @@
+import datetime
 from config import *
 import pygame
-from player import Player
 from menu import MainMenu
 from sound import Music
 from sprite import *
@@ -11,6 +11,8 @@ from level import Level
 from pause import Pause
 from fade import Fade
 from end_screen import EndScreen
+from statistic import Statistics
+from minigames.tag import Tag
 
 
 class Game:
@@ -21,8 +23,9 @@ class Game:
 
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
+        self.statistics = Statistics()
         self._menu = MainMenu(self.screen, self.clock)
-        self._level = Level(self.screen, self.clock, self.run)
+        self._level = Level(self.screen, self.clock, self.run, self.statistics)
         SoundEffect.change_effects_volume(
             STANDARD_EFFECTS_VOLUME if SoundEffect.return_volume() == 1 else SoundEffect.return_volume())
 
@@ -61,14 +64,19 @@ class Game:
                         self.set_pause()
                     if event.key == pygame.K_z:
                         self.end_screen()
+                    if event.key == pygame.K_m:
+                        self.minigame()
 
     def set_pause(self):
         if Pause(self.screen, self.clock).run():
             self.run()
 
     def end_screen(self):
-        if EndScreen(self.screen, self.clock).run():
+        if EndScreen(self.screen, self.clock, self.statistics).run():
             self.run()
+
+    def minigame(self):
+        Tag(self.screen, self.clock, player_particles_dict['leaf'][0]).run()
 
     @staticmethod
     def _finish():

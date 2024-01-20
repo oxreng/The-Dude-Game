@@ -13,7 +13,7 @@ from death_window import DeathWindow
 
 
 class Level:
-    def __init__(self, screen, clock, to_menu_func):
+    def __init__(self, screen, clock, to_menu_func, statistic):
         # Получить экран
         self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self.player = \
             self.interaction_group = self.attackable_sprites = self.particles_sprites = self.first_group = \
@@ -22,6 +22,7 @@ class Level:
         self.screen = screen
         self.clock = clock
         self.to_menu_func = to_menu_func
+        self.statistic = statistic
         # Учет уничтожаемых предметов
         self.enemy_log, self.breakable_log = {}, {}
 
@@ -88,13 +89,13 @@ class Level:
         if first_player:
             self.player = Player(self.camera_group, self.player_group, x=HALF_SCREEN_WIDTH - 200,
                                  y=HALF_SCREEN_HEIGHT - 200,
-                                 solid_sprites=self.solid_sprites, level=self)
+                                 solid_sprites=self.solid_sprites, level=self, statistics=self.statistic)
         else:
             self.player = Player(self.camera_group, self.player_group, x=player_x,
                                  y=player_y,
                                  solid_sprites=self.solid_sprites, level=self, hp=self.player.health,
                                  animations=self.player.animations_state, interacting=True,
-                                 interact_time=interact_time)
+                                 interact_time=interact_time, statistics=self.statistic)
 
     def damage_player(self, amount, attack_type):
         if self.player.vulnerable:

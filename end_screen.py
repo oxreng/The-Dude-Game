@@ -1,3 +1,4 @@
+import datetime
 import sys
 import pygame
 from config import *
@@ -6,9 +7,10 @@ from sprite import *
 
 
 class EndScreen:
-    def __init__(self, screen, clock):
+    def __init__(self, screen, clock, statistics):
         self.screen = screen
         self.clock = clock
+        self.statistics = statistics
         self.running = True
         self.buttons_group = pygame.sprite.Group()
         self.alpha_screen = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA, 32)
@@ -19,6 +21,7 @@ class EndScreen:
         pygame.mouse.set_visible(True)
         self.screen.blit(self.alpha_screen, (0, 0))
         self.running = True
+        self._draw_text()
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -37,7 +40,6 @@ class EndScreen:
     def operations(self):
         self._mouse_operations()
         self._draw_buttons()
-        self._draw_text()
 
     def _draw_buttons(self):
         for button in self.buttons_group:
@@ -64,13 +66,14 @@ class EndScreen:
         text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 250))
         self.screen.blit(text_surface, text_rect)
 
+        time = round((datetime.datetime.now() - self.statistics.launch_time).total_seconds())
         font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render('TIME: {time}', True, (255, 255, 255))
+        text_surface = font.render(f'TIME: {time} S', True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 300))
         self.screen.blit(text_surface, text_rect)
 
         font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render('HEALED HP: {hp}', True, (255, 255, 255))
+        text_surface = font.render(f'HEALED HP: {self.statistics.health_refilled}', True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 350))
         self.screen.blit(text_surface, text_rect)
 

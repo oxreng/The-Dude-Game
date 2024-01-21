@@ -1,5 +1,7 @@
 import pygame
-from config import *
+from pyth_files.config import *
+
+"""Тень при переходе"""
 
 
 class Fade:
@@ -15,6 +17,7 @@ class Fade:
         pygame.display.update()
 
     def fade_in(self, speed=FADE_SPEED_LEVELS):
+        """Закрашиваем экран чёрным"""
         last_screen = self.screen.copy()
         for alpha in range(0, 255, speed):
             self.now_alpha = alpha
@@ -24,6 +27,7 @@ class Fade:
             self.draw()
 
     def fade_out(self, speed=FADE_SPEED_LEVELS):
+        """Убираем с экрана чёрный 'занавес'"""
         last_screen = self.screen.copy()
         for alpha in range(0, 255, speed):
             self.now_alpha = 255 - alpha

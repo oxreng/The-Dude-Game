@@ -1,16 +1,19 @@
-import datetime
 import sys
 import pygame
-from config import *
-from buttons import Button
-from sprite import *
+from pyth_files.config import *
+from pyth_files.buttons import Button
+from pyth_files.sprite import *
+from pyth_files.menu import Settings
+from pyth_files.fade import Fade
+
+"""Класс паузы"""
 
 
-class EndScreen:
-    def __init__(self, screen, clock, statistics):
+class Pause:
+    def __init__(self, screen, clock, theme):
         self.screen = screen
         self.clock = clock
-        self.statistics = statistics
+        self.theme = theme
         self.running = True
         self.buttons_group = pygame.sprite.Group()
         self.alpha_screen = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA, 32)
@@ -21,7 +24,6 @@ class EndScreen:
         pygame.mouse.set_visible(True)
         self.screen.blit(self.alpha_screen, (0, 0))
         self.running = True
-        self._draw_text()
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -50,33 +52,32 @@ class EndScreen:
                                        textures_buttons_dict['menu']['normal'][0],
                                        textures_buttons_dict['menu']['hovered'][0],
                                        textures_buttons_dict['menu']['clicked'][0])
+        self.btn_continue = Button(self.buttons_group, PAUSE_BTN_CONTINUE_POS, PAUSE_CONTINUE_NAME,
+                                   textures_buttons_dict['menu']['normal'][0],
+                                   textures_buttons_dict['menu']['hovered'][0],
+                                   textures_buttons_dict['menu']['clicked'][0])
+        self.btn_setting = Button(self.buttons_group, PAUSE_BTN_SETTINGS_POS, MENU_SETTING_NAME,
+                                  textures_buttons_dict['menu']['normal'][0],
+                                  textures_buttons_dict['menu']['hovered'][0],
+                                  textures_buttons_dict['menu']['clicked'][0])
 
     def _mouse_operations(self, event=pygame.event.Event):
         mouse_pos = pygame.mouse.get_pos()
+        self._btn_continue_check(mouse_pos, event)
+        self._btn_settings_check(mouse_pos, event)
         return self._back_to_menu_check(mouse_pos, event)
-
-    def _draw_text(self):
-        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render('END', True, (255, 255, 255))
-        text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 200))
-        self.screen.blit(text_surface, text_rect)
-
-        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render('STATS', True, (255, 255, 255))
-        text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 250))
-        self.screen.blit(text_surface, text_rect)
-
-        time = round((datetime.datetime.now() - self.statistics.launch_time).total_seconds())
-        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render(f'TIME: {time} S', True, (255, 255, 255))
-        text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 300))
-        self.screen.blit(text_surface, text_rect)
-
-        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render(f'HEALED HP: {self.statistics.health_refilled}', True, (255, 255, 255))
-        text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 350))
-        self.screen.blit(text_surface, text_rect)
 
     def _back_to_menu_check(self, mouse_pos, event):
         if self.btn_back_to_menu.check_event(mouse_pos, event):
             return True
+
+    def _btn_continue_check(self, mouse_pos, event):
+        if self.btn_continue.check_event(mouse_pos, event):
+            self.running = False
+
+    def _btn_settings_check(self, mouse_pos, event):
+        if self.btn_setting.check_event(mouse_pos, event):
+            last_surf = self.screen.copy()
+            Settings(self.screen, self.clock, self.theme).run()
+            self.screen.blit(last_surf, (0, 0))
+            Fade(self.screen).fade_out(FADE_SPEED_MENU)

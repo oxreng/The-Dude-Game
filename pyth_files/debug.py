@@ -1,6 +1,9 @@
 import pygame
+
 pygame.init()
 font = pygame.font.Font(None, 30)
+
+"""Простой дебаг, который был нужен для всяких проверок"""
 
 
 def debug(text, y=10, x=10):

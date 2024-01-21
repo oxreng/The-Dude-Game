@@ -1,13 +1,15 @@
 import pygame
-from sprite import player_anim_dict, Entity
-from config import *
-from sound import *
+from pyth_files.sprite import player_anim_dict, Entity
+from pyth_files.config import *
+from pyth_files.sound import *
+
+"""Класс игрока"""
 
 
 class Player(Entity):
     def __init__(self, *groups, x, y, solid_sprites: pygame.sprite.Group,
                  animations='normal', hp=PLAYER_STAT_HP, attack=PLAYER_STAT_ATTACK,
-                 speed=PLAYER_SPEED, level=None, interacting=False, interact_time=0, statistics=None):
+                 speed=PLAYER_SPEED, level=None, interacting=False, interact_time=0, statistics=None, money=0):
         super().__init__(groups)
 
         # Анимации
@@ -31,14 +33,13 @@ class Player(Entity):
         # Статистика
         self.stats = {'health': hp, 'attack': attack, 'speed': speed}
         self.health = self.stats['health']
-        self.money = 123
+        self.money = money
         self.speed = self.stats['speed']
         self.damage = PLAYER_DAMAGE
         self.statistics = statistics
 
         # Центровка игрока
         self._central_offset = None
-        self.center_target()
 
         # Атака
         self.attacking_rect = self.hitbox.copy()
@@ -49,6 +50,7 @@ class Player(Entity):
         self.level = level
 
     def _image_update(self):
+        """Делаем анимацию"""
         animations = self.animations[self.status]
 
         self.frame_index += self.animation_speed if not self.attacking else self.animation_speed * 4
@@ -70,6 +72,7 @@ class Player(Entity):
             self.image.set_alpha(255)
 
     def _get_status(self):
+        """Получаем статус того, что делает игрок"""
         if self.direction.x == 0 and self.direction.y == 0 and not self.attacking:
             if 'idle' not in self.status and 'attack' not in self.status:
                 self.status += '_idle'
@@ -98,6 +101,7 @@ class Player(Entity):
         return self.damage
 
     def update(self):
+        """Делаем все обновления"""
         self._process_keyboard()
         self._get_status()
         self._cooldowns()
@@ -105,13 +109,8 @@ class Player(Entity):
         self._image_update()
         self.move(self.speed)
 
-    def center_target(self):
-        # self._central_offset = pygame.math.Vector2(self.rect.centerx - HALF_SCREEN_WIDTH,
-        # self.rect.centery - HALF_SCREEN_HEIGHT)
-        # self.rect.center -= self._central_offset
-        pass
-
     def _process_keyboard(self):
+        """Проверяем нажатие на клавиатуре"""
         if not self.attacking:
             pressed_keys = pygame.key.get_pressed()
 
@@ -151,6 +150,7 @@ class Player(Entity):
                 SpritesSound.punching_sound(3)
 
     def _cooldowns(self):
+        """Обновляем все кулдауны"""
         current_time = pygame.time.get_ticks()
         if not self.can_attack:
             if current_time - self.attack_time >= self.attack_cooldown:
@@ -165,10 +165,12 @@ class Player(Entity):
                 self.vulnerable = True
 
     def _play_sound(self):
+        """Воспроизводим звук шагов"""
         if self.direction.x or self.direction.y:
             SpritesSound.footstep_sound(1)
 
     def change_animation_state(self):
+        """Меняем 'прикид' игроку"""
         if self.animations_state == 'normal':
             self.animations_state = 'christmas'
         else:

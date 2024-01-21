@@ -1,12 +1,16 @@
 import collections
 
 import pygame.sprite
-from load_image import load_image
-from config import *
+from pyth_files.load_image import load_image
+from pyth_files.config import *
 from math import sin
+
+"""Классы всех спрайтов"""
 
 
 class PassableSprite(pygame.sprite.Sprite):
+    """Проходимые спрайты"""
+
     def __init__(self, *groups, file_name, x, y, anim_state=1, animation_speed=SPRITE_ANIMATION_SPEED / 2):
         super().__init__(*groups)
         self.animation_state = anim_state
@@ -30,6 +34,8 @@ class PassableSprite(pygame.sprite.Sprite):
 
 
 class SolidSprite(PassableSprite):
+    """Спрайты, через которые нельзя пройти"""
+
     def __init__(self, *groups, file_name, x, y, anim_state=1, tiling_x=TILE, tiling_y=TILE, partly_passable=False,
                  breakable=False, breakble_log, id_numb=None):
         super().__init__(*groups, file_name=file_name, x=x, y=y, anim_state=anim_state)
@@ -52,8 +58,11 @@ class SolidSprite(PassableSprite):
 
 
 class Entity(pygame.sprite.Sprite):
+    """Класс существа"""
+
     def __init__(self, groups, speed=PLAYER_ANIMATION_SPEED):
         super().__init__(*groups)
+        self.hitbox = self.rect = self.solid_sprites = None
         # Движение
         self.direction = pygame.math.Vector2()
         self.animation_speed = speed
@@ -95,6 +104,7 @@ class Entity(pygame.sprite.Sprite):
             return 0
 
 
+"""Словарики с картинками"""
 textures_anim_dict = {
     # level 1
     'floor': {
@@ -118,10 +128,6 @@ textures_anim_dict = {
         1: collections.deque(
             [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_1/inside_wall.png'), (40, 280))])
     },
-    # 'inside_wall_2': {
-    #     1: collections.deque(
-    #         [pygame.transform.scale(load_image(TEXTURES_PATH, 'map_tiles/inside_wall_2.png'), (160, 120))])
-    # },
     'oven': {
         1:
             collections.deque(
@@ -350,4 +356,9 @@ textures_buttons_dict = {
             collections.deque(
                 [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'2.png'), (186, 60))])
     }
+}
+
+tag_images_dict = {
+    '1': {'correct': collections.deque([load_image(f'{TAG_TEXTURES_PATH}', f'correct/{i}.png') for i in range(16)]),
+          'messed_up': collections.deque([load_image(f'{TAG_TEXTURES_PATH}', f'messed_up/{i}.png') for i in range(16)])}
 }

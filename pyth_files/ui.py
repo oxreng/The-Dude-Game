@@ -1,5 +1,7 @@
 import pygame
-from config import *
+from pyth_files.config import *
+
+"""Класс для отображения хп и монеток"""
 
 
 class UI:

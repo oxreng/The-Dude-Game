@@ -1,15 +1,17 @@
-from config import *
+from pyth_files.config import *
 import pygame
-from player import Player
-from sprite import *
-from interactions import collide_areas
-from cameras import *
-from fade import Fade
-from ui import UI
-from enemy import Enemy
+from pyth_files.player import Player
+from pyth_files.sprite import *
+from pyth_files.cameras import *
+from pyth_files.fade import Fade
+from pyth_files.ui import UI
+from pyth_files.enemy import Enemy
 import csv
 from random import randint
-from death_window import DeathWindow
+from pyth_files.death_window import DeathWindow
+from pyth_files.minigames.tag import Tag
+
+"""Класс уровня, по которому ходит игрок"""
 
 
 class Level:
@@ -34,6 +36,7 @@ class Level:
 
     def change_level(self, level_name='level_1', first_player=True, interact_time=None,
                      player_x=HALF_SCREEN_WIDTH - 200, player_y=HALF_SCREEN_HEIGHT - 200):
+        """Функция для перехода на уровень, который записан в csv"""
         self.now_level = level_name
         self.solid_sprites = pygame.sprite.Group()
         self.passable_sprites = pygame.sprite.Group()
@@ -94,10 +97,12 @@ class Level:
             self.player = Player(self.camera_group, self.player_group, x=player_x,
                                  y=player_y,
                                  solid_sprites=self.solid_sprites, level=self, hp=self.player.health,
+                                 money=self.player.money,
                                  animations=self.player.animations_state, interacting=True,
                                  interact_time=interact_time, statistics=self.statistic)
 
     def damage_player(self, amount, attack_type):
+        """Функция для получения урона игроком"""
         if self.player.vulnerable:
             self.player.health -= amount
             self.player.vulnerable = False
@@ -109,6 +114,7 @@ class Level:
                     self.to_menu_func()
 
     def show(self):
+        """Функция для обновления и рисования всего"""
         self.player.update()
         self.particles_sprites.update()
         self.solid_sprites.update()
@@ -117,6 +123,7 @@ class Level:
         self.ui.show_in_display(self.player)
 
     def player_attack_logic(self):
+        """Логика ударов игрока"""
         if self.player.attacking:
             rect = self.player.attacking_rect
             for target_spr in self.attackable_sprites:
@@ -133,6 +140,7 @@ class Level:
                         target_spr.break_object()
 
     def player_interaction(self, interact_time):
+        """Взаимодействие игрока с интерактивными объектами"""
         for obj in collide_areas[self.now_level]:
             if obj.rect.colliderect(self.player.rect):
                 if obj.type == 'switch_animation':
@@ -148,7 +156,14 @@ class Level:
                                                   now_level=self.now_level)
                     self.ui.show_in_display(self.player)
                     Fade(self.screen).fade_out()
+                elif obj.type == 'minigame':
+                    if Tag(self.screen, self.clock, tag_images_dict['1']['messed_up'],
+                           tag_images_dict['1']['correct']).run():
+                        self.change_level(obj.where, False, interact_time, obj.destination_x, obj.destination_y)
+                    self.show()
+                    Fade(self.screen).fade_out(FADE_SPEED_MENU)
 
     def start_new_game(self):
+        """Старт новой игры"""
         self.enemy_log, self.breakable_log = {}, {}
         self.change_level()

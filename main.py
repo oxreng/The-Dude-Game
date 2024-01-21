@@ -1,18 +1,18 @@
-import datetime
-from config import *
+from pyth_files.config import *
 import pygame
-from menu import MainMenu
-from sound import Music
-from sprite import *
-from cameras import *
-from sound import SoundEffect
-from debug import debug
-from level import Level
-from pause import Pause
-from fade import Fade
-from end_screen import EndScreen
-from statistic import Statistics
-from minigames.tag import Tag
+from pyth_files.menu import MainMenu
+from pyth_files.sound import Music
+from pyth_files.sprite import *
+from pyth_files.cameras import *
+from pyth_files.sound import SoundEffect
+from pyth_files.level import Level
+from pyth_files.pause import Pause
+from pyth_files.fade import Fade
+from pyth_files.end_screen import EndScreen
+from pyth_files.statistic import Statistics
+from pyth_files.minigames.tag import Tag
+
+"""Класс игры, из которого всё запускается"""
 
 
 class Game:
@@ -20,14 +20,17 @@ class Game:
         self.screen = pygame.display.set_mode(SCREEN_SIZE, pygame.DOUBLEBUF)
         self.clock = pygame.time.Clock()
         self._caption = WINDOW_NAME
+        self.theme = Music()
 
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
+        self.theme.path = MENU_THEME
+        self.theme.init_track()
         self.statistics = Statistics()
-        self._menu = MainMenu(self.screen, self.clock)
+        self._menu = MainMenu(self.screen, self.clock, self.theme)
         self._level = Level(self.screen, self.clock, self.run, self.statistics)
         SoundEffect.change_effects_volume(
-            STANDARD_EFFECTS_VOLUME if SoundEffect.return_volume() == 1 else SoundEffect.return_volume())
+            STANDARD_EFFECT_VOLUME if SoundEffect.return_volume() > MAX_EFFECT_VOLUME else SoundEffect.return_volume())
 
     def run(self):
         self._pre_init()
@@ -47,6 +50,7 @@ class Game:
         pygame.mouse.set_visible(True)
 
     def _update(self):
+        """Рисуем лвл и проверяем нажатия на кнопки"""
         Fade(self.screen).fade_in(FADE_SPEED_MENU)
         self._level.show()
         Fade(self.screen).fade_out(FADE_SPEED_MENU)
@@ -68,7 +72,8 @@ class Game:
                         self.minigame()
 
     def set_pause(self):
-        if Pause(self.screen, self.clock).run():
+        """Ставим паузу"""
+        if Pause(self.screen, self.clock, self.theme).run():
             self.run()
 
     def end_screen(self):
@@ -76,16 +81,19 @@ class Game:
             self.run()
 
     def minigame(self):
-        Tag(self.screen, self.clock, player_particles_dict['leaf'][0]).run()
+        Tag(self.screen, self.clock, tag_images_dict['1']['messed_up'], tag_images_dict['1']['correct']).run()
+        self._level.show()
+        Fade(self.screen).fade_out(FADE_SPEED_MENU)
+
+    def _play_theme(self):
+        """Включаем музыку"""
+        self.theme.path = MUSIC_FILES
+        self.theme.init_track()
+        self.theme.play_music()
 
     @staticmethod
     def _finish():
         pygame.quit()
-
-    @staticmethod
-    def _play_theme():
-        theme = Music()
-        theme.play_music()
 
 
 if __name__ == '__main__':

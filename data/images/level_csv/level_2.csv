@@ -11,5 +11,7 @@ right_roof;solid;0;0;last;200;1460;1920;-400
 up_roof;solid;0;0;last;1920;200;0;-400
 flowerbed;solid;1;0;y;0;0;32;24
 skeleton;enemy;0;1;y;0;1;300;200
+skeleton;enemy;0;2;y;0;1;400;200
+skeleton;enemy;0;3;y;0;1;500;200
 store_back;passable;0;0;last;219;140;1328;-205
 store_front;solid;1;0;y;200;85;1338;-65

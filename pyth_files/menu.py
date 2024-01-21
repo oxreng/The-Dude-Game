@@ -1,11 +1,13 @@
 import sys
 import pygame
-from config import *
-from sound import MenuMusic, SoundEffect
-from load_image import load_image
-from buttons import Button, Slider
-from sprite import *
-from fade import Fade
+from pyth_files.config import *
+from pyth_files.sound import SoundEffect
+from pyth_files.buttons import Button, Slider
+from pyth_files.sprite import *
+from pyth_files.fade import Fade
+
+
+"""Классы разных меню-окон"""
 
 pygame.init()
 background = load_image(TEXTURES_PATH, MENU_BACKGROUND, color_key=None)
@@ -14,10 +16,11 @@ logo_font = pygame.font.Font(MENU_FONT, LOGO_FONT_SIZE)
 
 
 class Menu:
-    def __init__(self, screen, clock):
+    def __init__(self, screen, clock, theme):
         self.x = 0
         self.screen = screen
         self.clock = clock
+        self.theme = theme
         self.running = True
         self.buttons_group = pygame.sprite.Group()
 
@@ -43,9 +46,11 @@ class Menu:
                             self.running = False
 
     def operations(self):
+        """Рисуем и обрабатываем все действия пользователя"""
         self._draw_background()
         self._mouse_operations()
         self._draw_buttons()
+        self.draw_text()
 
     def _draw_background(self):
         self.screen.blit(background, MENU_BACKGROUND_POS,
@@ -61,11 +66,14 @@ class Menu:
     def _mouse_operations(self, event=pygame.event.Event):
         pass
 
+    def draw_text(self):
+        pass
+
 
 class MainMenu(Menu):
-    def __init__(self, screen, clock):
-        super().__init__(screen, clock)
-        self.theme = MenuMusic(MENU_THEME)
+    """Класс главного меню"""
+    def __init__(self, screen, clock, theme):
+        super().__init__(screen, clock, theme)
         self.play_theme()
 
     def play_theme(self):
@@ -101,7 +109,7 @@ class MainMenu(Menu):
 
     def _btn_settings_check(self, mouse_pos, event):
         if self.btn_setting.check_event(mouse_pos, event):
-            Settings(self.screen, self.clock).run()
+            Settings(self.screen, self.clock, self.theme).run()
             self.operations()
             Fade(self.screen).fade_out(FADE_SPEED_MENU)
 
@@ -110,28 +118,63 @@ class MainMenu(Menu):
 
 
 class Settings(Menu):
-    def __init__(self, screen, clock):
-        super().__init__(screen, clock)
+    """Класс настроек"""
+    def __init__(self, screen, clock, theme):
+        super().__init__(screen, clock, theme)
 
     def _mouse_operations(self, event=pygame.event.Event):
         mouse_pos = pygame.mouse.get_pos()
         self._btn_exit_check(mouse_pos, event)
+        self._slider_effects_check(mouse_pos, event)
         self._slider_music_check(mouse_pos, event)
 
     def _create_buttons(self):
-        self.btn_exit = Button(self.buttons_group, MENU_BTN_EXIT_POS, PAUSE_BACK_TO_MENU_NAME,
+        """Создаём кнопки и слайдеры"""
+        self.btn_exit = Button(self.buttons_group, SETTINGS_BACK_TO_MENU_POS, SETTINGS_BACK_TO_MENU_NAME,
                                textures_buttons_dict['menu']['normal'][0],
                                textures_buttons_dict['menu']['hovered'][0], textures_buttons_dict['menu']['clicked'][0])
-        self.slider_music = Slider(self.buttons_group, MENU_MUSIC_POS, MENU_MUSIC_SIZE,
-                                   SoundEffect.return_volume() / MAX_EFFECTS_VOLUME, 0,
-                                   MAX_EFFECTS_VOLUME)
+        self.slider_effects = Slider(self.buttons_group, SETTINGS_MUSIC_EFFECTS_POS, SETTINGS_MUSIC_EFFECTS_SIZE,
+                                     SoundEffect.return_volume() / MAX_EFFECT_VOLUME, 0,
+                                     MAX_EFFECT_VOLUME)
+        self.slider_music = Slider(self.buttons_group, SETTINGS_MUSIC_MUSIC_POS, SETTINGS_MUSIC_MUSIC_SIZE,
+                                   self.theme.return_volume() / MAX_MUSIC_VOLUME, 0,
+                                   MAX_MUSIC_VOLUME)
+
+    def draw_text(self):
+        """Рисуем текст около слайдеров"""
+        up_offset = pygame.Vector2(0, -50)
+        right_offset = pygame.Vector2(50, 0)
+
+        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
+        text_surface = font.render(SETTINGS_MUSIC_EFFECTS_NAME, True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=self.slider_effects.container_rect.center + up_offset)
+        self.screen.blit(text_surface, text_rect)
+
+        text_surface = font.render(SETTINGS_MUSIC_MUSIC_NAME, True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=self.slider_music.container_rect.center + up_offset)
+        self.screen.blit(text_surface, text_rect)
+
+        text_surface = font.render(f'{round(SoundEffect.return_volume() / MAX_EFFECT_VOLUME * 100)} %', True,
+                                   (255, 255, 255))
+        text_rect = text_surface.get_rect(center=self.slider_effects.container_rect.midright + right_offset)
+        self.screen.blit(text_surface, text_rect)
+
+        text_surface = font.render(f'{round(self.theme.return_volume() / MAX_MUSIC_VOLUME * 100)} %', True,
+                                   (255, 255, 255))
+        text_rect = text_surface.get_rect(center=self.slider_music.container_rect.midright + right_offset)
+        self.screen.blit(text_surface, text_rect)
 
     def _btn_exit_check(self, mouse_pos, event):
         if self.btn_exit.check_event(mouse_pos, event):
             Fade(self.screen).fade_in(FADE_SPEED_MENU)
             self.running = False
 
+    def _slider_effects_check(self, mouse_pos, event):
+        value = self.slider_effects.check_event(mouse_pos, event)
+        if value:
+            SoundEffect.change_effects_volume(value)
+
     def _slider_music_check(self, mouse_pos, event):
         value = self.slider_music.check_event(mouse_pos, event)
         if value:
-            SoundEffect.change_effects_volume(value)
+            self.theme.change_music_volume(value)

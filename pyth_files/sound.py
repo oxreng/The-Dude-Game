@@ -1,7 +1,7 @@
 import collections
 import random
 import pygame
-from config import *
+from pyth_files.config import *
 
 """
 Принцип работы музыки в игре
@@ -15,31 +15,19 @@ class Music:
         self.path = path
         self.theme = pygame.mixer.music
         self.init_track()
+        self.change_music_volume(STANDARD_MUSIC_VOLUME)
 
     def init_track(self):
         self.theme.load(random.choice(self.path))
-        for file in self.path:
-            self.theme.queue(file)
 
     def play_music(self):
-        if self.theme.get_volume() != 0:
-            self.theme.set_volume(0.08)
-            self.theme.play(-1)
+        self.theme.play(-1)
 
     def change_music_volume(self, volume):
         self.theme.set_volume(volume)
 
     def return_volume(self):
         return self.theme.get_volume()
-
-
-class MenuMusic(Music):
-    def __init__(self, path):
-        super().__init__(path)
-        self.path = path
-
-    def init_track(self):
-        self.theme.load(self.path)
 
 
 class SoundEffect:
@@ -71,7 +59,7 @@ class SpritesSound:
     def footstep_sound(channel=2):
         current_step = steps_collection[0]
         steps_collection.rotate(-1)
-        SoundEffect(f'sound/{current_step}.mp3').play_sound(channel)
+        SoundEffect(f'data/music/sound/{current_step}.mp3').play_sound(channel)
 
     @staticmethod
     def punching_sound(channel=2):

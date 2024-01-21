@@ -1,11 +1,9 @@
 import pygame
-from config import *
-from sprite import *
+from pyth_files.config import *
+from pyth_files.sprite import *
 
 
-class PlayerAnimations:
-    def __init__(self):
-        ...
+"""Класс партиклов"""
 
 
 class ParticleEffect(pygame.sprite.Sprite):

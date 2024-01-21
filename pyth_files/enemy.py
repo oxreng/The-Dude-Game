@@ -1,7 +1,9 @@
 import pygame
-from config import *
-from sprite import *
-from sound import SpritesSound
+from pyth_files.config import *
+from pyth_files.sprite import *
+from pyth_files.sound import SpritesSound
+
+"""Враги"""
 
 
 class Enemy(Entity):
@@ -48,7 +50,17 @@ class Enemy(Entity):
         # Таймер для ударов игрока
         self.vulnerable_duration = ENEMY_VULNERABLE_DURATION
 
+    def enemy_update(self, player):
+        self.get_status(player)
+        self.actions(player)
+        self.image_update()
+        self.cooldowns()
+        self.check_death(player)
+        self.hit_reaction()
+        self.move(self.speed)
+
     def get_player_distance_direction(self, player):
+        """Путь до игрока + направление"""
         enemy_vec = pygame.math.Vector2(self.rect.center)
         player_vec = pygame.math.Vector2(player.rect.center)
         distance = (player_vec - enemy_vec).magnitude()
@@ -61,6 +73,7 @@ class Enemy(Entity):
         return distance, direction
 
     def get_status(self, player):
+        """Обновление анимаций"""
         distance, direction = self.get_player_distance_direction(player)
         if distance <= self.attack_radius and self.can_attack and not self.attacking:
             if 'attack' not in self.status:
@@ -92,6 +105,7 @@ class Enemy(Entity):
             self.status = 'down_idle'
 
     def actions(self, player):
+        """Взаимодействие с игроком (удар, идти к игроку, стоять)"""
         if 'attack' in self.status and self.can_attack and not self.attacking:
             self.attack_time = pygame.time.get_ticks()
             self.can_attack = False
@@ -104,6 +118,7 @@ class Enemy(Entity):
             self.direction = pygame.math.Vector2()
 
     def image_update(self):
+        """Делаем анимации врагам"""
         animations = self.animations[self.status]
 
         self.frame_index += self.animation_speed if not self.attacking else self.animation_speed * 2
@@ -125,6 +140,7 @@ class Enemy(Entity):
             self.image.set_alpha(255)
 
     def cooldowns(self):
+        """Обновляем кулдауны"""
         current_time = pygame.time.get_ticks()
         if not self.can_attack:
             if current_time - self.attack_time >= self.attack_cooldown:
@@ -135,6 +151,7 @@ class Enemy(Entity):
                 self.vulnerable = True
 
     def get_damage(self, player):
+        """Функция для получения урона"""
         if self.vulnerable:
             self.direction = self.get_player_distance_direction(player)[1]
             self.health -= player.get_all_damage()
@@ -142,6 +159,7 @@ class Enemy(Entity):
             self.vulnerable = False
 
     def check_death(self, player):
+        """Функция для проверки смерти"""
         if self.health <= 0:
             self.kill()
             self.enemy_log[self.id_numb] = False
@@ -149,18 +167,11 @@ class Enemy(Entity):
             SpritesSound.death_sound(2)
 
     def check_existence(self, id_numb):
+        """Функция для проверки на 'убили' ли врага"""
         if self.enemy_log[id_numb] is False:
             self.kill()
 
     def hit_reaction(self):
+        """Отбрасываем врага, если его ударили"""
         if not self.vulnerable:
             self.direction *= -self.resistance
-
-    def enemy_update(self, player):
-        self.get_status(player)
-        self.actions(player)
-        self.image_update()
-        self.cooldowns()
-        self.check_death(player)
-        self.hit_reaction()
-        self.move(self.speed)

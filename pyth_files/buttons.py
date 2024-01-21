@@ -1,6 +1,6 @@
 import pygame
-from config import *
-from sound import SpritesSound
+from pyth_files.config import *
+from pyth_files.sound import SpritesSound
 
 
 class Button(pygame.sprite.Sprite):  # Создание кнопок
@@ -71,14 +71,14 @@ class Slider(pygame.sprite.Sprite):  # Создание слайдера
 
         self.is_down = False
 
-    def draw(self, screen):
-        pygame.draw.rect(screen,  UI_BG_COLOR, self.container_rect)
+    def draw(self, screen):  # Рисуем сам слайдер
+        pygame.draw.rect(screen, UI_BG_COLOR, self.container_rect)
         pygame.draw.rect(screen, WHITE, self.container_rect, 1)
         current_rect = self.container_rect.copy()
         current_rect.width = self.button_rect.centerx - self.container_rect.x
         pygame.draw.rect(screen, WHITE, self.container_rect)
-        pygame.draw.rect(screen, ORANGE, current_rect)
-        pygame.draw.rect(screen, ORANGE, self.button_rect)
+        pygame.draw.rect(screen, WOODEN, current_rect)
+        pygame.draw.rect(screen, WOODEN_DARKER, self.button_rect)
 
     def check_event(self, mouse_pos, event):  # Наведена ли мышка на кнопку
         if event.type == pygame.MOUSEBUTTONDOWN and self.container_rect.collidepoint(mouse_pos):
@@ -89,7 +89,7 @@ class Slider(pygame.sprite.Sprite):  # Создание слайдера
             self.button_rect.centerx = mouse_pos[0]
             return self.get_value()
 
-    def get_value(self):
+    def get_value(self):  # Получаем громкость для установки
         value_range = self.slider_right_pos - self.slider_left_pos - 1
         button_value = self.button_rect.centerx - self.slider_left_pos
         return (button_value / value_range) * (self.max_value - self.min_value) + self.min_value

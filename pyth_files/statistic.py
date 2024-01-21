@@ -1,5 +1,7 @@
 import datetime
 
+"""Класс статистики"""
+
 
 class Statistics:
     def __init__(self):

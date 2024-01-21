@@ -1,8 +1,10 @@
 import sys
 import pygame
-from config import *
-from buttons import Button
-from sprite import *
+from pyth_files.config import *
+from pyth_files.buttons import Button
+from pyth_files.sprite import *
+
+"""Окно, которое будет при смерти игрока"""
 
 
 class DeathWindow:
@@ -32,11 +34,12 @@ class DeathWindow:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
                         self.restart_func()
-            self.operations()
+            self._operations()
             pygame.display.flip()
             self.clock.tick(MENU_FPS)
 
-    def operations(self):
+    def _operations(self):
+        """Обновляем анимации кнопок и рисуем сами кнопки"""
         self._mouse_operations()
         self._draw_buttons()
 
@@ -45,11 +48,11 @@ class DeathWindow:
             button.draw(self.screen)
 
     def _create_buttons(self):
-        self.btn_back_to_menu = Button(self.buttons_group, PAUSE_BTN_BACK_TO_MENU_POS, PAUSE_BACK_TO_MENU_NAME,
+        self.btn_back_to_menu = Button(self.buttons_group, DEATH_BACK_TO_MENU_POS, DEATH_BACK_TO_MENU_NAME,
                                        textures_buttons_dict['menu']['normal'][0],
                                        textures_buttons_dict['menu']['hovered'][0],
                                        textures_buttons_dict['menu']['clicked'][0])
-        self.btn_restart = Button(self.buttons_group, PAUSE_BTN_CONTINUE_POS, PAUSE_CONTINUE_NAME,
+        self.btn_restart = Button(self.buttons_group, DEATH_RESTART_POS, DEATH_RESTART_NAME,
                                   textures_buttons_dict['menu']['normal'][0],
                                   textures_buttons_dict['menu']['hovered'][0],
                                   textures_buttons_dict['menu']['clicked'][0])

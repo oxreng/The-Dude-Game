@@ -149,5 +149,12 @@ STANDARD_EFFECT_VOLUME = 0.4
 hint_text = {
     'door': 'Press  E  to  open',
     'oven': 'Press  E  to  interact',
-    'wardrobe': 'Press  E  to  get  changed'
+    'wardrobe': 'Press  E  to  get  changed',
+    'dialogue_1': 'test_dialogue'
+}
+
+# Тексты диалогов
+dialogue_text = {
+    'dialogue_1': "this  is  a  lot  of  text  and  it  wont  all  fit  on  the  screen  it  needs  to  be  on  "
+                  "multiple  lines  but  it  doesn't  right  now  and  i  need  more  text"
 }

@@ -10,6 +10,7 @@ import csv
 from random import randint
 from pyth_files.death_window import DeathWindow
 from pyth_files.minigames.tag import Tag
+from pyth_files.dialogue import Dialogue
 
 """Класс уровня, по которому ходит игрок"""
 

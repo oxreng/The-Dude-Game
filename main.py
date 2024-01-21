@@ -11,6 +11,8 @@ from pyth_files.fade import Fade
 from pyth_files.end_screen import EndScreen
 from pyth_files.statistic import Statistics
 from pyth_files.minigames.tag import Tag
+from pyth_files.interactions import dialogue_markers
+from pyth_files.dialogue import Dialogue
 
 """Класс игры, из которого всё запускается"""
 
@@ -54,6 +56,8 @@ class Game:
         Fade(self.screen).fade_in(FADE_SPEED_MENU)
         self._level.show()
         Fade(self.screen).fade_out(FADE_SPEED_MENU)
+        FIRSTDIALOGUETIMER = pygame.USEREVENT + 1
+        pygame.time.set_timer(FIRSTDIALOGUETIMER, 500)
         while self._running:
             self._level.show()
             self.clock.tick(FPS)
@@ -70,6 +74,11 @@ class Game:
                         self.end_screen()
                     if event.key == pygame.K_m:
                         self.minigame()
+                if event.type == FIRSTDIALOGUETIMER:
+                    if not dialogue_markers['dialogue_1']:
+                        Dialogue(self.screen, self.clock, 'dialogue_1').run()
+                        dialogue_markers['dialogue_1'] = True
+                    pygame.time.set_timer(FIRSTDIALOGUETIMER, 0)
 
     def set_pause(self):
         """Ставим паузу"""

@@ -88,7 +88,7 @@ class Game:
     def minigame(self):
         if Tag(self.screen, self.clock, tag_images_dict['1']['to_correct'],
                tag_images_dict['1']['correct']).run():
-            self._level.change_level('level_1', False, pygame.time.get_ticks(), 370, 10)
+            self._level.change_level('level_3', False, pygame.time.get_ticks(), 370, 10)
         self._level.show()
         Fade(self.screen).fade_out(FADE_SPEED_MENU)
 

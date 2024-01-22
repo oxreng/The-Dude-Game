@@ -13,7 +13,7 @@ class EndScreenFade:
         self.screen = screen
         self.alpha_surf = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA, 32)
         self.now_alpha = 0
-        self.alpha_surf.fill((0, 0, 0))
+        self.alpha_surf.fill((255, 255, 255))
         self.alpha_surf.set_alpha(self.now_alpha)
 
     def draw(self):
@@ -23,7 +23,7 @@ class EndScreenFade:
     def fade_in(self):
         """Закрашиваем экран белым"""
         last_screen = self.screen.copy()
-        for alpha in range(0, 255, 1):
+        for alpha in range(0, 255, END_SCREEN_FADE_SPEED):
             self.now_alpha = alpha
             self.alpha_surf.set_alpha(self.now_alpha)
             pygame.time.delay(20)
@@ -42,9 +42,9 @@ class EndScreen:
         self.alpha_screen.fill((0, 0, 0, 100))
 
     def run(self):
+        EndScreenFade(self.screen).fade_in()
         self._create_buttons()
         pygame.mouse.set_visible(True)
-        self.screen.fill((255, 255, 255))
         self.screen.blit(self.alpha_screen, (0, 0))
         self.running = True
         self._draw_text()

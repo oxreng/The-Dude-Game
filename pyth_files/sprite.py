@@ -228,6 +228,43 @@ textures_anim_dict = {
                 [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs/up_roof.png'), (1920, 200))]
             )
     },
+    # level 3
+    'floor_3': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_3/floor.png'), (1160, 760))]
+            )
+    },
+    'back_wall_3': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_3/back_wall.png'), (1160, 200))]
+            )
+    },
+    'down_wall_3': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_3/down_wall.png'), (1160, 120))]
+            )
+    },
+    'side_wall_3': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_3/side_wall.png'), (40, 1000))]
+            )
+    },
+    'cage': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_3/cage.png'), (400, 400))]
+            )
+    },
+    'machine': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_3/machine.png'), (280, 320))]
+            )
+    },
 }
 
 player_anim_dict = {

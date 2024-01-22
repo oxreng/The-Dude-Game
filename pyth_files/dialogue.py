@@ -1,15 +1,13 @@
 import sys
 import pygame
-from pyth_files.config import *
-from pyth_files.buttons import Button
 from pyth_files.sprite import *
-from pyth_files.menu import Settings
 
 
 class Dialogue:
-    def __init__(self, screen, clock, title):
+    def __init__(self, screen, clock, title, level):
         self.screen = screen
         self.clock = clock
+        self.level = level
         self.skipable = False
         self.running = True
 
@@ -23,6 +21,8 @@ class Dialogue:
 
     def run(self):
         self.screen.blit(self.alpha_screen, (0, SCREEN_HEIGHT - 200))
+        skip_text = self.font.render('press  ANY  key  to skip', True, WHITE)
+        self.screen.blit(skip_text, (SCREEN_WIDTH - skip_text.get_width(), SCREEN_HEIGHT - skip_text.get_height()))
         BLITLETTEREVENT = pygame.USEREVENT + 1
         pygame.time.set_timer(BLITLETTEREVENT, 30)
         lines = self.make_lines()
@@ -46,8 +46,6 @@ class Dialogue:
                             self.text_pos_y = self.text_pos_y + text.get_height()
                         else:
                             self.skipable = True
-                            skip_text = self.font.render('press  ANY  key  to skip', True, WHITE)
-                            self.screen.blit(skip_text, (SCREEN_WIDTH - skip_text.get_width(), SCREEN_HEIGHT - skip_text.get_height()))
                             pygame.time.set_timer(BLITLETTEREVENT, 0)
                 if event.type == pygame.KEYDOWN:
                     if self.skipable:
@@ -66,7 +64,7 @@ class Dialogue:
         for word in words:
             word_surface = self.font.render(word, True, WHITE)
             word_width, word_height = word_surface.get_size()
-            if x + word_width >= SCREEN_WIDTH:
+            if x + word_width >= SCREEN_WIDTH - 300:
                 x = 20
                 y += word_height
                 lines.append([])

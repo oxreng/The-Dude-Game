@@ -74,9 +74,11 @@ class Game:
                         self.end_screen()
                 if event.type == FIRSTDIALOGUETIMER:
                     if not dialogue_markers['dialogue_1']:
-                        Dialogue(self.screen, self.clock, 'dialogue_1').run()
+                        Dialogue(self.screen, self.clock, 'dialogue_1', self._level).run()
                         dialogue_markers['dialogue_1'] = True
                     pygame.time.set_timer(FIRSTDIALOGUETIMER, 0)
+                    self._level.player.can_attack = False
+                    self._level.player.attack_time = pygame.time.get_ticks()
 
     def set_pause(self):
         """Ставим паузу"""

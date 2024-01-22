@@ -29,6 +29,9 @@ class Level:
         # Учет уничтожаемых предметов
         self.enemy_log, self.breakable_log = {}, {}
 
+        # Маркеры диалогов
+        self.dialogue_markers = standard_dialogue_markers.copy()
+
         # Создаём уровень
         self.change_level()
 
@@ -127,6 +130,14 @@ class Level:
         self.player_attack_logic()
         self.ui.show_in_display(self.player)
 
+    def dialogs_check(self, dialogue_name):
+        pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT, dialogue=dialogue_name), 0)
+        if not self.dialogue_markers[dialogue_name]:
+            Dialogue(self.screen, self.clock, dialogue_name, self).run()
+            self.dialogue_markers[dialogue_name] = True
+        self.player.can_attack = False
+        self.player.attack_time = pygame.time.get_ticks()
+
     def player_attack_logic(self):
         """Логика ударов игрока"""
         if self.player.attacking:
@@ -135,6 +146,11 @@ class Level:
                 if rect.colliderect(target_spr.hitbox):
                     if isinstance(target_spr, Enemy):
                         target_spr.get_damage(self.player)
+                        target_spr.check_death(self.player)
+                        if not self.dialogue_markers['killed_all_2'] and self.now_level == 'level_2':
+                            if not len([sprite for sprite in self.camera_group.sprites() if isinstance(sprite, Enemy)]):
+                                pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT, dialogue='killed_all_2'),
+                                                      100)
                     else:
                         pos = target_spr.rect.center
                         offset = pygame.math.Vector2(0, 75)
@@ -161,6 +177,8 @@ class Level:
                                                   now_level=self.now_level)
                     self.ui.show_in_display(self.player)
                     Fade(self.screen).fade_out()
+                    if not self.dialogue_markers['teach_hit'] and obj.where == 'level_2':
+                        pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT, dialogue='teach_hit'), 10)
                 elif obj.type == 'minigame':
                     if not len([sprite for sprite in self.camera_group.sprites() if isinstance(sprite, Enemy)]):
                         if Tag(self.screen, self.clock, tag_images_dict['1']['to_correct'],

@@ -55,7 +55,6 @@ class Enemy(Entity):
         self.actions(player)
         self.image_update()
         self.cooldowns()
-        self.check_death(player)
         self.hit_reaction()
         self.move(self.speed)
 

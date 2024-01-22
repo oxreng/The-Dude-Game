@@ -26,6 +26,3 @@ collide_areas = {'level_1': [
                 DoorObject(pygame.Rect((1800, 820,), (80, 140)), 'door', 'minigame', 'level_1', 370, 10),
                 InteractionObject(pygame.Rect((1338, -45), (200, 100)), 'healer', 'heal')]}
 
-dialogue_markers = {
-    'dialogue_1': False
-}

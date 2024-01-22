@@ -21,10 +21,10 @@ class Dialogue:
 
     def run(self):
         self.screen.blit(self.alpha_screen, (0, SCREEN_HEIGHT - 200))
-        skip_text = self.font.render('press  ANY  key  to skip', True, WHITE)
+        skip_text = self.font.render('Нажмите любую кнопку для пропуска', True, WHITE)
         self.screen.blit(skip_text, (SCREEN_WIDTH - skip_text.get_width(), SCREEN_HEIGHT - skip_text.get_height()))
         BLITLETTEREVENT = pygame.USEREVENT + 1
-        pygame.time.set_timer(BLITLETTEREVENT, 30)
+        pygame.time.set_timer(BLITLETTEREVENT, 40)
         lines = self.make_lines()
         current_line = lines.pop(0)
         current_text = ''
@@ -47,7 +47,7 @@ class Dialogue:
                         else:
                             self.skipable = True
                             pygame.time.set_timer(BLITLETTEREVENT, 0)
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
                     if self.skipable:
                         self.running = False
                     else:

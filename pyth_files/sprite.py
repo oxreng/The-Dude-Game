@@ -256,7 +256,7 @@ textures_anim_dict = {
     'cage': {
         1:
             collections.deque(
-                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_3/cage.png'), (400, 400))]
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_3/cage.png'), (400, 480))]
             )
     },
     'machine': {

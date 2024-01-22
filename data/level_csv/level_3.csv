@@ -1,8 +1,8 @@
 name;type;partly_passable;id;blit;tiling_x;tiling_y;x;y
 floor_3;passable;0;0;first;1160;760;0;0
 back_wall_3;solid;1;0;first;1160;200;0;-200
-down_wall_3;solid;0;0;first;1160;120;0;760
-side_wall_3;solid;0;0;first;40;1000;0;760
-side_wall_3;solid;0;0;first;40;1000;1160;760
-cage;solid;0;0;y;0;360;400;400
-machine;passable;0;0;last;20;400;400;400
+down_wall_3;solid;0;0;last;1160;120;0;680
+side_wall_3;solid;0;0;first;40;1040;-40;-200
+side_wall_3;solid;0;0;first;40;1000;1160;-200
+cage;solid;0;0;first;400;480;0;300
+machine;passable;0;0;last;280;320;20;340

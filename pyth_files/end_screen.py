@@ -8,6 +8,29 @@ from pyth_files.sprite import *
 """Окно, которое будет появляться, когда закончится игра"""
 
 
+class EndScreenFade:
+    def __init__(self, screen):
+        self.screen = screen
+        self.alpha_surf = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA, 32)
+        self.now_alpha = 0
+        self.alpha_surf.fill((0, 0, 0))
+        self.alpha_surf.set_alpha(self.now_alpha)
+
+    def draw(self):
+        self.screen.blit(self.alpha_surf, (0, 0))
+        pygame.display.update()
+
+    def fade_in(self):
+        """Закрашиваем экран белым"""
+        last_screen = self.screen.copy()
+        for alpha in range(0, 255, 1):
+            self.now_alpha = alpha
+            self.alpha_surf.set_alpha(self.now_alpha)
+            pygame.time.delay(20)
+            self.screen.blit(last_screen, (0, 0))
+            self.draw()
+
+
 class EndScreen:
     def __init__(self, screen, clock, statistics):
         self.screen = screen
@@ -21,6 +44,7 @@ class EndScreen:
     def run(self):
         self._create_buttons()
         pygame.mouse.set_visible(True)
+        self.screen.fill((255, 255, 255))
         self.screen.blit(self.alpha_screen, (0, 0))
         self.running = True
         self._draw_text()
@@ -60,24 +84,22 @@ class EndScreen:
 
     def _draw_text(self):
         """Выводим статистику"""
-        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
+        font = pygame.font.Font(MENU_FONT, END_SCREEN_FONT_SIZE)
         text_surface = font.render(END_SCREEN_END_NAME, True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 200))
         self.screen.blit(text_surface, text_rect)
 
-        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render('STATS', True, (255, 255, 255))
+        text_surface = font.render(END_SCREEN_STATS_NAME, True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 250))
         self.screen.blit(text_surface, text_rect)
 
         time = round((datetime.datetime.now() - self.statistics.launch_time).total_seconds())
-        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render(f'TIME: {time} S', True, (255, 255, 255))
+        text_surface = font.render(f'{END_SCREEN_PASSING_TIME_NAME}: {time} C', True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 300))
         self.screen.blit(text_surface, text_rect)
 
-        font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render(f'HEALED HP: {self.statistics.health_refilled}', True, (255, 255, 255))
+        text_surface = font.render(f'{END_SCREEN_HEALED_HP_NAME}: {self.statistics.health_refilled}', True,
+                                   (255, 255, 255))
         text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 350))
         self.screen.blit(text_surface, text_rect)
 

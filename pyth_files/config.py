@@ -42,7 +42,7 @@ MENU_FONT_SIZE = 30
 GAME_FONT = 'data/fonts/boozy.ttf'
 GAME_FONT_SIZE = 30
 LOGO_FONT_SIZE = 250
-MENU_BACKGROUND = 'StartWindow.jpg'
+MENU_BACKGROUND = 'pomidor.jpg'
 MENU_BACKGROUND_POS = (0, 0)
 MENU_EXIT_NAME = 'ВЫХОД'
 MENU_START_NAME = 'НАЧАТЬ'
@@ -66,6 +66,10 @@ SETTINGS_MUSIC_MUSIC_NAME = 'ГРОМКОСТЬ МУЗЫКИ'
 
 # Настройки конечного экрана
 END_SCREEN_END_NAME = 'КОНЕЦ'
+END_SCREEN_STATS_NAME = 'СТАТИСТИКА'
+END_SCREEN_PASSING_TIME_NAME = 'ВРЕМЯ ПРОХОЖДЕНИЯ'
+END_SCREEN_HEALED_HP_NAME = 'ВЫЛЕЧЕНО ХП'
+END_SCREEN_FONT_SIZE = 45
 
 # Настройки экрана смерти
 DEATH_BACK_TO_MENU_POS = MENU_BTN_EXIT_POS
@@ -186,6 +190,9 @@ dialogue_text = {
     'killed_all_2': 'Фух.. Кажется, с этими чудищами покончено! Чтобы пройти дальше, найди способ пробраться в '
                     'подземные катакомбы.'
 }
+
+# Настройки диалогов
+DIALOG_ALPHA_SPEED = 10
 
 # Стандартные маркеры
 standard_dialogue_markers = {

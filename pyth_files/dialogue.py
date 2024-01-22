@@ -16,19 +16,29 @@ class Dialogue:
         self.lines = self.make_lines()
         self.text_pos_x = 20
         self.text_pos_y = SCREEN_HEIGHT - 180
-        self.alpha_screen = pygame.Surface((SCREEN_SIZE[0], self.font.get_height() * len(self.lines) + 200), pygame.SRCALPHA, 32)
+        self.skip_text = self.font.render('Нажмите любую кнопку для пропуска', True, WHITE)
+        pos = (self.skip_text.get_width() - SCREEN_WIDTH, self.skip_text.get_height() - SCREEN_HEIGHT)
+        self.last_screen_to_text = pygame.Surface(self.skip_text.get_size())
+        self.last_screen_to_text.blit(self.screen.copy(), pos)
+        self.alpha_screen_to_text = pygame.Surface(
+            self.skip_text.get_size(),
+            pygame.SRCALPHA, 32)
+        self.alpha_screen_to_text.fill((0, 0, 0, 200))
+        self.skip_text_alpha = 255
+        self.alpha_completed = False
+        self.alpha_screen = pygame.Surface((SCREEN_SIZE[0], self.font.get_height() * len(self.lines) + 200),
+                                           pygame.SRCALPHA, 32)
         self.alpha_screen.fill((0, 0, 0, 200))
 
     def run(self):
         self.screen.blit(self.alpha_screen, (0, SCREEN_HEIGHT - 200))
-        skip_text = self.font.render('Нажмите любую кнопку для пропуска', True, WHITE)
-        self.screen.blit(skip_text, (SCREEN_WIDTH - skip_text.get_width(), SCREEN_HEIGHT - skip_text.get_height()))
         BLITLETTEREVENT = pygame.USEREVENT + 1
         pygame.time.set_timer(BLITLETTEREVENT, 40)
         lines = self.make_lines()
         current_line = lines.pop(0)
         current_text = ''
         while self.running:
+            self.draw_skip_text()
             text = self.font.render(current_text, True, WHITE)
             self.screen.blit(text, (self.text_pos_x, self.text_pos_y))
 
@@ -72,3 +82,20 @@ class Dialogue:
             x += (word_width + space)
         return ['  '.join(line) for line in lines]
 
+    def draw_skip_text(self):
+        pygame.time.delay(20)
+        self.screen.blit(self.last_screen_to_text,
+                         (SCREEN_WIDTH - self.skip_text.get_width(), SCREEN_HEIGHT - self.skip_text.get_height()))
+        self.screen.blit(self.alpha_screen_to_text,
+                         (SCREEN_WIDTH - self.skip_text.get_width(), SCREEN_HEIGHT - self.skip_text.get_height()))
+        if 255 >= self.skip_text_alpha > 0 and not self.alpha_completed:
+            self.skip_text_alpha -= DIALOG_ALPHA_SPEED
+        else:
+            self.skip_text_alpha += DIALOG_ALPHA_SPEED
+        if self.skip_text_alpha >= 255:
+            self.alpha_completed = False
+        elif self.skip_text_alpha <= 0:
+            self.alpha_completed = True
+        self.skip_text.set_alpha(self.skip_text_alpha)
+        self.screen.blit(self.skip_text,
+                         (SCREEN_WIDTH - self.skip_text.get_width(), SCREEN_HEIGHT - self.skip_text.get_height()))

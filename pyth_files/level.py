@@ -102,8 +102,11 @@ class Level:
                                  animations=self.player.animations_state, interacting=True,
                                  interact_time=interact_time, statistics=self.statistic)
 
-    def damage_player(self, amount, attack_type):
+    def damage_player(self, enemy, amount, attack_type):
         """Функция для получения урона игроком"""
+        if enemy != self.player.last_enemy:
+            self.player.vulnerable = True
+            self.player.last_enemy = enemy
         if self.player.vulnerable:
             self.player.health -= amount
             self.player.vulnerable = False
@@ -111,6 +114,7 @@ class Level:
             # Создаём партиклы
             if self.player.health <= 0:
                 self.ui.show_in_display(self.player)
+                pygame.display.flip()
                 if DeathWindow(self.screen, self.clock, self.start_new_game).run():
                     self.to_menu_func()
 
@@ -158,7 +162,7 @@ class Level:
                     self.ui.show_in_display(self.player)
                     Fade(self.screen).fade_out()
                 elif obj.type == 'minigame':
-                    if Tag(self.screen, self.clock, tag_images_dict['1']['messed_up'],
+                    if Tag(self.screen, self.clock, tag_images_dict['1']['to_correct'],
                            tag_images_dict['1']['correct']).run():
                         self.change_level(obj.where, False, interact_time, obj.destination_x, obj.destination_y)
                     self.show()

@@ -11,7 +11,6 @@ from pyth_files.fade import Fade
 
 pygame.init()
 background = load_image(TEXTURES_PATH, MENU_BACKGROUND, color_key=None)
-button_font = pygame.font.Font(MENU_FONT, BUTTON_FONT_SIZE)
 logo_font = pygame.font.Font(MENU_FONT, LOGO_FONT_SIZE)
 
 

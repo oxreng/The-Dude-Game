@@ -111,7 +111,7 @@ class Enemy(Entity):
             self.can_attack = False
             self.attacking = True
             SpritesSound.damage_receiving_sound(4)
-            self.damage_player(self.attack_damage, self.attack_type)
+            self.damage_player(self, self.attack_damage, self.attack_type)
         elif self.status in ('up', 'down', 'left', 'right'):
             self.direction = self.get_player_distance_direction(player)[1]
         else:

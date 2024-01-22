@@ -49,7 +49,7 @@ class EndScreen:
             button.draw(self.screen)
 
     def _create_buttons(self):
-        self.btn_back_to_menu = Button(self.buttons_group, PAUSE_BTN_BACK_TO_MENU_POS, PAUSE_BACK_TO_MENU_NAME,
+        self.btn_back_to_menu = Button(self.buttons_group, END_SCREEN_TO_MENU_POS, END_SCREEN_TO_MENU_NAME,
                                        textures_buttons_dict['menu']['normal'][0],
                                        textures_buttons_dict['menu']['hovered'][0],
                                        textures_buttons_dict['menu']['clicked'][0])

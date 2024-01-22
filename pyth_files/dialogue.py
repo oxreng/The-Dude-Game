@@ -13,7 +13,7 @@ class Dialogue:
         self.skipable = False
         self.running = True
 
-        self.font = pygame.font.Font('data/fonts/font.ttf', 25)
+        self.font = pygame.font.Font(GAME_FONT, GAME_FONT_SIZE)
         self.full_message = dialogue_text[title]
         self.lines = self.make_lines()
         self.text_pos_x = 20

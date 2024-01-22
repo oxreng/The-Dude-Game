@@ -65,7 +65,7 @@ class CameraGroup(pygame.sprite.Group):
         # Отрисовка pop-up подсказок
         for obj in collide_areas[now_level]:
             if obj.rect.colliderect(player.rect):
-                font = pygame.font.Font('data/fonts/font.ttf', 25)
+                font = pygame.font.Font(GAME_FONT, GAME_FONT_SIZE)
                 text = font.render(hint_text[obj.name], True, WHITE)
                 text_pos_x = (obj.rect.topleft - self._offset + self._offset_central)[0] - (
                         text.get_width() - obj.rect.width) / 2

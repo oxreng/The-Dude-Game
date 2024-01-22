@@ -348,17 +348,27 @@ textures_buttons_dict = {
     'menu': {
         'normal':
             collections.deque(
-                [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'0.png'), (186, 60))]),
+                [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'0.png'),
+                                        (BUTTON_WIDTH, BUTTON_HEIGHT))]),
         'hovered':
             collections.deque(
-                [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'1.png'), (186, 60))]),
+                [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'1.png'),
+                                        (BUTTON_WIDTH, BUTTON_HEIGHT))]),
         'clicked':
             collections.deque(
-                [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'2.png'), (186, 60))])
+                [pygame.transform.scale(load_image(f'{MENU_BUTTONS_TEXTURES_PATH}/menu', f'2.png'),
+                                        (BUTTON_WIDTH, BUTTON_HEIGHT))])
     }
 }
 
 tag_images_dict = {
-    '1': {'correct': collections.deque([load_image(f'{TAG_TEXTURES_PATH}', f'correct/{i}.png') for i in range(16)]),
-          'messed_up': collections.deque([load_image(f'{TAG_TEXTURES_PATH}', f'messed_up/{i}.png') for i in range(16)])}
+    '1': {'correct': collections.deque([pygame.transform.scale(
+        load_image(f'{TAG_TEXTURES_PATH}', f'correct/{i}.png'), (TAG_TRICK_SIZE, TAG_TRICK_SIZE)) for i in range(16)]),
+        'messed_up': collections.deque([pygame.transform.scale(
+            load_image(f'{TAG_TEXTURES_PATH}', f'messed_up/{i}.png'), (TAG_TRICK_SIZE, TAG_TRICK_SIZE)) for i in
+            range(16)]),
+        'to_correct': collections.deque(
+            [pygame.transform.scale(
+                load_image(f'{TAG_TEXTURES_PATH}', f'to_correct/{i}.png'), (TAG_TRICK_SIZE, TAG_TRICK_SIZE)) for i in
+                range(16)])}
 }

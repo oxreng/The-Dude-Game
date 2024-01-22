@@ -72,8 +72,6 @@ class Game:
                         self.set_pause()
                     if event.key == pygame.K_z:
                         self.end_screen()
-                    if event.key == pygame.K_m:
-                        self.minigame()
                 if event.type == FIRSTDIALOGUETIMER:
                     if not dialogue_markers['dialogue_1']:
                         Dialogue(self.screen, self.clock, 'dialogue_1').run()
@@ -88,11 +86,6 @@ class Game:
     def end_screen(self):
         if EndScreen(self.screen, self.clock, self.statistics).run():
             self.run()
-
-    def minigame(self):
-        Tag(self.screen, self.clock, tag_images_dict['1']['messed_up'], tag_images_dict['1']['correct']).run()
-        self._level.show()
-        Fade(self.screen).fade_out(FADE_SPEED_MENU)
 
     def _play_theme(self):
         """Включаем музыку"""

@@ -38,14 +38,12 @@ class Player(Entity):
         self.damage = PLAYER_DAMAGE
         self.statistics = statistics
 
-        # Центровка игрока
-        self._central_offset = None
-
         # Атака
         self.attacking_rect = self.hitbox.copy()
 
         # Таймер для получения урона
         self.vulnerable_duration = PLAYER_HURT_TIME
+        self.last_enemy = None
 
         self.level = level
 

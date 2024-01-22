@@ -10,7 +10,7 @@ from pyth_files.config import *
 class Trick(pygame.sprite.Sprite):
     def __init__(self, group, pos, image):
         super().__init__(group)
-        self.image = pygame.transform.scale(image, (TAG_TRICK_SIZE, TAG_TRICK_SIZE))
+        self.image = image
         self.rect = self.image.get_rect(topleft=pos)
 
     def draw(self, screen, free_pos):
@@ -56,7 +56,9 @@ class Tag:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
             if self.operations():
+                pygame.display.flip()
                 self.running = False
+                return True
 
             pygame.display.flip()
             self.clock.tick(MENU_FPS)
@@ -68,7 +70,12 @@ class Tag:
         return self.check_correct()
 
     def check_correct(self):
-        return np.array_equal(self.correct_answer, self.tricks_list)
+        for row in range(int(TAG_TRICK_QUANTITY ** 0.5)):
+            for col in range(int(TAG_TRICK_QUANTITY ** 0.5)):
+                if not np.array_equal(np.array(pygame.PixelArray(self.correct_answer[row][col])),
+                                      np.array(pygame.PixelArray(self.tricks_list[row][col].image))):
+                    return False
+        return True
 
     def _draw_buttons(self):
         for button in self.buttons_group:
@@ -82,7 +89,7 @@ class Tag:
         for y in range(int(TAG_TRICK_QUANTITY ** 0.5)):
             for x in range(int(TAG_TRICK_QUANTITY ** 0.5)):
                 x_pos, y_pos = TAG_FIRST_X_POS + x * TAG_TRICK_MOVE, TAG_FIRST_Y_POS + y * TAG_TRICK_MOVE
-                self.tricks_list[y][x] = Trick(self.tricks_group, (x_pos, y_pos),
+                self.tricks_list[y, x] = Trick(self.tricks_group, (x_pos, y_pos),
                                                self.images[y * int(TAG_TRICK_QUANTITY ** 0.5) + x])
 
     def create_buttons(self):

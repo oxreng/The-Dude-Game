@@ -20,6 +20,7 @@ class Player(Entity):
         self.rect = self.image.get_rect(center=(x, y))
         self.attacking = False
         self.can_attack = True
+        self.dialogue_state = False
         self.interacting = interacting
         self.attack_cooldown = PLAYER_ATTACK_COOLDOWN
         self.interact_cooldown = PLAYER_INTERACTION_COOLDOWN

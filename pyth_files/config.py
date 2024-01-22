@@ -174,6 +174,6 @@ hint_text = {
 
 # Тексты диалогов
 dialogue_text = {
-    'dialogue_1': "this  is  a  lot  of  text  and  it  wont  all  fit  on  the  screen  it  needs  to  be  on  "
-                  "multiple  lines  but  it  doesn't  right  now  and  i  need  more  text"
+    'dialogue_1': 'Насколько я понимаю, вы должны сначала оформить ваши права на него в Электро-транспортной компании, прежде чем получить полномочия передать его мне.'
+                  'As I understand it, you must take up your option with the Traffic Electrical Company before you can transfer it to me.'
 }

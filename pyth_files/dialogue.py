@@ -17,6 +17,7 @@ class Dialogue:
         self.text_pos_x = 20
         self.text_pos_y = SCREEN_HEIGHT - 180
         self.skip_text = self.font.render('Нажмите любую кнопку для пропуска', True, WHITE)
+        # Создаём поверхность для "красивого" отображения текста справа снизу
         pos = (self.skip_text.get_width() - SCREEN_WIDTH, self.skip_text.get_height() - SCREEN_HEIGHT)
         self.last_screen_to_text = pygame.Surface(self.skip_text.get_size())
         self.last_screen_to_text.blit(self.screen.copy(), pos)
@@ -83,6 +84,7 @@ class Dialogue:
         return ['  '.join(line) for line in lines]
 
     def draw_skip_text(self):
+        """Рисуем текст, расположенный справа снизу"""
         pygame.time.delay(20)
         self.screen.blit(self.last_screen_to_text,
                          (SCREEN_WIDTH - self.skip_text.get_width(), SCREEN_HEIGHT - self.skip_text.get_height()))

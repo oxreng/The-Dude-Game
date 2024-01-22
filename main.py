@@ -10,7 +10,6 @@ from pyth_files.pause import Pause
 from pyth_files.fade import Fade
 from pyth_files.end_screen import EndScreen
 from pyth_files.statistic import Statistics
-from pyth_files.minigames.tag import Tag
 from pyth_files.interactions import dialogue_markers
 from pyth_files.dialogue import Dialogue
 
@@ -26,6 +25,7 @@ class Game:
 
     def _pre_init(self):
         pygame.display.set_caption(self._caption)
+        pygame.display.set_icon(load_image(WINDOW_ICON_PATH, WINDOW_ICON_NAME))
         self.theme.path = MENU_THEME
         self.theme.init_track()
         self.statistics = Statistics()

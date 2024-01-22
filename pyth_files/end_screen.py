@@ -61,7 +61,7 @@ class EndScreen:
     def _draw_text(self):
         """Выводим статистику"""
         font = pygame.font.Font(MENU_FONT, MENU_FONT_SIZE)
-        text_surface = font.render('END', True, (255, 255, 255))
+        text_surface = font.render(END_SCREEN_END_NAME, True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(HALF_SCREEN_WIDTH, 200))
         self.screen.blit(text_surface, text_rect)
 

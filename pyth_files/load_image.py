@@ -6,8 +6,8 @@ import pygame
 """
 
 
-def load_image(file_name, name, color_key=None):
-    fullname = os.path.join(file_name, name)
+def load_image(path, file_name, color_key=None):
+    fullname = os.path.join(path, file_name)
     image = pygame.image.load(fullname)
 
     if color_key == -1:

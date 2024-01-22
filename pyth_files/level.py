@@ -162,11 +162,12 @@ class Level:
                     self.ui.show_in_display(self.player)
                     Fade(self.screen).fade_out()
                 elif obj.type == 'minigame':
-                    if Tag(self.screen, self.clock, tag_images_dict['1']['to_correct'],
-                           tag_images_dict['1']['correct']).run():
-                        self.change_level(obj.where, False, interact_time, obj.destination_x, obj.destination_y)
-                    self.show()
-                    Fade(self.screen).fade_out(FADE_SPEED_MENU)
+                    if not len([sprite for sprite in self.camera_group.sprites() if isinstance(sprite, Enemy)]):
+                        if Tag(self.screen, self.clock, tag_images_dict['1']['to_correct'],
+                               tag_images_dict['1']['correct']).run():
+                            self.change_level(obj.where, False, interact_time, obj.destination_x, obj.destination_y)
+                        self.show()
+                        Fade(self.screen).fade_out(FADE_SPEED_MENU)
                 elif obj.type == 'heal':
                     if self.player.health < PLAYER_STAT_HP and self.player.money >= 200:
                         raz = min(100 - self.player.health, PLAYER_HEAL)

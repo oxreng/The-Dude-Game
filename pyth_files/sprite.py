@@ -228,6 +228,12 @@ textures_anim_dict = {
                 [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/roofs/up_roof.png'), (1920, 200))]
             )
     },
+    'manhole': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/manhole.png'), (160, 80))]
+            )
+    },
     # level 3
     'floor_3': {
         1:

@@ -48,7 +48,7 @@ class Level:
         self.particles_sprites = pygame.sprite.Group()
         self.first_group = pygame.sprite.Group()
         self.last_group = pygame.sprite.Group()
-        with open(f'{TEXTURES_PATH}/level_csv/{level_name}.csv') as level_file:
+        with open(f'{LEVELS_PATH}/{level_name}.csv') as level_file:
             reader = csv.DictReader(level_file, delimiter=';', quotechar='"')
             for item in reader:
                 if item['type'] == 'passable':
@@ -167,6 +167,12 @@ class Level:
                         self.change_level(obj.where, False, interact_time, obj.destination_x, obj.destination_y)
                     self.show()
                     Fade(self.screen).fade_out(FADE_SPEED_MENU)
+                elif obj.type == 'heal':
+                    if self.player.health < PLAYER_STAT_HP and self.player.money >= 200:
+                        raz = min(100 - self.player.health, PLAYER_HEAL)
+                        self.player.money -= 200
+                        self.statistic.health_refilled += raz
+                        self.player.health += raz
 
     def start_new_game(self):
         """Старт новой игры"""

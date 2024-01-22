@@ -100,6 +100,7 @@ END_SCREEN_TO_MENU_POS = MENU_BTN_EXIT_POS
 
 # Настройки текстур
 TILE = 100
+LEVELS_PATH = 'data/level_csv'
 TEXTURES_PATH = 'data/images'
 TEXTURES_PATH_LEVEL = 'data/images/map_tiles'
 PASSABLE_TEXTURES_PATH = 'data/images/passable_textures'
@@ -127,6 +128,7 @@ PLAYER_STAT_ATTACK = 60
 PLAYER_ATTACK_OFFSET = 20
 PLAYER_DAMAGE = 10
 PLAYER_HURT_TIME = 500
+PLAYER_HEAL = 20
 
 # UI
 UI_BAR_HEIGHT = 20
@@ -166,7 +168,8 @@ hint_text = {
     'door': 'Press  E  to  open',
     'oven': 'Press  E  to  interact',
     'wardrobe': 'Press  E  to  get  changed',
-    'dialogue_1': 'test_dialogue'
+    'dialogue_1': 'test_dialogue',
+    'healer': 'Press E to heal (200 money)'
 }
 
 # Тексты диалогов

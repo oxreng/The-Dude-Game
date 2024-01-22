@@ -28,9 +28,9 @@ class Game:
         pygame.display.set_icon(load_image(WINDOW_ICON_PATH, WINDOW_ICON_NAME))
         self.theme.path = MENU_THEME
         self.theme.init_track()
-        self.statistics = Statistics()
+        self.statistic = Statistics()
         self._menu = MainMenu(self.screen, self.clock, self.theme)
-        self._level = Level(self.screen, self.clock, self.run, self.statistics)
+        self._level = Level(self.screen, self.clock, self.run, self.statistic)
         SoundEffect.change_effects_volume(
             STANDARD_EFFECT_VOLUME if SoundEffect.return_volume() > MAX_EFFECT_VOLUME else SoundEffect.return_volume())
 
@@ -69,8 +69,6 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.set_pause()
-                    if event.key == pygame.K_z:
-                        self.end_screen()
                     if event.key == pygame.K_m:
                         self.minigame()
                 if event.type == pygame.USEREVENT:
@@ -79,10 +77,6 @@ class Game:
     def set_pause(self):
         """Ставим паузу"""
         if Pause(self.screen, self.clock, self.theme).run():
-            self.run()
-
-    def end_screen(self):
-        if EndScreen(self.screen, self.clock, self.statistics).run():
             self.run()
 
     def minigame(self):

@@ -13,11 +13,16 @@ class Enemy(Entity):
         # Картинки
         self.animations = enemy_anim_dict[monster_name]
         self.status = 'down_idle'
-        self.image = pygame.transform.scale(self.animations['down_idle'][self.frame_index], (TILE, TILE))
+        if monster_name == 'skeleton':
+            self.image = pygame.transform.scale(self.animations['down_idle'][self.frame_index], (TILE, TILE))
+        else:
+            self.image = pygame.transform.scale(self.animations['down_idle'][self.frame_index], (TILE * 2, TILE * 2))
 
         # Передвижение
         self.rect = self.image.get_rect(topleft=(x, y))
         self.hitbox = self.rect.copy()
+        if monster_name == 'the_thief_lord':
+            self.hitbox = self.hitbox.inflate(-20, 0)
         self.solid_sprites = solid_sprites
 
         # Статы
@@ -128,7 +133,10 @@ class Enemy(Entity):
             else:
                 self.frame_index = 0
 
-        self.image = pygame.transform.scale(animations[int(self.frame_index)], (TILE, TILE))
+        if self.monster_name == 'skeleton':
+            self.image = pygame.transform.scale(animations[int(self.frame_index)], (TILE, TILE))
+        else:
+            self.image = pygame.transform.scale(animations[int(self.frame_index)], (TILE * 2, TILE * 2))
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
         # При получении урона делаем "анимацию"

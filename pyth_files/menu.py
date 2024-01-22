@@ -6,12 +6,9 @@ from pyth_files.buttons import Button, Slider
 from pyth_files.sprite import *
 from pyth_files.fade import Fade
 
-
 """Классы разных меню-окон"""
 
 pygame.init()
-background = load_image(TEXTURES_PATH, MENU_BACKGROUND, color_key=None)
-logo_font = pygame.font.Font(MENU_FONT, LOGO_FONT_SIZE)
 
 
 class Menu:
@@ -21,6 +18,8 @@ class Menu:
         self.clock = clock
         self.theme = theme
         self.running = True
+        self.background = pygame.transform.scale(load_image(TEXTURES_PATH, MENU_BACKGROUND, color_key=None),
+                                                 (1536, 864))
         self.buttons_group = pygame.sprite.Group()
 
     def run(self):
@@ -52,8 +51,7 @@ class Menu:
         self.draw_text()
 
     def _draw_background(self):
-        self.screen.blit(background, MENU_BACKGROUND_POS,
-                         (0, 0, SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.screen.blit(self.background, MENU_BACKGROUND_POS)
 
     def _draw_buttons(self):
         for button in self.buttons_group:
@@ -71,6 +69,7 @@ class Menu:
 
 class MainMenu(Menu):
     """Класс главного меню"""
+
     def __init__(self, screen, clock, theme):
         super().__init__(screen, clock, theme)
         self.play_theme()
@@ -118,6 +117,7 @@ class MainMenu(Menu):
 
 class Settings(Menu):
     """Класс настроек"""
+
     def __init__(self, screen, clock, theme):
         super().__init__(screen, clock, theme)
 

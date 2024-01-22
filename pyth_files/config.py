@@ -42,8 +42,8 @@ MENU_FONT_SIZE = 30
 GAME_FONT = 'data/fonts/boozy.ttf'
 GAME_FONT_SIZE = 30
 LOGO_FONT_SIZE = 250
-MENU_BACKGROUND = 'pomidor.jpg'
-MENU_BACKGROUND_POS = (0, 0)
+MENU_BACKGROUND = 'menu/menu_background.png'
+MENU_BACKGROUND_POS = (-200, -100)
 MENU_EXIT_NAME = 'ВЫХОД'
 MENU_START_NAME = 'НАЧАТЬ'
 MENU_SETTING_NAME = 'НАСТРОЙКИ'
@@ -65,14 +65,14 @@ SETTINGS_MUSIC_EFFECTS_NAME = 'ГРОМКОСТЬ ЭФФЕКТОВ'
 SETTINGS_MUSIC_MUSIC_NAME = 'ГРОМКОСТЬ МУЗЫКИ'
 
 # Настройки конечного экрана
-END_SCREEN_END_NAME = 'КОНЕЦ'
+END_SCREEN_END_NAME = 'ПРОДОЛЖЕНИЕ СЛЕДУЕТ...'
 END_SCREEN_STATS_NAME = 'СТАТИСТИКА'
 END_SCREEN_PASSING_TIME_NAME = 'ВРЕМЯ ПРОХОЖДЕНИЯ'
 END_SCREEN_HEALED_HP_NAME = 'ВЫЛЕЧЕНО ХП'
 END_SCREEN_FONT_SIZE = 45
 END_SCREEN_TO_MENU_NAME = 'В МЕНЮ'
 END_SCREEN_TO_MENU_POS = MENU_BTN_EXIT_POS
-END_SCREEN_FADE_SPEED = 5
+END_SCREEN_FADE_SPEED = 2
 
 # Настройки экрана смерти
 DEATH_BACK_TO_MENU_POS = MENU_BTN_EXIT_POS
@@ -148,7 +148,9 @@ UI_FONT_SIZE = 18
 # Настройки врагов
 monster_data = {
     'skeleton': {'health': 100, 'money': 100, 'damage': 5, 'attack_type': 'slash', 'attack_sound': 'slash',
-                 'speed': 4.5, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 560, 'attack_cooldown': 400}
+                 'speed': 4.5, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 420, 'attack_cooldown': 400},
+    'the_thief_lord': {'health': 250, 'money': 1000, 'damage': 10, 'attack_type': 'slash', 'attack_sound': 'slash',
+                       'speed': 4, 'resistance': 4, 'attack_radius': 130, 'notice_radius': 660, 'attack_cooldown': 2000}
 }
 ENEMY_VULNERABLE_DURATION = 400
 
@@ -177,7 +179,9 @@ hint_text = {
     'oven': 'Нажми E, чтобы взаимодействовать',
     'wardrobe': 'Нажми E, чтобы переодеться',
     'healer': 'Нажми E, чтобы купить провиант (200 монет)',
-    'ladder': 'Нажми Е, чтобы подняться'
+    'ladder': 'Нажми Е, чтобы подняться',
+    'spawn_interaction': 'SPAWN',
+    'end_button': 'Нажми E, чтобы нажать кнопку'
 }
 
 # Тексты диалогов
@@ -188,7 +192,8 @@ dialogue_text = {
     'teach_hit': 'Не давай себя ударить! Чтобы самому бить врагов, нажми [ПРОБЕЛ]. Чтобы не допустить своей смерти,'
                  ' ты можешь воспользоваться палаткой торговца (ты сразу его заметишь)',
     'killed_all_2': 'Фух.. Кажется, с этими чудищами покончено! Чтобы пройти дальше, найди способ пробраться в '
-                    'подземные катакомбы.'
+                    'подземные катакомбы.',
+    'spawn_enemies_3': 'Что? Это западня! Надо убить всех, а потом осмотреться.'
 }
 
 # Настройки диалогов
@@ -198,5 +203,10 @@ DIALOG_ALPHA_SPEED = 10
 standard_dialogue_markers = {
     'dialogue_1': False,
     'teach_hit': False,
-    'killed_all_2': False
+    'killed_all_2': False,
+    'spawn_enemies_3': False
+}
+
+standard_enemy_markers = {
+    'level_3': False
 }

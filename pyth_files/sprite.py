@@ -337,10 +337,14 @@ player_anim_dict = {
         'right_idle':
             collections.deque(
                 [load_image(f'{PLAYER_TEXTURES_PATH}/christmas', f'right_idle_frames/{i}.png') for i in range(4)]),
-        'left_attack': collections.deque([load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'left_frames/0.png')]),
-        'right_attack': collections.deque([load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'right_frames/0.png')]),
-        'down_attack': collections.deque([load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'down_frames/0.png')]),
-        'up_attack': collections.deque([load_image(f'{PLAYER_TEXTURES_PATH}/normal', f'up_frames/0.png')])
+        'left_attack': collections.deque(
+            [load_image(f'{PLAYER_TEXTURES_PATH}/christmas', f'attack_left_frames/{i}.png') for i in range(7)]),
+        'right_attack': collections.deque(
+            [load_image(f'{PLAYER_TEXTURES_PATH}/christmas', f'attack_right_frames/{i}.png') for i in range(7)]),
+        'down_attack': collections.deque(
+            [load_image(f'{PLAYER_TEXTURES_PATH}/christmas', f'attack_down_frames/{i}.png') for i in range(7)]),
+        'up_attack': collections.deque(
+            [load_image(f'{PLAYER_TEXTURES_PATH}/christmas', f'attack_up_frames/{i}.png') for i in range(7)])
     }
 }
 
@@ -384,6 +388,31 @@ enemy_anim_dict = {
             [load_image(f'{ENEMY_TEXTURES_PATH}/skeleton', f'attack_down_frames/{i}.png') for i in range(7)]),
         'up_attack': collections.deque(
             [load_image(f'{ENEMY_TEXTURES_PATH}/skeleton', f'attack_up_frames/{i}.png') for i in range(7)])
+    },
+    'the_thief_lord': {
+        'down':
+            collections.deque(
+                [load_image(f'{ENEMY_TEXTURES_PATH}/the_thief_lord', f'down_frames/{i}.png') for i in range(8)]),
+        'up':
+            collections.deque(
+                [load_image(f'{ENEMY_TEXTURES_PATH}/the_thief_lord', f'up_frames/{i}.png') for i in range(8)]),
+        'right':
+            collections.deque(
+                [load_image(f'{ENEMY_TEXTURES_PATH}/the_thief_lord', f'right_frames/{i}.png') for i in range(8)]),
+        'left':
+            collections.deque(
+                [load_image(f'{ENEMY_TEXTURES_PATH}/the_thief_lord', f'left_frames/{i}.png') for i in range(8)]),
+        'down_idle':
+            collections.deque(
+                [load_image(f'{ENEMY_TEXTURES_PATH}/the_thief_lord', f'idle_frames/{i}.png') for i in range(10)]),
+        'left_attack': collections.deque(
+            [load_image(f'{ENEMY_TEXTURES_PATH}/the_thief_lord', f'attack_left_frames/{i}.png') for i in range(8)]),
+        'right_attack': collections.deque(
+            [load_image(f'{ENEMY_TEXTURES_PATH}/the_thief_lord', f'attack_right_frames/{i}.png') for i in range(8)]),
+        'down_attack': collections.deque(
+            [load_image(f'{ENEMY_TEXTURES_PATH}/the_thief_lord', f'attack_down_frames/{i}.png') for i in range(8)]),
+        'up_attack': collections.deque(
+            [load_image(f'{ENEMY_TEXTURES_PATH}/the_thief_lord', f'attack_up_frames/{i}.png') for i in range(8)])
     }
 }
 

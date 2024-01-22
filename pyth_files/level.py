@@ -1,5 +1,6 @@
 from pyth_files.config import *
 import pygame
+from pyth_files.end_screen import EndScreen
 from pyth_files.player import Player
 from pyth_files.sprite import *
 from pyth_files.cameras import *
@@ -31,6 +32,9 @@ class Level:
 
         # Маркеры диалогов
         self.dialogue_markers = standard_dialogue_markers.copy()
+
+        # Маркер появления босса на 3 лвл-е
+        self.enemy_markers = standard_enemy_markers.copy()
 
         # Создаём уровень
         self.change_level()
@@ -129,14 +133,31 @@ class Level:
         self.camera_group.custom_draw(self.first_group, self.last_group, player=self.player, now_level=self.now_level)
         self.player_attack_logic()
         self.ui.show_in_display(self.player)
+        if self.now_level in self.enemy_markers:
+            if not self.enemy_markers[self.now_level]:
+                self.check_spawn()
 
     def dialogs_check(self, dialogue_name):
+        """Функция для проверки диалогов (Их вызов и отключение таймера))"""
+        self.player.image.set_alpha(255)
+        self.show()
         pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT, dialogue=dialogue_name), 0)
         if not self.dialogue_markers[dialogue_name]:
             Dialogue(self.screen, self.clock, dialogue_name, self).run()
             self.dialogue_markers[dialogue_name] = True
         self.player.can_attack = False
         self.player.attack_time = pygame.time.get_ticks()
+
+    def check_spawn(self):
+        for obj in collide_areas[self.now_level]:
+            if obj.rect.colliderect(self.player.rect) and obj.type == 'spawn_enemy':
+                self.enemy_markers[self.now_level] = True
+                Enemy(self.camera_group, self.attackable_sprites, monster_name='the_thief_lord',
+                      x=100, y=100, id_numb=-1,
+                      solid_sprites=self.solid_sprites, damage_player_func=self.damage_player,
+                      enemy_log=self.enemy_log)
+                self.show()
+                pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT, dialogue='spawn_enemies_3'), 10)
 
     def player_attack_logic(self):
         """Логика ударов игрока"""
@@ -192,8 +213,13 @@ class Level:
                         self.player.money -= 200
                         self.statistic.health_refilled += raz
                         self.player.health += raz
+                elif obj.type == 'end_event':
+                    if not len([sprite for sprite in self.camera_group.sprites() if isinstance(sprite, Enemy)]):
+                        if EndScreen(self.screen, self.clock, self.statistic).run():
+                            self.to_menu_func()
 
     def start_new_game(self):
         """Старт новой игры"""
         self.enemy_log, self.breakable_log = {}, {}
+        self.enemy_markers = standard_enemy_markers.copy()
         self.change_level()

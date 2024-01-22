@@ -54,7 +54,7 @@ class CameraGroup(pygame.sprite.Group):
 
         # Обрабатываем объекты
         for sprite in [sprite for sprite in first_group.sprites()] + \
-                sorted(self.sprites(), key=lambda sprite: sprite.rect.centery) + \
+                      sorted(self.sprites(), key=lambda sprite: sprite.rect.centery) + \
                       [sprite for sprite in last_group.sprites()]:
             if sprite != player:
                 offset_pos = sprite.rect.topleft - self._offset + self._offset_central
@@ -65,19 +65,18 @@ class CameraGroup(pygame.sprite.Group):
         # Отрисовка pop-up подсказок
         for obj in collide_areas[now_level]:
             if obj.rect.colliderect(player.rect):
-                if obj.type == 'minigame':
+                if obj.type in ('minigame', 'end_event'):
                     if not len([sprite for sprite in self.sprites() if isinstance(sprite, Enemy)]):
                         self.draw_text(obj)
-                else:
+                elif obj.type != 'spawn_enemy':
                     self.draw_text(obj)
 
     def draw_text(self, obj):
         font = pygame.font.Font(GAME_FONT, GAME_FONT_SIZE)
-        text = font.render(hint_text[obj.name], True, WHITE)
-        text_pos_x = (obj.rect.topleft - self._offset + self._offset_central)[0] - (
-                text.get_width() - obj.rect.width) / 2
-        text_pos_y = (obj.rect.topleft - self._offset + self._offset_central)[1] - text.get_size()[1] - 10
-        self._screen.blit(text, (text_pos_x, text_pos_y))
+        text_surface = font.render(hint_text[obj.name], True, WHITE)
+        text_rect = text_surface.get_rect(
+            midtop=obj.rect.midtop - self._offset + self._offset_central + pygame.Vector2(0, -40))
+        self._screen.blit(text_surface, text_rect)
 
     @staticmethod
     def particles_create(*groups, particle_name, pos):

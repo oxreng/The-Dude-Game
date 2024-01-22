@@ -59,6 +59,7 @@ class EndScreen:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
+                        return True
             self.operations()
             pygame.display.flip()
             self.clock.tick(MENU_FPS)

@@ -17,7 +17,7 @@ from pyth_files.dialogue import Dialogue
 
 
 class Level:
-    def __init__(self, screen, clock, to_menu_func, statistic):
+    def __init__(self, screen, clock, to_menu_func, statistic, theme):
         # Получить экран
         self.solid_sprites = self.passable_sprites = self.player_group = self.camera_group = self.player = \
             self.interaction_group = self.attackable_sprites = self.particles_sprites = self.first_group = \
@@ -27,6 +27,7 @@ class Level:
         self.clock = clock
         self.to_menu_func = to_menu_func
         self.statistic = statistic
+        self.theme = theme
         # Учет уничтожаемых предметов
         self.enemy_log, self.breakable_log = {}, {}
 
@@ -215,6 +216,7 @@ class Level:
                         self.player.health += raz
                 elif obj.type == 'end_event':
                     if not len([sprite for sprite in self.camera_group.sprites() if isinstance(sprite, Enemy)]):
+                        self.theme
                         if EndScreen(self.screen, self.clock, self.statistic).run():
                             self.to_menu_func()
 

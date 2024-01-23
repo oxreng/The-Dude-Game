@@ -30,7 +30,7 @@ class Game:
         self.theme.init_track()
         self.statistic = Statistics()
         self._menu = MainMenu(self.screen, self.clock, self.theme)
-        self._level = Level(self.screen, self.clock, self.run, self.statistic)
+        self._level = Level(self.screen, self.clock, self.run, self.statistic, self.theme)
         SoundEffect.change_effects_volume(
             STANDARD_EFFECT_VOLUME if SoundEffect.return_volume() > MAX_EFFECT_VOLUME else SoundEffect.return_volume())
 
@@ -60,7 +60,6 @@ class Game:
         while self._running:
             self._level.show()
             self.clock.tick(FPS)
-            pygame.display.set_caption('FPS: ' + str(int(self.clock.get_fps())))
             pygame.display.flip()
 
             for event in pygame.event.get():

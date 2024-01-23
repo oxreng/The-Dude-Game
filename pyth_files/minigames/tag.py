@@ -5,6 +5,7 @@ from pyth_files.buttons import Button
 from pyth_files.fade import Fade
 from pyth_files.sprite import *
 from pyth_files.config import *
+from pyth_files.sound import SpritesSound
 
 
 class Trick(pygame.sprite.Sprite):
@@ -106,6 +107,7 @@ class Tag:
                                 ([(self.tricks_list[y, x + 1], (y, x + 1))] if x < self.tricks_list.shape[
                                     1] - 1 else []):
             if smt_trick.rect.topleft == self.free_pos:
+                SpritesSound.tag_trick_sound()
                 self.free_pos = trick.rect.topleft
                 self.tricks_list[y, x], self.tricks_list[index] = self.tricks_list[index], self.tricks_list[y, x]
                 smt_trick.rect, trick.rect = trick.rect.copy(), smt_trick.rect.copy()

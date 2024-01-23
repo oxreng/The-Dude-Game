@@ -4,6 +4,7 @@ import pygame
 from pyth_files.config import *
 from pyth_files.buttons import Button
 from pyth_files.sprite import *
+from pyth_files.sound import SpritesSound
 
 """Окно, которое будет появляться, когда закончится игра"""
 
@@ -32,19 +33,24 @@ class EndScreenFade:
 
 
 class EndScreen:
-    def __init__(self, screen, clock, statistics):
+    def __init__(self, screen, clock, statistics, theme):
         self.screen = screen
         self.clock = clock
         self.statistics = statistics
+        self.theme = theme
         self.running = True
         self.buttons_group = pygame.sprite.Group()
         self.alpha_screen = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA, 32)
         self.alpha_screen.fill((0, 0, 0, 100))
 
     def run(self):
+        SpritesSound.boom_sound()
         EndScreenFade(self.screen).fade_in()
         self._create_buttons()
         pygame.mouse.set_visible(True)
+        self.theme.path = END_SCREEN_THEME
+        self.theme.init_track()
+        self.theme.play_music()
         self.screen.blit(self.alpha_screen, (0, 0))
         self.running = True
         self._draw_text()

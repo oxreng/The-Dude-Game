@@ -1,17 +1,13 @@
 from pyth_files.config import *
 import pygame
 from pyth_files.menu import MainMenu
-from pyth_files.sound import Music
+from pyth_files.sound import *
 from pyth_files.sprite import *
 from pyth_files.cameras import *
-from pyth_files.sound import SoundEffect
 from pyth_files.level import Level
 from pyth_files.pause import Pause
 from pyth_files.fade import Fade
-from pyth_files.end_screen import EndScreen
 from pyth_files.statistic import Statistics
-from pyth_files.minigames.tag import Tag
-from pyth_files.dialogue import Dialogue
 
 """Класс игры, из которого всё запускается"""
 
@@ -32,7 +28,8 @@ class Game:
         self._menu = MainMenu(self.screen, self.clock, self.theme)
         self._level = Level(self.screen, self.clock, self.run, self.statistic, self.theme)
         SoundEffect.change_effects_volume(
-            STANDARD_EFFECT_VOLUME if SoundEffect.return_volume() > MAX_EFFECT_VOLUME else SoundEffect.return_volume())
+            get_volume_from_fson()[
+                1] if SoundEffect.return_volume() > MAX_EFFECT_VOLUME else SoundEffect.return_volume())
 
     def run(self):
         self._pre_init()
@@ -68,8 +65,6 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.set_pause()
-                    if event.key == pygame.K_m:
-                        self.minigame()
                 if event.type == pygame.USEREVENT:
                     self._level.dialogs_check(event.dialogue)
 
@@ -77,13 +72,6 @@ class Game:
         """Ставим паузу"""
         if Pause(self.screen, self.clock, self.theme).run():
             self.run()
-
-    def minigame(self):
-        if Tag(self.screen, self.clock, tag_images_dict['1']['to_correct'],
-               tag_images_dict['1']['correct']).run():
-            self._level.change_level('level_3', False, pygame.time.get_ticks(), 370, 10)
-        self._level.show()
-        Fade(self.screen).fade_out(FADE_SPEED_MENU)
 
     def _play_theme(self):
         """Включаем музыку"""
@@ -93,6 +81,7 @@ class Game:
 
     @staticmethod
     def _finish():
+        """Выходим"""
         pygame.quit()
 
 

@@ -1,5 +1,7 @@
-from pyth_files.config import *
 import pygame
+import csv
+from random import randint
+from pyth_files.config import *
 from pyth_files.end_screen import EndScreen
 from pyth_files.player import Player
 from pyth_files.sprite import *
@@ -7,11 +9,10 @@ from pyth_files.cameras import *
 from pyth_files.fade import Fade
 from pyth_files.ui import UI
 from pyth_files.enemy import Enemy
-import csv
-from random import randint
 from pyth_files.death_window import DeathWindow
 from pyth_files.minigames.tag import Tag
 from pyth_files.dialogue import Dialogue
+from pyth_files.sound import SpritesSound
 
 """Класс уровня, по которому ходит игрок"""
 
@@ -123,6 +124,7 @@ class Level:
             if self.player.health <= 0:
                 self.ui.show_in_display(self.player)
                 pygame.display.flip()
+                SpritesSound.player_death_sound()
                 if DeathWindow(self.screen, self.clock, self.start_new_game).run():
                     self.to_menu_func()
 
@@ -141,7 +143,8 @@ class Level:
     def dialogs_check(self, dialogue_name):
         """Функция для проверки диалогов (Их вызов и отключение таймера))"""
         self.player.image.set_alpha(255)
-        self.show()
+        self.camera_group.custom_draw(self.first_group, self.last_group, player=self.player, now_level=self.now_level)
+        self.ui.show_in_display(self.player)
         pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT, dialogue=dialogue_name), 0)
         if not self.dialogue_markers[dialogue_name]:
             Dialogue(self.screen, self.clock, dialogue_name, self).run()
@@ -153,6 +156,7 @@ class Level:
         for obj in collide_areas[self.now_level]:
             if obj.rect.colliderect(self.player.rect) and obj.type == 'spawn_enemy':
                 self.enemy_markers[self.now_level] = True
+                SpritesSound.enemy_spawn_sound(6)
                 Enemy(self.camera_group, self.attackable_sprites, monster_name='the_thief_lord',
                       x=100, y=100, id_numb=-1,
                       solid_sprites=self.solid_sprites, damage_player_func=self.damage_player,
@@ -193,6 +197,7 @@ class Level:
                 elif obj.type == 'change_outfit':
                     self.player.change_animation_state()
                 elif obj.type == 'change_level':
+                    SpritesSound.open_door_sound()
                     Fade(self.screen).fade_in()
                     self.change_level(obj.where, False, interact_time, obj.destination_x, obj.destination_y)
                     self.camera_group.custom_draw(self.first_group, self.last_group, player=self.player,
@@ -203,8 +208,9 @@ class Level:
                         pygame.time.set_timer(pygame.event.Event(pygame.USEREVENT, dialogue='teach_hit'), 10)
                 elif obj.type == 'minigame':
                     if not len([sprite for sprite in self.camera_group.sprites() if isinstance(sprite, Enemy)]):
-                        if Tag(self.screen, self.clock, tag_images_dict['1']['to_correct'],
+                        if Tag(self.screen, self.clock, tag_images_dict['1']['messed_up'],
                                tag_images_dict['1']['correct']).run():
+                            SpritesSound.hatch_sound()
                             self.change_level(obj.where, False, interact_time, obj.destination_x, obj.destination_y)
                         self.show()
                         Fade(self.screen).fade_out(FADE_SPEED_MENU)
@@ -216,8 +222,7 @@ class Level:
                         self.player.health += raz
                 elif obj.type == 'end_event':
                     if not len([sprite for sprite in self.camera_group.sprites() if isinstance(sprite, Enemy)]):
-                        self.theme
-                        if EndScreen(self.screen, self.clock, self.statistic).run():
+                        if EndScreen(self.screen, self.clock, self.statistic, self.theme).run():
                             self.to_menu_func()
 
     def start_new_game(self):

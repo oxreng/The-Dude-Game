@@ -1,4 +1,5 @@
 import collections
+import json
 import random
 import pygame
 from pyth_files.config import *
@@ -8,6 +9,11 @@ from pyth_files.config import *
 """
 
 
+def get_volume_from_fson():
+    with open(VOLUME_ALL_PATH, 'r') as f:
+        return [*json.load(f).values()]
+
+
 class Music:
     def __init__(self, path=MUSIC_FILES):
         pygame.mixer.pre_init(44100, -16, 1, 512)
@@ -15,7 +21,7 @@ class Music:
         self.path = path
         self.theme = pygame.mixer.music
         self.init_track()
-        self.change_music_volume(STANDARD_MUSIC_VOLUME)
+        self.change_music_volume(get_volume_from_fson()[0])
 
     def init_track(self):
         self.theme.load(random.choice(self.path))
@@ -46,7 +52,7 @@ class SoundEffect:
 
     @staticmethod
     def change_effects_volume(volume):
-        for channel in range(1, 5):
+        for channel in range(1, 7):
             pygame.mixer.Channel(channel).set_volume(volume)
 
     @staticmethod
@@ -77,6 +83,31 @@ class SpritesSound:
     def button_sound(channel=2):
         SoundEffect(SOUND_BUTTON_PUSH).play_sound(channel)
 
+    @staticmethod
+    def boom_sound(channel=2):
+        SoundEffect(SOUND_END_SCREEN_BOOM).play_sound(channel)
 
+    @staticmethod
+    def player_death_sound(channel=2):
+        SoundEffect(SOUND_PLAYER_DEATH).play_sound(channel)
+
+    @staticmethod
+    def open_door_sound(channel=2):
+        SoundEffect(SOUND_OPEN_DOOR).play_sound(channel)
+
+    @staticmethod
+    def hatch_sound(channel=2):
+        SoundEffect(SOUND_HATCH).play_sound(channel)
+
+    @staticmethod
+    def tag_trick_sound(channel=2):
+        SoundEffect(SOUND_TAG_TRICK).play_sound(channel)
+
+    @staticmethod
+    def enemy_spawn_sound(channel=2):
+        SoundEffect(SOUND_ENEMY_SPAWN).play_sound(channel)
+
+
+# Коллекция для звуков шагов
 steps_collection = collections.deque(
     [f'step_{i}' for i in range(3)])

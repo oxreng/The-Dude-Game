@@ -160,18 +160,26 @@ PARTICLES_TEXTURES_PATH = 'data/images/particles'
 
 # Музыка
 MENU_THEME = ['data/music/menu_music/menu.mp3']
+END_SCREEN_THEME = ['data/music/menu_music/final_music.mp3']
 MUSIC_FOLDER = 'data/music'
 GAME_MUSIC_FOLDER = 'data/music/levels_music'
 SOUND_BUTTON_PUSH = 'data/music/sound/button_push.mp3'
 SOUND_PUNCH = 'data/music/sound/fight/punching.mp3'
 SOUND_DAMAGE_RECEIVING = 'data/music/sound/fight/damage_receiving.mp3'
 SOUND_DEATH = 'data/music/sound/fight/death_sound.mp3'
+SOUND_END_SCREEN_BOOM = 'data/music/sound/end_boom.mp3'
+SOUND_PLAYER_DEATH = 'data/music/sound/player_death.mp3'
+SOUND_OPEN_DOOR = 'data/music/sound/door_open.mp3'
+SOUND_HATCH = 'data/music/sound/hatch.mp3'
+SOUND_TAG_TRICK = 'data/music/sound/tag_trick.mp3'
+SOUND_ENEMY_SPAWN = 'data/music/sound/spawn_enemy.mp3'
 MUSIC_FILES = [os.path.join(GAME_MUSIC_FOLDER, file) for file in listdir(GAME_MUSIC_FOLDER) if
                isfile(join(GAME_MUSIC_FOLDER, file))]
 MAX_EFFECT_VOLUME = 0.8
 MAX_MUSIC_VOLUME = 0.18
 STANDARD_MUSIC_VOLUME = 0.09
 STANDARD_EFFECT_VOLUME = 0.4
+VOLUME_ALL_PATH = 'data/music/volume_of_all.json'
 
 # Подсказки
 hint_text = {
@@ -188,7 +196,7 @@ hint_text = {
 dialogue_text = {
     'dialogue_1': 'Добро пожаловать в игру, путник! На твоих плечах лежит задача выжить в этом нелёгком '
                   'фэнтезийном мире...   Для того, чтобы взаимодействовать с окружающими объектами, '
-                  'подойди к ним и нажми [E]',
+                  'подойди к ним и нажми [E]. Чтобы двигаться используй [WASD].',
     'teach_hit': 'Не давай себя ударить! Чтобы самому бить врагов, нажми [ПРОБЕЛ]. Чтобы не допустить своей смерти,'
                  ' ты можешь воспользоваться палаткой торговца (ты сразу его заметишь)',
     'killed_all_2': 'Фух.. Кажется, с этими чудищами покончено! Чтобы пройти дальше, найди способ пробраться в '
@@ -199,7 +207,7 @@ dialogue_text = {
 # Настройки диалогов
 DIALOG_ALPHA_SPEED = 10
 
-# Стандартные маркеры
+# Стандартные маркеры для диалогов
 standard_dialogue_markers = {
     'dialogue_1': False,
     'teach_hit': False,
@@ -207,6 +215,7 @@ standard_dialogue_markers = {
     'spawn_enemies_3': False
 }
 
+# Маркеры для спавна врагов
 standard_enemy_markers = {
     'level_3': False
 }

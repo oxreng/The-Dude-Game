@@ -1,3 +1,4 @@
+import json
 import sys
 import pygame
 from pyth_files.config import *
@@ -115,6 +116,14 @@ class MainMenu(Menu):
         self.theme.change_music_volume(volume)
 
 
+def change_data(value, what):
+    with open(VOLUME_ALL_PATH, 'r') as f:
+        data = json.load(f)
+        data[what] = value
+    with open(VOLUME_ALL_PATH, 'w') as outfile:
+        json.dump(data, outfile)
+
+
 class Settings(Menu):
     """Класс настроек"""
 
@@ -172,8 +181,10 @@ class Settings(Menu):
         value = self.slider_effects.check_event(mouse_pos, event)
         if value:
             SoundEffect.change_effects_volume(value)
+            change_data(value, 'effects')
 
     def _slider_music_check(self, mouse_pos, event):
         value = self.slider_music.check_event(mouse_pos, event)
         if value:
             self.theme.change_music_volume(value)
+            change_data(value, 'music')

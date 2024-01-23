@@ -1,9 +1,8 @@
 import collections
-
-import pygame.sprite
+from math import sin
+import pygame
 from pyth_files.load_image import load_image
 from pyth_files.config import *
-from math import sin
 
 """Классы всех спрайтов"""
 

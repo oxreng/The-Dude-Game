@@ -23,7 +23,7 @@ collide_areas = {'level_1': [
     InteractionObject(pygame.Rect((50, -60), (100, 100)), 'oven', 'switch_animation'),
     InteractionObject(pygame.Rect((720, -150), (60, 200)), 'wardrobe', 'change_outfit')],
     'level_2': [DoorObject(pygame.Rect((510, -140,), (80, 140)), 'door', 'change_level', 'level_1', 370, 10),
-                DoorObject(pygame.Rect((1800, 820,), (80, 140)), 'door', 'minigame', 'level_3', 370, 10),
+                DoorObject(pygame.Rect((1800, 720,), (80, 180)), 'door', 'minigame', 'level_3', 370, 10),
                 InteractionObject(pygame.Rect((1338, -45), (200, 100)), 'healer', 'heal')],
     'level_3': [DoorObject(pygame.Rect((0, -100,), (200, 200)), 'ladder', 'change_level', 'level_2', 1740, 780),
                 InteractionObject(pygame.Rect((790, -80), (400, 400)), 'spawn_interaction', 'spawn_enemy'),

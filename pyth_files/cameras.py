@@ -1,9 +1,9 @@
 import pygame
+from random import choice
 from pyth_files.config import *
 from pyth_files.interactions import collide_areas
 from pyth_files.enemy import Enemy
 from pyth_files.particles import ParticleEffect
-from random import choice
 from pyth_files.sprite import player_particles_dict
 
 """Файл камеры, в котором мы работаем со всеми объектами"""
@@ -54,7 +54,7 @@ class CameraGroup(pygame.sprite.Group):
 
         # Обрабатываем объекты
         for sprite in [sprite for sprite in first_group.sprites()] + \
-                      sorted(self.sprites(), key=lambda sprite: sprite.rect.centery) + \
+                sorted(self.sprites(), key=lambda sprite: sprite.rect.centery) + \
                       [sprite for sprite in last_group.sprites()]:
             if sprite != player:
                 offset_pos = sprite.rect.topleft - self._offset + self._offset_central

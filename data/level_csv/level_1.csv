@@ -6,5 +6,4 @@ side_wall;solid;0;0;y;40;680;800;-200
 down_wall;solid;0;0;last;800;100;0;380
 inside_wall;solid;1;0;y;40;280;180;-200
 oven;solid;1;0;y;100;100;40;-60
-carpet;passable;0;0;first;400;250;100;100
 wardrobe;solid;1;0;y;60;200;720;-150

@@ -234,6 +234,13 @@ textures_anim_dict = {
                 [pygame.transform.scale(load_image(TEXTURES_PATH_LEVEL, 'level_2/manhole.png'), (160, 80))]
             )
     },
+    'merchant': {
+        1:
+            collections.deque(
+                [pygame.transform.scale(load_image(f'{TEXTURES_PATH}/solid_textures', f'merchant/{i}.png'), (70, 70))
+                 for i in range(4)]
+            )
+    },
     # level 3
     'floor_3': {
         1:

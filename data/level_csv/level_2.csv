@@ -25,5 +25,6 @@ skeleton;enemy;0;12;y;0;1;1600;700
 skeleton;enemy;0;13;y;0;1;1600;700
 skeleton;enemy;0;14;y;0;1;1600;800
 store_back;passable;0;0;last;219;140;1328;-205
+merchant;solid;0;0;last;70;70;1390;-139
 store_front;solid;1;0;y;200;85;1338;-65
 manhole;passable;0;0;first;160;80;1760;780

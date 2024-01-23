@@ -6,3 +6,5 @@ side_wall_3;solid;0;0;first;40;1040;-40;-200
 side_wall_3;solid;0;0;first;40;1000;1160;-200
 cage;solid;0;0;first;400;480;0;300
 machine;passable;0;0;last;280;320;20;340
+skeleton;enemy;0;25;y;0;1;600;100
+skeleton;enemy;0;26;y;0;1;500;300

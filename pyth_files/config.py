@@ -149,7 +149,7 @@ UI_FONT_SIZE = 18
 monster_data = {
     'skeleton': {'health': 100, 'money': 100, 'damage': 5, 'attack_type': 'slash', 'attack_sound': 'slash',
                  'speed': 4.5, 'resistance': 3, 'attack_radius': 80, 'notice_radius': 420, 'attack_cooldown': 400},
-    'the_thief_lord': {'health': 250, 'money': 1000, 'damage': 10, 'attack_type': 'slash', 'attack_sound': 'slash',
+    'the_thief_lord': {'health': 300, 'money': 1000, 'damage': 10, 'attack_type': 'slash', 'attack_sound': 'slash',
                        'speed': 4, 'resistance': 4, 'attack_radius': 130, 'notice_radius': 660, 'attack_cooldown': 2000}
 }
 ENEMY_VULNERABLE_DURATION = 400

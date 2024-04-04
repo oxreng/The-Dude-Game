@@ -33,16 +33,11 @@ _Жанр игры: Action-Adventure. Стиль игры: pixel art. Основ
   </h2>
 
 
-<table>
-    <tr>
-        <td>
-        <video controls src="data/images/for_readme/Переход на новый уровень.mp4" title="Переход на новый уровень"></video>
-        </td>
-        <td>
-        <video controls src="data/images/for_readme/Боевая система.mp4" title="Title"></video>
-        </td>
-    </tr>
-</table>
+
+https://github.com/oxreng/arcade_project/assets/105565251/8a9e5bdf-28b5-42f9-8c38-43fd26a78e6a
+
+https://github.com/oxreng/arcade_project/assets/105565251/55e4dbe6-ecfb-49cf-8c71-6f80e07979d3
+
 
   <h2>
      Мини-игры

@@ -34,9 +34,14 @@ _Жанр игры: Action-Adventure. Стиль игры: pixel art. Основ
 
 
 
-https://github.com/oxreng/arcade_project/assets/105565251/8a9e5bdf-28b5-42f9-8c38-43fd26a78e6a
+https://github.com/oxreng/arcade_project/assets/105565251/a00d94ef-33ab-4196-9b69-c64c1f6a64d1
 
-https://github.com/oxreng/arcade_project/assets/105565251/55e4dbe6-ecfb-49cf-8c71-6f80e07979d3
+https://github.com/oxreng/arcade_project/assets/105565251/caf5ed06-3ca9-4b36-9a23-95488b794ee9
+
+
+
+
+
 
 
   <h2>
